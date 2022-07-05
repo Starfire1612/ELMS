@@ -1,7 +1,13 @@
 package com.elms.authenticationservice.security;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -10,16 +16,25 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SecurityConfig.class);
 
+	@Autowired
+	private DataSource dataSource;
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().withUser("admin").password(passwordEncoder().encode("pwd")).roles("ADMIN").and()
-				.withUser("user").password(passwordEncoder().encode("pwd")).roles("USER");
+		 auth.jdbcAuthentication().passwordEncoder(new BCryptPasswordEncoder())
+	        .dataSource(dataSource)
+	        .usersByUsernameQuery("select username, password, enabled from users where username=?")
+	        .authoritiesByUsernameQuery("select username, role from users where username=?")
+	    ;
+//		auth.inMemoryAuthentication().withUser("admin").password(passwordEncoder().encode("pwd")).roles("ADMIN").and()
+//				.withUser("user").password(passwordEncoder().encode("pwd")).roles("USER");
 	}
 
 	@Bean
@@ -30,10 +45,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.csrf().disable().httpBasic().and().authorizeRequests().antMatchers("/countries").hasRole("USER")
-				.antMatchers("/authenticate").hasAnyRole("USER", "ADMIN").anyRequest().authenticated().and()
-				.addFilter(new JwtAuthorizationFilter(authenticationManager()));
+		httpSecurity.cors().configurationSource(new CorsConfigurationSource() {
+			@Override
+			public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+				CorsConfiguration config = new CorsConfiguration();
+				config.setAllowedOrigins(List.of("http://localhost:3000"));
+				config.setAllowedMethods(List.of("*"));
+				config.setAllowCredentials(true);
+				config.setAllowedHeaders(List.of("*"));
+				config.setMaxAge(3600L);
+				return config;
+			}
+		}).and().csrf().disable().
+		httpBasic().and().authorizeRequests()
+		.antMatchers("/authenticate").authenticated().and()
+		.addFilter(new JwtAuthorizationFilter(authenticationManager()));
 
 	}
-
 }

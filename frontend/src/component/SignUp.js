@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Button, FloatingLabel, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { checkEmailExists} from 'check-email-exists';
-import "../styles/Register.css";
+//import {emailExistence} from 'email-existence';
+// import { checkEmailExists} from 'check-email-exists';
+// import "../styles/Register.css";
+import RegistrationService from '../services/registration-service.js';
 
 function SignUp() {
 
@@ -22,8 +24,35 @@ function SignUp() {
   }
   const handleSubmit=async(event)=>{
     event.preventDefault();
+      RegistrationService.getAll()
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch(e => {
+      console.log(e);
+    });
     // await checkEmailExists(user.email).then(res=>console.log(res.data)).catch(err=>console.log(err));
+  //   emailExistence.check(user.email, function(error, response){
+  //     console.log('res: '+response);
+  // });
+  // var userData = {
+  //  name:user.name,
+  //  email:user.email,
+  //  password:user.password
+  // };
+
+  
+  // var type=user.type;
+  // console.log(userData,type);
+  // RegistrationService.create(userData,user)
+  //   .then(response => {
+  //     console.log(response.data);
+  //   })
+  //   .catch(e => {
+  //     console.log(e);
+  //   });
   }
+
 
   return (
     <div className="contain" >

@@ -17,12 +17,14 @@ function SignIn() {
   const handleSubmit=async (event)=>{
     event.preventDefault();
     const config={
-      url:"http://localhost:8080/authenticate",
+      url:"http://localhost:8000/authenticate",
       auth:{
         username:user.email,
         password:user.password
-      }
+      } 
+     
     }
+    console.log(config);
     const _userToken= await axios(config)
             .then(res=>res.data.token)
             .catch(err=>console.log(err));
