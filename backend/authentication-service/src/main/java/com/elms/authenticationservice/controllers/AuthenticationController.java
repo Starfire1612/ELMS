@@ -5,13 +5,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.bouncycastle.jcajce.BCFKSLoadStoreParameter.SignatureAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.elms.authenticationservice.models.Student;
+import com.elms.authenticationservice.repos.StudentRepo;
 import com.elms.authenticationservice.security.SecurityConfig;
 
 import io.jsonwebtoken.JwtBuilder;
@@ -21,13 +24,18 @@ import io.jsonwebtoken.Jwts;
 public class AuthenticationController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SecurityConfig.class);
 
+	@Autowired
+	StudentRepo studentrepo;
+	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping("/authenticate")
 	public Map<String, String> authenticate(@RequestHeader("Authorization") String authHeader) {
 		LOGGER.info("Starting Authentication Process");
+		
 		HashMap<String, String> map = new HashMap<>();
 
 		LOGGER.info(authHeader);
-
+		Student student=studentrepo.findByEmail(authHeader);
+		
 		String token = authHeader.split(" ")[1];
 
 		String UserName = getUser(token);
