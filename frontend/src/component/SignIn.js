@@ -17,8 +17,9 @@ function SignIn() {
   const handleSubmit=async (event)=>{
     event.preventDefault();
     const config={
-      url:"http://localhost:8000/authenticate",
-      auth:{
+      url:`http://localhost:8080/authenticate/type/${user.type}`,
+      method:"post",
+      data:{
         username:user.email,
         password:user.password
       } 
@@ -49,7 +50,7 @@ function SignIn() {
               label="Email address"
               className="mb-3 mt-3"
             >
-              <Form.Control type="text" name="email" placeholder="name@example.com" onChange={handleChange}/>
+              <Form.Control type="email" name="email" placeholder="name@example.com" onChange={handleChange}/>
             </FloatingLabel>
 
             <FloatingLabel className='mb-3' controlId="floatingPassword" label="Password">
