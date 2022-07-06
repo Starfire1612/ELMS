@@ -1,0 +1,48 @@
+:root{
+  --color-1: rgb(89, 88, 88);
+  --color-2: tomato;
+}
+
+.contain {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: var(--color-1);
+  
+}
+form{
+  min-width: 40%;
+}
+.form{
+  /* padding:20px; */
+  border: 1px solid;
+  border-color: -var(--color-1);
+  border-radius: 2%;
+}
+h3{
+  text-align: center;
+}
+label{
+  font-size: medium;
+}
+.forgot-password{
+  font-size: smaller;
+  text-decoration: none;
+}
+.signup-button{
+  float: right;
+}
+.signup-btn{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.not-found{
+  text-align: center;
+  font-size: small;
+  font-weight: bold;
+  color: var(--color-2);
+}
