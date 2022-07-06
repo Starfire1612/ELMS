@@ -1,7 +1,7 @@
 import http from "../util/http-common.js";
 class RegistrationService {
   getAll() {
-    return http.get("/allstudents");
+    return http.get("/students");
   }
 //   get(id) {
 //     return http.get(`/tutorials/${id}`);
