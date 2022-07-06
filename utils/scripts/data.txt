@@ -1,0 +1,76 @@
+Insert into students(stu_id,stu_name,stu_email,stu_password,stu_image) value
+(1,'Prateek','prateek@gmail.com','helloprateek',null),
+(2,'Shubham','shubham@gmail.com','helloshubham',null),
+(3,'Anurag','anurag@gmail.com','helloanurag',null),
+(4,'Radhika','radhika@gmail.com','helloradhika',null)
+
+
+Insert into elms.instructor(instructor_id,instructor_name,instructor_email,instructor_password,instructor_image,bank_ifsc_code,account_number) values
+(1,'Ravi','ravi@gmail.com','helloravi',null,'HDFC0001433',59183912839281)
+(2,'Ram','ram@gmail.com','helloram',null,'HDFC0001433',59188118238949)
+(3,'Sham','sham@gmail.com','hellosham',null,'HDFC0001433',591928157391273)
+
+
+Insert into elms.course(course_id,course_name,course_description,course_image,course_duration,course_price,course_discount_percent,course_published,course_ratings,instructor_Id,instructor_name,total_lessons) values
+(1,'Html','beginner to advanced',NULL,1,1000,10,'2021-05-09',5,1,'Ravi',2),(2,'Css','beginner to advanced',NULL,3,1000,10,'2021-09-09',4,2,'Ram',2),(3,'JS','beginner to advanced',NULL,5,2000,10,'2021-02-09',5,3,'Sham',2),(4,'React','beginner to advanced',NULL,7,3000,10,'2021-06-09',3,1,'Ravi',2),(5,'Spring','beginner to advanced',NULL,7,2000,10,'2021-06-05',4,2,'Ram',2),(6,'Spring Boot','beginner to advanced',NULL,7,2000,10,'2021-06-09',5,3,'Sham',0)
+
+
+
+Insert into elms.lesson(lesson_id,course_id,lesson_name,lesson_duration,lesson_link) values
+(1,1,'Java',1,'https://youtu.be/Chq1DfCQ-Dg'),
+(2,2,'Spring Core',2,'https://youtu.be/Chq1DfCQ-Dg'),
+(3,3,'Spring MVC',3,'https://youtu.be/Chq1DfCQ-Dg'),
+(4,4,'Spring Boot',6,'https://youtu.be/Chq1DfCQ-Dg'),
+(5,5,'React',1,'https://youtu.be/Chq1DfCQ-Dg'),
+(6,1,'HTML,CSS,JS',12,'https://youtu.be/Chq1DfCQ-Dg'),
+(7,2,'Python',6,'https://youtu.be/Chq1DfCQ-Dg'),
+(8,3,'Microservices',16,'https://youtu.be/Chq1DfCQ-Dg'),
+(9,4,'AWS',12,'https://youtu.be/Chq1DfCQ-Dg'),
+(10,5,'Spring Rest API',14,'https://youtu.be/Chq1DfCQ-Dg')
+
+
+Insert into elms.student_course(stu_id,course_id,course_status,,course_completion_percent,current_lesson_id) values
+(1,1,'Pending',50,1),
+(2,2,'Pending',60,2),
+(3,3,'Completed',100,8),
+(1,4,'Pending',30,9)
+
+
+
+Insert into payment(payment_id,stu_id,course_id,payment_date,payment_amount,payment_response_message,payment_status) values
+(1,1,1,'2021-10-10',499,'hi','Success'),
+(2,2,2,'2021-12-02',405,'good','Fail');
+
+
+
+Insert into certificate(cert_id,course_id,stu_id,cert_issue_date,cert_link) values
+(1,1,1,'2022-01-01','https://www.google.com'),
+(2,2,2,'2022-02-20','https://www.google.com'),
+(3,3,3,'2022-01-03','https://www.google.com');
+
+
+
+Insert into feedback(feedback_id,stu_id,course_id,feedback_content,feedback_ratings) values
+(1,1,1,'hi',4),
+(2,2,2,'good',4),
+(3,3,3,'best',5);
+
+
+Insert into instructor_course (instructor_id,course_id) values
+(1,1),
+(2,2),
+(3,3),
+(1,4),
+(2,5),
+(3,6);
+
+
+Insert into student_course_lesson(stu_id,course_id,lesson_id) values
+(1,1,1),
+(1,1,6),
+(2,2,2),
+(2,2,7),
+(3,3,3),
+(3,3,8),
+(1,4,4),
+(1,4,9);
