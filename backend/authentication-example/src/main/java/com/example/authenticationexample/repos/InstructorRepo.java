@@ -14,5 +14,5 @@ public interface InstructorRepo extends JpaRepository<Instructor, Long>{
 	Instructor findByEmail(String email);
 	@Modifying
 	@Query(value = "update instructor set instructor_password=:password where instructor_email=:usermail",nativeQuery = true)
-	boolean updateInstructorPassword(@Param("usermail") String useremail,@Param("password") String password);
+	int updateInstructorPassword(@Param("usermail") String useremail,@Param("password") String password);
 }
