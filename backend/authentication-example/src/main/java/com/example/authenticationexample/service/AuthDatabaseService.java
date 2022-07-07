@@ -26,10 +26,15 @@ public class AuthDatabaseService {
 	public Instructor findInstructorByEmail(String email) {
 		return instructorRepo.findByEmail(email);
 	}
-//	public UserDao save(UserDTO user) {
-//		DAOUser newUser = new DAOUser();
-//		newUser.setUsername(user.getUsername());
-//		newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
-//		return userDao.save(newUser);
-//	}
+
+	@Transactional
+	public boolean updateStudentPasswordByEmail(String email,String password)
+	{
+		return studentRepo.updateStudentPassword(email, password);
+	}
+	@Transactional
+	public boolean updateInsructorPasswordByEmail(String email,String password)
+	{
+		return instructorRepo.updateInstructorPassword(email, password);
+	}
 }
