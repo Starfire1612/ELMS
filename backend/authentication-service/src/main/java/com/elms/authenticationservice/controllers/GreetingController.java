@@ -21,17 +21,17 @@ public class GreetingController {
 	@Autowired
 	AuthDatabaseService databaseService;
 	@GetMapping("/greetings")
-	public String greetUser(@RequestHeader("Authorization") String authorization) {
+	public Object greetUser(@RequestHeader("Authorization") String authorization) {
 		String token=fetchToken(authorization);
 		String username=jwtTokenUtil.getUsernameFromToken(token);
 		String userType=jwtTokenUtil.getUserTypeFromToken(token);
 		if(userType.equalsIgnoreCase("student")) {
 			Student s=databaseService.findStudentByEmail(username);
-			return s.toString();
+			return s;
 		}
 		else {
 			Instructor i=databaseService.findInstructorByEmail(username);
-			return i.toString();
+			return i;
 		}
 	}
 	
