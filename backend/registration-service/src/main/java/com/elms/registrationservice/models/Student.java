@@ -1,6 +1,7 @@
 package com.elms.registrationservice.models;
 
 import java.math.BigInteger;
+import java.sql.Blob;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,7 +27,6 @@ public class Student {
 	private String email;
 	@Column(name = "stu_password", length = 50, nullable = false, unique = false)
 	private String password;
-//	@Column(name = "stu_password", length = 50, nullable = false, unique = false)
-//	private String password;
-
+	@Column(name="stu_image",columnDefinition = "blob default 'https://www.personality-insights.com/wp-content/uploads/2017/12/default-profile-pic-e1513291410505.jpg'")
+	private Blob image;
 }

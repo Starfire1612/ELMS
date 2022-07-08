@@ -40,6 +40,7 @@ function ForgotPassword() {
       case "otp": {
         break;
       }
+      default:
     }
   };
 
