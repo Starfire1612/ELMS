@@ -21,7 +21,7 @@ function SignIn({ onLogIn }) {
       url: `http://localhost:8080/authenticate`,
       method: "post",
       data: {
-        username: user.email,
+        useremail: user.email,
         password: user.password,
         type: user.type,
       },
@@ -37,9 +37,11 @@ function SignIn({ onLogIn }) {
       localStorage.setItem("userType", user.type);
       console.log(localStorage.getItem("userToken"));
       const response = await axios.get("http://localhost:8080/greetings", {
-        headers: { "Authorization" :`Bearer ${localStorage.getItem("userToken")}`},
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        },
       });
-      console.log(response.data)
+      console.log(response.data);
       // onLogIn();
     }
   };
