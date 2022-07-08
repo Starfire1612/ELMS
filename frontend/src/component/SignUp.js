@@ -56,8 +56,9 @@ function SignUp() {
             name="type"
             onChange={handleChange}
             aria-label="Default select example"
+            required
           >
-            <option>Sign-up as</option>
+            <option >Sign-up as</option>
             <option value="student">Student</option>
             <option value="instructor">Instructor</option>
           </Form.Select>
@@ -71,6 +72,7 @@ function SignUp() {
               onChange={handleChange}
               type="text"
               placeholder="name"
+              required
             />
           </FloatingLabel>
           <FloatingLabel
@@ -83,6 +85,7 @@ function SignUp() {
               onChange={handleChange}
               type="email"
               placeholder="name@example.com"
+              required
             />
           </FloatingLabel>
 
@@ -96,6 +99,7 @@ function SignUp() {
               onChange={handleChange}
               type="password"
               placeholder="Password"
+              required
             />
           </FloatingLabel>
           {/* <p>{passwordMatch?"Password does not matches</p>": ""}</p> */}
@@ -118,7 +122,7 @@ function SignUp() {
             <div className="fs-6 mb-3 forgot-password">Forgot Password</div>
           </Link>
 
-          <Button className="signup-btn" variant="primary" type="submit">
+          <Button className="btn-center" variant="primary" type="submit">
             Sign Up
           </Button>
         </div>

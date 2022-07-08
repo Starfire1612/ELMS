@@ -28,12 +28,12 @@ public class AuthDatabaseService {
 	}
 
 	@Transactional
-	public boolean updateStudentPasswordByEmail(String email,String password)
+	public int updateStudentPasswordByEmail(String email,String password)
 	{
 		return studentRepo.updateStudentPassword(email, password);
 	}
 	@Transactional
-	public boolean updateInsructorPasswordByEmail(String email,String password)
+	public int updateInsructorPasswordByEmail(String email,String password)
 	{
 		return instructorRepo.updateInstructorPassword(email, password);
 	}

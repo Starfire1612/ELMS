@@ -13,5 +13,5 @@ public interface StudentRepo extends JpaRepository<Student, Long>{
 	Student findByEmail(String email);
 	@Modifying
 	@Query(value = "update student set stu_password=:password where stu_email=:usermail",nativeQuery = true)
-	boolean updateStudentPassword(@Param("usermail") String useremail,@Param("password") String password);
+	int updateStudentPassword(@Param("usermail") String useremail,@Param("password") String password);
 }
