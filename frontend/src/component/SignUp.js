@@ -34,8 +34,8 @@ function SignUp() {
     // //     console.log('res: '+response);
     // // });
     const userData = {
-      name: user.name,
-      email: user.email,
+      username: user.name,
+      useremail: user.email,
       password: user.password
     };
     const userType = user.type;

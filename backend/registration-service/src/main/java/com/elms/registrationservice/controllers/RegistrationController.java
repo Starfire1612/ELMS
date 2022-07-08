@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.elms.registrationservice.models.Instructor;
+import com.elms.registrationservice.models.RegisterUser;
 import com.elms.registrationservice.models.Student;
-import com.elms.registrationservice.services.StudentService;
+import com.elms.registrationservice.services.RegisterService;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
@@ -21,7 +23,7 @@ public class RegistrationController {
 
 	private Logger logger = org.slf4j.LoggerFactory.getLogger(RegistrationController.class);
 	@Autowired
-	StudentService service;
+	RegisterService service;
 
 	@GetMapping(path = "/students")
 	public List<Student> fetchAllStudents() {
@@ -29,16 +31,20 @@ public class RegistrationController {
 	}
 
 	@PostMapping(path = "/register-user/type/{type}")
-	public ResponseEntity<String> registerUser( @PathVariable("type") String type,@RequestBody Student user) {
-	
-		logger.info(type);
+	public ResponseEntity<String> registerUser(@PathVariable("type") String type, @RequestBody RegisterUser user) {
 		logger.info(user.toString());
-		if(type.equalsIgnoreCase("student")) {
-			Student s=(Student)user;
-			logger.info(s.toString());
-			return service.registerNewStudent(s);
+		if (type.equalsIgnoreCase("student")) {
+			Student s = new Student();
+			s.setName(user.getUsername());
+			s.setEmail(user.getUseremail());
+			s.setPassword(user.getPassword());
+			return service.registerStudent(s);
 		} else {
-			return null;
+			Instructor i = new Instructor();
+			i.setName(user.getUsername());
+			i.setEmail(user.getUseremail());
+			i.setPassword(user.getPassword());
+			return service.registerInstructor(i);
 		}
 	}
 }
