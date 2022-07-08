@@ -1,57 +1,59 @@
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import React from "react";
-import { useState, useEffect } from "react";
+import { calculateDiscountedPrice, ratingsColor } from "../utils/util";
+import "../styles/Courses.css";
+import { thumbnailUrl } from "./dummydata/dummyCourses";
 
-function Courses() {
-  const [name, setName] = useState([]);
-  useEffect(() => {
-    names();
-  }, []);
+function Courses({ courses }) {
+  const discountedPrice = (course) =>
+    calculateDiscountedPrice(course.price, course.discountpercent);
 
-  const names = async () => {
-    const responce = await fetch(
-      "https://jsonplaceholder.typicode.com/photos/"
-    );
-    setName(await responce.json());
+  const getColor = (ratings) => {
+    return "text-" + ratingsColor(ratings);
   };
-  // const card = (photo) => {
-  //   <Card style={{ width: "18rem" }}>
-  //     {/* <Card.Img variant="top" src={photo.thumbnailUrl} /> */}
-  //     <Card.Body>
-  //       <Card.Title>{photo.title}</Card.Title>
-  //       <Card.Text>
-  //         Some quick example text to build on the card title and make up the
-  //         bulk of the card's content. Some quick example text to build on the
-  //         card title and make up the bulk of the card's content.
-  //       </Card.Text>
-  //       <Button variant="primary">Connect</Button>
-  //     </Card.Body>
-  //   </Card>;
-  // };
+  const transformDescription = (description) => {
+    if (description.length <= 70) {
+      return description;
+    }
+    return description.substring(0, 70) + "...";
+  };
+
+  const card = (course) => {
+    return (
+      <Card id={course.id} style={{ width: "18rem" }}>
+        <Card.Img variant="top" src={thumbnailUrl} />
+        <Card.Body>
+          <Card.Title className="mb-0">{course.name}</Card.Title>
+          <p className="fs-6 fw-light">{course.instructorname}</p>
+          <Card.Text>{transformDescription(course.description)}</Card.Text>
+          <div className="d-flex justify-content-between align-items-center">
+            <Button variant="success">
+              <span className="fs-5">
+                {"$" + discountedPrice(course) + " "}
+              </span>
+              <span className="fs-6 fst-italic text-decoration-line-through">
+                {"$" + course.price}
+              </span>
+            </Button>
+            <div className={`ratings fst-italic ${getColor(course.ratings)}`}>
+              <span className="fs-5 fw-semibold">{course.ratings}</span>
+              <span className="fs-6">{" /5"} </span>
+            </div>
+          </div>
+        </Card.Body>
+      </Card>
+    );
+  };
 
   return (
     <div>
-      <h1> Name is writen hare bilow </h1>
-      <ol className="list-group list-group-numbered">
-        {name.map((data) => {
-          return (
-            <Card style={{ width: "18rem" }}>
-              <Card.Img variant="top" src={data.thumbnailUrl} />
-              <Card.Body>
-                <Card.Title>{data.title}</Card.Title>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content. Some quick example text to
-                  build on the card title and make up the bulk of the card's
-                  content.
-                </Card.Text>
-                <Button variant="primary">Connect</Button>
-              </Card.Body>
-            </Card>
-          );
+      <h1 className="text-center"> Courses </h1>
+      <div className="courses p-3">
+        {courses?.map((course) => {
+          return card(course);
         })}
-      </ol>
+      </div>
     </div>
   );
 }
