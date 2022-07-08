@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Button, FloatingLabel, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { BASE_URL } from "../util/constants.js";
+import "../../styles/Register.css";
+import { BASE_URL } from "../../util/constants.js";
 
 function SignUp() {
   const [user, setUser] = useState({});
@@ -36,13 +37,13 @@ function SignUp() {
     const userData = {
       name: user.name,
       email: user.email,
-      password: user.password
+      password: user.password,
     };
     const userType = user.type;
     const response = await axios.post(
       BASE_URL + `/register-user/type/${userType}`,
       userData
-    )
+    );
     console.log(response.data);
   };
 
@@ -58,7 +59,7 @@ function SignUp() {
             aria-label="Default select example"
             required
           >
-            <option >Sign-up as</option>
+            <option>Sign-up as</option>
             <option value="student">Student</option>
             <option value="instructor">Instructor</option>
           </Form.Select>

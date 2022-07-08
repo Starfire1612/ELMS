@@ -2,10 +2,9 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Button, FloatingLabel, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import "../styles/Register.css";
-import HomePage from "./HomePage";
+import "../../styles/Register.css";
 
-function SignIn({ onLogIn }) {
+function SignIn({ handleLogin, setIsLoading }) {
   const [user, setUser] = useState({});
 
   const handleChange = (event) => {
@@ -17,6 +16,7 @@ function SignIn({ onLogIn }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
     const config = {
       url: `http://localhost:8080/authenticate`,
       method: "post",
@@ -26,7 +26,6 @@ function SignIn({ onLogIn }) {
         type: user.type,
       },
     };
-    // console.log(config);
     const _userToken = await axios(config)
       .then((res) => res.data.jwttoken)
       .catch((err) => console.log(err));
@@ -36,13 +35,7 @@ function SignIn({ onLogIn }) {
       localStorage.setItem("userToken", _userToken);
       localStorage.setItem("userType", user.type);
       console.log(localStorage.getItem("userToken"));
-      const response = await axios.get("http://localhost:8080/greetings", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-        },
-      });
-      console.log(response.data);
-      // onLogIn();
+      handleLogin();
     }
   };
 

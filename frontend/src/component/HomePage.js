@@ -1,9 +1,24 @@
-import React from 'react'
+import React from "react";
+import Courses from "./Courses";
+import Navigationbar from "./Navigationbar";
 
-function HomePage() {
+function HomePage({ handleLogout, userData, isLoading }) {
+  console.log(userData);
   return (
-    <div>HomePage</div>
-  )
+    <div>
+      {!isLoading ? (
+        <Navigationbar handleLogout={handleLogout} userData={userData} />
+      ) : (
+        ""
+      )}
+
+      {localStorage.getItem("userType") === "student" ? (
+        <Courses />
+      ) : (
+        "Instructor"
+      )}
+    </div>
+  );
 }
 
-export default HomePage
+export default HomePage;

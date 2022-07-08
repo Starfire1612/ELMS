@@ -2,9 +2,8 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Button, FloatingLabel, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import "../styles/Register.css";
+import "../../styles/Register.css";
 import bcryptjs from "bcryptjs";
-import { BASE_URL } from "./../util/constants";
 
 function ForgotPassword() {
   const [user, setUser] = useState({});
