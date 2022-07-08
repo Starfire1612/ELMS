@@ -1,0 +1,16 @@
+Services 		Port
+
+1.naimng server		8761
+2.api gateway		8765
+3.zipkin		9411
+4.authentication	8080
+5.registration		8000
+6.student		8100
+7.instructor		8200
+8.course-lesson		8300
+9.feedback		8400
+10.cerficate		8500
+11.rabbitmq		5672 or 15672
+12.config server	9000
+13.docker-compose file  
+
