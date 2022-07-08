@@ -95,7 +95,7 @@ function ForgotPassword() {
     }
     const requestBody = {
       type: user.type,
-      username: user.email,
+      useremail: user.email,
       password: user.password,
     };
     const response = await axios

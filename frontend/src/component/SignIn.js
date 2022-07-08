@@ -21,7 +21,7 @@ function SignIn({ onLogIn }) {
       url: `http://localhost:8080/authenticate`,
       method: "post",
       data: {
-        username: user.email,
+        useremail: user.email,
         password: user.password,
         type: user.type,
       },
