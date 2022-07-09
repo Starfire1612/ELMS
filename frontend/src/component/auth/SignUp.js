@@ -35,15 +35,9 @@ function SignUp() {
     // //     console.log('res: '+response);
     // // });
     const userData = {
-<<<<<<< HEAD:frontend/src/component/auth/SignUp.js
-      name: user.name,
-      email: user.email,
-      password: user.password,
-=======
       username: user.name,
       useremail: user.email,
-      password: user.password
->>>>>>> 6bf1facced40dfc4460e0d0fac299d4c27690c60:frontend/src/component/SignUp.js
+      password: user.password,
     };
     const userType = user.type;
     const response = await axios.post(

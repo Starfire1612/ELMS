@@ -10,7 +10,7 @@ import { NavLink, Link } from "react-router-dom";
 function Navigationbar({ handleLogout, userData }) {
   return (
     <div>
-      <Navbar bg="light" expand="lg">
+      <Navbar bg="light" expand="lg" fixed="top">
         <Container fluid>
           <Navbar.Brand href="#">ELMS LOGO</Navbar.Brand>
           {/* <Navbar.Toggle aria-controls="navbarScroll" />
