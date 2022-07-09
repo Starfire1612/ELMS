@@ -3,7 +3,7 @@ import { Button, FloatingLabel, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "../../styles/Register.css";
-import { BASE_URL } from "../../util/constants.js";
+import { BASE_URL } from "../../utils/constants.js";
 
 function SignUp() {
   const [user, setUser] = useState({});
