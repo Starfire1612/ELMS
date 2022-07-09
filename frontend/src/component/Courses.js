@@ -21,7 +21,7 @@ function Courses({ courses }) {
 
   const card = (course) => {
     return (
-      <Card id={course.id} style={{ width: "18rem" }}>
+      <Card className="card" id={course.id} style={{ width: "18rem" }}>
         <Card.Img variant="top" src={thumbnailUrl} />
         <Card.Body>
           <Card.Title className="mb-0">{course.name}</Card.Title>

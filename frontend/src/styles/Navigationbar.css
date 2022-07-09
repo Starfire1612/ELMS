@@ -1,0 +1,7 @@
+.navbar{
+  border-bottom: 1px solid rgb(201, 200, 200);
+  box-shadow: 0 0 5px 0 grey;
+}
+.dropdown-menu{
+  right: 100px !important;
+}

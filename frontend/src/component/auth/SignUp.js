@@ -119,10 +119,6 @@ function SignUp() {
             />
           </FloatingLabel>
 
-          <Link to="/forgot-password">
-            <div className="fs-6 mb-3 forgot-password">Forgot Password</div>
-          </Link>
-
           <Button className="btn-center" variant="primary" type="submit">
             Sign Up
           </Button>

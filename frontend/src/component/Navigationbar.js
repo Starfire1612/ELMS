@@ -6,6 +6,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { NavLink, Link } from "react-router-dom";
+import "../styles/Navigationbar.css";
 
 function Navigationbar({ handleLogout, userData }) {
   return (
@@ -28,6 +29,7 @@ function Navigationbar({ handleLogout, userData }) {
             <NavLink to="/elms/courses">My courses</NavLink>
           </div>
           <NavDropdown
+            className="dropdown"
             title={userData ? userData?.name : "name"}
             id="navbarScrollingDropdown"
           >

@@ -35,7 +35,7 @@ function App(props) {
   };
 
   return (
-    <div>
+    <div className="App">
       <Routes>
         <Route
           path="/"
