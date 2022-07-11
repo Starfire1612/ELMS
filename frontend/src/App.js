@@ -15,6 +15,7 @@ function App(props) {
   const [userData, setUserData] = useState({});
 
   const handleLogin = async () => {
+    setIsLoading(true);
     const data = await axios
       .get("http://localhost:8080/greetings", {
         headers: {
@@ -44,7 +45,7 @@ function App(props) {
             loggedInStatus ? (
               <Navigate replace to="/elms" />
             ) : (
-              <SignIn handleLogin={handleLogin} setIsLoading={setIsLoading} />
+              <SignIn handleLogin={handleLogin} />
             )
           }
         />

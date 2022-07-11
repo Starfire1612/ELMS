@@ -4,6 +4,7 @@ import { Button, FloatingLabel, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "../../styles/Register.css";
 import bcryptjs from "bcryptjs";
+import Animation from "./Animation";
 
 function ForgotPassword() {
   const [user, setUser] = useState({});
@@ -109,7 +110,7 @@ function ForgotPassword() {
     return (
       <Button
         className="btn-center mb-3"
-        variant="success"
+        variant="danger"
         onClick={handleFunction}
         type="submit"
       >
@@ -123,6 +124,7 @@ function ForgotPassword() {
 
   return (
     <div className="contain">
+      <Animation />
       <Form onSubmit={handleSubmit}>
         <div className="form p-3">
           <h3 className="mb-3"> Forgot Password</h3>

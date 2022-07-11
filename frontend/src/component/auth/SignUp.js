@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "../../styles/Register.css";
 import { BASE_URL } from "../../utils/constants.js";
+import Animation from "./Animation";
 
 function SignUp() {
   const [user, setUser] = useState({});
@@ -49,6 +50,7 @@ function SignUp() {
 
   return (
     <div className="contain">
+      <Animation />
       <Form onSubmit={handleSubmit}>
         <div className="form p-3">
           <h3 className="mb-3"> Sign-Up</h3>
@@ -119,7 +121,7 @@ function SignUp() {
             />
           </FloatingLabel>
 
-          <Button className="btn-center" variant="primary" type="submit">
+          <Button className="btn-center" variant="danger" type="submit">
             Sign Up
           </Button>
         </div>
