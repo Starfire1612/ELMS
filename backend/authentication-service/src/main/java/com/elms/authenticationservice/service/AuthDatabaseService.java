@@ -30,11 +30,13 @@ public class AuthDatabaseService {
 		return instructorRepo.findByEmail(email);
 	}
 
+	//make necesasary change in encoding part
 	@Transactional
 	public int updateStudentPasswordByEmail(String email,String password)
 	{
 		return studentRepo.updateStudentPassword(email, encoder.encode(password));
 	}
+	//make necesasary change in encoding part
 	@Transactional
 	public int updateInsructorPasswordByEmail(String email,String password)
 	{

@@ -38,8 +38,6 @@ public class ForgotPasswordController {
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
-	
-
 	@GetMapping("/forgot-password/email/{email}/type/{type}")
 	public ResponseEntity<String> getUserEmail(@PathVariable("type") String usertype,
 			@PathVariable("email") String usermail) {
