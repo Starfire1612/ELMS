@@ -9,11 +9,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.PrimaryKeyJoinColumns;
-import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,24 +27,23 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@IdClass(StudentCourseId.class)
-@SecondaryTable(name = "student_course", pkJoinColumns = {
-	    @PrimaryKeyJoinColumn(name = "stu_id"),
-	    @PrimaryKeyJoinColumn(name = "course_id") })
+@IdClass(StudentCourseFeedbackId.class)
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Feedback {
 
-	@Id 
+	
+	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "feedback_id", unique = true)
 	private int feedbackId;
-//,table = "student_course"
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "stu_id",table = "student_course")
-	private Student studentId;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "course_id",table="student_course")
-	private Course courseId;
+	@Id
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = StudentCourse.class)
+	@JoinColumns({
+		@JoinColumn(name = "stu_id"),
+		@JoinColumn(name="course_id")
+	})
+	private StudentCourse studentCourseId;
 
 	@Column(name = "feedback_content")
 	private String content;
@@ -53,7 +53,7 @@ public class Feedback {
 
 	@Override
 	public String toString() {
-		return "Feedback [feedbackId=" + feedbackId + ", content=" + content + ", ratings=" + ratings + "]";
+		return "Feedback [feedbackId=" +  ", content=" + content + ", ratings=" + ratings + "]";
 	}
 
 }
