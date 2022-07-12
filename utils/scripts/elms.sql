@@ -26,15 +26,15 @@ DROP TABLE IF EXISTS `certificate`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `certificate` (
   `cert_id` int NOT NULL AUTO_INCREMENT,
-  `course_id` int NOT NULL,
   `stu_id` int NOT NULL,
+   `course_id` int NOT NULL,
   `cert_issue_date` date NOT NULL,
   `cert_link` mediumtext NOT NULL,
   PRIMARY KEY (`cert_id`),
   KEY `course_id_idx` (`course_id`),
   KEY `stu_id_idx` (`stu_id`),
-  CONSTRAINT `cert_course_id` FOREIGN KEY (`course_id`) REFERENCES `student_course` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `cert_stu_id` FOREIGN KEY (`stu_id`) REFERENCES `student_course` (`stu_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `cert_stu_id` FOREIGN KEY (`stu_id`) REFERENCES `student_course` (`stu_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `cert_course_id` FOREIGN KEY (`course_id`) REFERENCES `student_course` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -101,8 +101,8 @@ CREATE TABLE `feedback` (
   PRIMARY KEY (`feedback_id`),
   KEY `stu_id_idx` (`stu_id`),
   KEY `course_id_idx` (`course_id`),
-  CONSTRAINT `feedback_course_id` FOREIGN KEY (`course_id`) REFERENCES `student_course` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `feedback_stu_id` FOREIGN KEY (`stu_id`) REFERENCES `student_course` (`stu_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `feedback_stu_id` FOREIGN KEY (`stu_id`) REFERENCES `student_course` (`stu_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `feedback_course_id` FOREIGN KEY (`course_id`) REFERENCES `student_course` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -127,7 +127,7 @@ CREATE TABLE `instructor` (
   `instructor_id` int NOT NULL AUTO_INCREMENT,
   `instructor_name` varchar(150) NOT NULL,
   `instructor_email` varchar(100) NOT NULL,
-  `instructor_password` varchar(30) NOT NULL,
+  `instructor_password` varchar(255) NOT NULL,
   `instructor_image` blob,
   `bank_ifsc_code` varchar(20) NOT NULL,
   `account_number` bigint NOT NULL,
@@ -160,8 +160,8 @@ CREATE TABLE `instructor_course` (
   `course_id` int NOT NULL,
   PRIMARY KEY (`instructor_id`,`course_id`),
   KEY `course_id_idx` (`course_id`),
-  CONSTRAINT `ic_course_id` FOREIGN KEY (`course_id`) REFERENCES `course` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `ic_instructor_id` FOREIGN KEY (`instructor_id`) REFERENCES `instructor` (`instructor_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `ic_instructor_id` FOREIGN KEY (`instructor_id`) REFERENCES `instructor` (`instructor_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `ic_course_id` FOREIGN KEY (`course_id`) REFERENCES `course` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -217,13 +217,13 @@ CREATE TABLE `payment` (
   `course_id` int NOT NULL,
   `payment_date` date NOT NULL,
   `payment_amount` decimal(10,0) NOT NULL,
-  `payment_response_message` text NOT NULL,
+   `payment_response_message` text NOT NULL,
   `payment_status` text NOT NULL,
   PRIMARY KEY (`payment_id`),
   KEY `course_id_idx` (`course_id`),
   KEY `stu_id_idx` (`stu_id`),
-  CONSTRAINT `payment_course_id` FOREIGN KEY (`course_id`) REFERENCES `student_course` (`course_id`),
-  CONSTRAINT `payment_stu_id` FOREIGN KEY (`stu_id`) REFERENCES `student_course` (`stu_id`)
+  CONSTRAINT `payment_stu_id` FOREIGN KEY (`stu_id`) REFERENCES `student_course` (`stu_id`),
+  CONSTRAINT `payment_course_id` FOREIGN KEY (`course_id`) REFERENCES `student_course` (`course_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -248,7 +248,7 @@ CREATE TABLE `student` (
   `stu_id` int NOT NULL AUTO_INCREMENT,
   `stu_name` varchar(150) NOT NULL,
   `stu_email` varchar(70) NOT NULL,
-  `stu_password` varchar(30) NOT NULL,
+  `stu_password` varchar(255) NOT NULL,
   `stu_image` blob,
   PRIMARY KEY (`stu_id`),
   UNIQUE KEY `stu_email_UNIQUE` (`stu_email`),
@@ -282,9 +282,10 @@ CREATE TABLE `student_course` (
   PRIMARY KEY (`stu_id`,`course_id`),
   KEY `course_id_idx` (`course_id`),
   KEY `current_lesson_id_idx` (`current_lesson_id`),
+    CONSTRAINT `stu_id` FOREIGN KEY (`stu_id`) REFERENCES `student` (`stu_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `course_id` FOREIGN KEY (`course_id`) REFERENCES `course` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `current_lesson_id` FOREIGN KEY (`current_lesson_id`) REFERENCES `lesson` (`lesson_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `stu_id` FOREIGN KEY (`stu_id`) REFERENCES `student` (`stu_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `current_lesson_id` FOREIGN KEY (`current_lesson_id`) REFERENCES `lesson` (`lesson_id`) ON DELETE CASCADE ON UPDATE CASCADE
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -312,9 +313,9 @@ CREATE TABLE `student_course_lesson` (
   PRIMARY KEY (`stu_id`,`course_id`,`lesson_id`),
   KEY `course_id_idx` (`course_id`),
   KEY `leeson_id_idx` (`lesson_id`),
+  CONSTRAINT `scl_stu_id` FOREIGN KEY (`stu_id`) REFERENCES `student_course` (`stu_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `scl_course_id` FOREIGN KEY (`course_id`) REFERENCES `student_course` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `scl_leeson_id` FOREIGN KEY (`lesson_id`) REFERENCES `lesson` (`lesson_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `scl_stu_id` FOREIGN KEY (`stu_id`) REFERENCES `student_course` (`stu_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `scl_leeson_id` FOREIGN KEY (`lesson_id`) REFERENCES `lesson` (`lesson_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -327,6 +328,14 @@ LOCK TABLES `student_course_lesson` WRITE;
 INSERT INTO `student_course_lesson` VALUES (1,1,1),(1,1,6),(2,2,2),(2,2,7),(3,3,3),(3,3,8),(1,4,4),(1,4,9);
 /*!40000 ALTER TABLE `student_course_lesson` ENABLE KEYS */;
 UNLOCK TABLES;
+
+UPDATE `elms`.`student` SET `stu_email` = 'prateekk0299@gmail.com', `stu_password` = '$2a$10$vaxIMm8voLw5FBf/Ne8yf.HmCxI3o8yt9iN3ET64g57SPkXOXB1r.' WHERE (`stu_id` = '1');
+UPDATE `elms`.`student` SET `stu_email` = 'shubham.shaw91@gmail.com', `stu_password` = '$2a$10$h6RPg18UaovypoR4iNAp9u7RZGzguILlbtPd/.zSCGcJwjVSZfU9y' WHERE (`stu_id` = '2');
+UPDATE `elms`.`student` SET `stu_email` = 'iam.anurag.9@gmail.com', `stu_password` = '$2a$10$OG0J1OsaGE8g2QhBLKMaJuYakackI8KroJDrcnv5nXNWl4IWMyCXq' WHERE (`stu_id` = '3');
+UPDATE `elms`.`student` SET `stu_email` = 'radhikashah1612@gmail.com', `stu_password` = '$2a$10$z1E9hcackg/ZezKViK0YseXf0GYqJ9744ur6ehSM6m9mICimkySvK' WHERE (`stu_id` = '4');
+UPDATE `elms`.`instructor` SET `instructor_name` = 'Radhika Shah', `instructor_email` = 'radhikashah1612@gmail.com', `instructor_password` = '$2a$10$z1E9hcackg/ZezKViK0YseXf0GYqJ9744ur6ehSM6m9mICimkySvK' WHERE (`instructor_id` = '1');
+UPDATE `elms`.`instructor` SET `instructor_name` = 'Anurag Gupta', `instructor_email` = 'iam.anurag9@gmail.com', `instructor_password` = '$2a$10$Quq1bvd4NhYxMHs6k4VNwue8F.aKJ5CxVSB9LZtFi.5zbXX3Bd5QW' WHERE (`instructor_id` = '2');
+UPDATE `elms`.`instructor` SET `instructor_name` = 'Shubham Shaw', `instructor_email` = 'shubham.shaw91@gmail.com', `instructor_password` = '$2a$10$4r.nOZ0ZXll2e4bTZnId/Om/jQ8yjR.Hto/IirTby.s6r1Or7Nf9m' WHERE (`instructor_id` = '3');
 
 --
 -- Dumping routines for database 'elms'

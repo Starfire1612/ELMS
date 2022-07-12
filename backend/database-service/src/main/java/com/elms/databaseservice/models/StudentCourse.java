@@ -9,8 +9,11 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.LazyToOne;
 import org.hibernate.annotations.LazyToOneOption;
 
@@ -26,24 +29,24 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-//@MappedSuperclass
 @Table(name = "student_course")
 @IdClass(StudentCourseId.class)
+
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class StudentCourse {
 
 	@JsonIgnore
 	@Id
-//	@OneToOne(mappedBy = "stu_id",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "stu_id")
 	private Student studentId;
 	
 	@JsonIgnore
 	@Id
-//	@OneToOne(mappedBy = "stu_id",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "course_id")
 	private Course courseId;
+	
 	
 	@Column(name = "course_status", columnDefinition = "varchar default 'pending'")
 	private String courseStatus;
@@ -53,6 +56,7 @@ public class StudentCourse {
 	
 	@Column(name = "current_lesson_id", columnDefinition = "int default 1")
 	private int currentLessonId;
+
 
 	@Override
 	public String toString() {

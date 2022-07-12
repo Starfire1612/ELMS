@@ -42,8 +42,11 @@ public class Instructor {
 	private String bankIfscCode;
 	@Column(name = "account_number")
 	private BigInteger accountNumber;
+	
 	@JsonIgnore
 	@OneToMany
-	@JoinTable(name = "instructor_course", joinColumns = @JoinColumn(name = "instructor_id", referencedColumnName = "instructor_id"), inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "course_id"))
+	@JoinTable(name = "instructor_course", 
+	joinColumns = @JoinColumn(name = "instructor_id", referencedColumnName = "instructor_id"),
+	inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "course_id"))
 	private Set<Course> courses = new HashSet<>();
 }
