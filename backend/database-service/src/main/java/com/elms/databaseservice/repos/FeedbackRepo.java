@@ -10,6 +10,7 @@ import com.elms.databaseservice.models.StudentCourseFeedbackId;
 
 public interface FeedbackRepo extends JpaRepository<Feedback, StudentCourseFeedbackId>,
 		PagingAndSortingRepository<Feedback, StudentCourseFeedbackId> {
+
 //	List<Feedback> findByCourseId(int id);
 //
 //	void deleteByStudentIdAndCourseId(int studentId, int courseId);

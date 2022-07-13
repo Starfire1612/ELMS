@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.elms.databaseservice.models.Course;
@@ -45,6 +47,11 @@ public class StudentController {
 //	public ResponseEntity<Student> updateStudentProfile(@PathVariable("id") int id){
 //		return studentService.updateProfile(id);
 //	}
+	//changes
+	@PutMapping(path="/student/{id}/profile")
+	public ResponseEntity<Student> updateStudentProfile(@RequestBody Student student){
+		return studentService.updateProfile(student);
+	}
 	
 	@GetMapping(path="/student/{id}/course/{courseId}")
 	public ResponseEntity<String> sendCourseCompletionCertificate(@PathVariable("id") int id,
