@@ -63,11 +63,11 @@ public class StudentService {
 		StudentCourse entry = new StudentCourse();
 		Optional<Student> studentDetails = studentRepo.findById(studentId);
 		List<Course> enrolledCourses = new ArrayList<>();
-		Set<StudentCourse> studentCourseDetails = studentDetails.get().getStudentCoursesDetails();
-		for (StudentCourse sc : studentCourseDetails) {
-			enrolledCourses.add(sc.getCourseId());
-		}
 		if (studentDetails.isPresent()) {
+			Set<StudentCourse> studentCourseDetails = studentDetails.get().getStudentCoursesDetails();
+			for (StudentCourse sc : studentCourseDetails) {
+				enrolledCourses.add(sc.getCourseId());
+			}
 			return new ResponseEntity<List<Course>>(enrolledCourses, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(enrolledCourses, HttpStatus.OK);

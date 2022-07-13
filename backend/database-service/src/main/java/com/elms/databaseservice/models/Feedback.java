@@ -16,6 +16,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,6 +45,7 @@ public class Feedback {
 		@JoinColumn(name = "stu_id"),
 		@JoinColumn(name="course_id")
 	})
+	@JsonIgnore
 	private StudentCourse studentCourseId;
 
 	@Column(name = "feedback_content")

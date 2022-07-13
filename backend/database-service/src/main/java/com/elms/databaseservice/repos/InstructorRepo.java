@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.elms.databaseservice.models.Instructor;
 
-public interface InstructorRepo extends JpaRepository<Instructor, Long> {
+public interface InstructorRepo extends JpaRepository<Instructor, Integer> {
 
 	
 }
