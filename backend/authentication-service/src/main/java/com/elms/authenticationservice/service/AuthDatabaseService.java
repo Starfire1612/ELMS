@@ -19,8 +19,8 @@ public class AuthDatabaseService {
 	@Autowired
 	InstructorRepo instructorRepo;
 
-	@Autowired
-	PasswordEncoder encoder;
+//	@Autowired
+//	PasswordEncoder encoder;
 	@Transactional
 	public Student findStudentByEmail(String email) {
 		return studentRepo.findByEmail(email);
@@ -34,12 +34,12 @@ public class AuthDatabaseService {
 	@Transactional
 	public int updateStudentPasswordByEmail(String email,String password)
 	{
-		return studentRepo.updateStudentPassword(email, encoder.encode(password));
+		return studentRepo.updateStudentPassword(email, (password));
 	}
 	//make necesasary change in encoding part
 	@Transactional
 	public int updateInsructorPasswordByEmail(String email,String password)
 	{
-		return instructorRepo.updateInstructorPassword(email, encoder.encode(password));
+		return instructorRepo.updateInstructorPassword(email, (password));
 	}
 }
