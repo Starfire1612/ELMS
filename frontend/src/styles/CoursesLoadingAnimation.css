@@ -1,0 +1,61 @@
+:root{
+  --loading-content-color: rgb(214,214,214);
+}
+
+.bgcolor{
+  background-color: var(--loading-content-color)
+}
+
+.card-title{
+  height:20px;
+  width:60%;
+  
+}
+.instructor-name{
+  height: 15px;
+  width: 20%;
+}
+.description{
+  margin-top: 30px;
+}
+.description div{
+  height: 15px;
+  width:90%;
+  background-color: var(--loading-content-color);
+  margin-bottom: 3px;
+}
+.description div:last-child{
+  width:50% ;
+}
+.button{
+  width:100px;
+  height: 35px;
+}
+.ratings{
+  height:25px;
+  width:20%
+}
+.image{
+  height:150px;
+  width: 100%;
+}
+.animated-bg{
+  animation-duration: 4s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeHolderShimmer;
+  animation-timing-function: linear;
+  background-color: #f6f7f8;
+  background: linear-gradient(to right, #eeeeee 8%, #bbbbbb 18%, #eeeeee 33%);
+  background-size: 800px 104px;
+  position: relative;
+}
+@keyframes placeHolderShimmer {
+  0% {
+    background-position: -800px 0
+  }
+
+  100% {
+    background-position: 800px 0
+  }
+}

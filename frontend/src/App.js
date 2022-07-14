@@ -43,7 +43,7 @@ function App(props) {
           exact
           element={
             loggedInStatus ? (
-              <Navigate replace to="/elms" />
+              <Navigate replace to="/home" />
             ) : (
               <SignIn handleLogin={handleLogin} />
             )
@@ -52,7 +52,7 @@ function App(props) {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route
-          path="/elms"
+          path="/home"
           element={<HomePage onLogOut={handleLogout} userData={userData} />}
         >
           <Route path="profile" element={<Profile />} />

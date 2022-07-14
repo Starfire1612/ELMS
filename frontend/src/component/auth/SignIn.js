@@ -4,8 +4,8 @@ import { Button, FloatingLabel, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { HashLoader } from "react-spinners";
 import "../../styles/Register.css";
-import Animation from "./Animation";
 import { LOADING_COLOR } from "../../utils/constants";
+import AuthAnimation from "../Animations/AuthAnimation";
 
 function SignIn({ handleLogin }) {
   const [user, setUser] = useState({});
@@ -41,17 +41,18 @@ function SignIn({ handleLogin }) {
       console.log(localStorage.getItem("userToken"));
       handleLogin();
     }
+    //set isLoading to false
   };
 
   return (
     <div className="contain">
-      <Animation />
+      <AuthAnimation />
       <div className="anim"></div>
       <Form onSubmit={handleSubmit}>
         <div className="form p-3">
           <h3 className="mb-3"> Sign-In</h3>
           {<p className="not-found">Data not found😎</p>}
-          <div className={"input-fields"}>
+          <div className="input-fields">
             {isLoading && (
               <div className="loading">
                 <HashLoader color={LOADING_COLOR} />
