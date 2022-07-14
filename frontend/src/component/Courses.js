@@ -4,8 +4,12 @@ import React from "react";
 import { calculateDiscountedPrice, ratingsColor } from "../utils/util";
 import "../styles/Courses.css";
 import { thumbnailUrl } from "./dummydata/dummyCourses";
+import CoursesLoadingAnimation from "./Animations/CoursesLoadingAnimation";
+import { useState } from "react";
 
 function Courses({ courses }) {
+  const [isLoading, setIsLoading] = useState(false);
+
   const discountedPrice = (course) =>
     calculateDiscountedPrice(course.price, course.discountpercent);
 
@@ -50,9 +54,11 @@ function Courses({ courses }) {
     <div>
       <h1 className="text-center"> Courses </h1>
       <div className="courses p-3">
-        {courses?.map((course) => {
-          return card(course);
-        })}
+        {isLoading ? (
+          <CoursesLoadingAnimation />
+        ) : (
+          courses?.map((course) => card(course))
+        )}
       </div>
     </div>
   );

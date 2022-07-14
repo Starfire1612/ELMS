@@ -13,9 +13,8 @@
   color: var(--color-1);
   position: relative;
   z-index: 1;
-  
-  
 }
+
 form{
   width: 35%;
   background-color: rgb(255, 255, 255, 0.8);
@@ -23,10 +22,9 @@ form{
   
 }
 .form{
-  /* padding:20px; */
-  border: 1px solid rgb(255, 167, 167);
-  border-color: -var(--color-1);
+  border: 1px solid rgb(227, 227, 227);
   border-radius: 2%;
+  box-shadow: 2px 2px 5px 0;
 }
 h3{
   text-align: center;
@@ -65,6 +63,10 @@ label{
   z-index:2;
   display: block;
   margin: auto;
+}
+.does-not-match{
+  font-size: small;
+  color: var(--color-2);
 }
 
 

@@ -1,7 +1,7 @@
 import React from "react";
 import "../../styles/Animation.css";
 
-function Animation() {
+function AuthAnimation() {
   return (
     <div className="animation">
       <div className="area">
@@ -22,4 +22,4 @@ function Animation() {
   );
 }
 
-export default Animation;
+export default AuthAnimation;
