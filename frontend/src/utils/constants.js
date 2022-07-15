@@ -1,2 +1,2 @@
 export const BASE_URL = "http://localhost:8000";
-export const LOADING_COLOR = "#db4444";
+export const LOADING_COLOR = "#2b0647";
