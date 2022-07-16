@@ -29,11 +29,10 @@ function Navigationbar({ handleLogout, userData }) {
             <NavLink to="/elms/courses">My courses</NavLink>
           </div>
           <NavDropdown
-            className="dropdown"
             title={userData ? userData?.name : "name"}
             id="navbarScrollingDropdown"
           >
-            <Link to="/elms/profile">
+            <Link to="/home/profile">
               <p className="text-center hover">View Profile</p>
             </Link>
 

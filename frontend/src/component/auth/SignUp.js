@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Button, FloatingLabel, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import "../../styles/Register.css";
 import { BASE_URL, LOADING_COLOR } from "../../utils/constants.js";
@@ -13,7 +12,7 @@ function SignUp() {
   const [user, setUser] = useState({});
   const [passwordMatch, setPasswordMatch] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isOtpSent, setIsOtpSent] = useState(true);
+  const [isOtpSent, setIsOtpSent] = useState(false);
   const [isOtpVerified, setIsOtpVerified] = useState(false);
 
   const handleChange = (event) => {

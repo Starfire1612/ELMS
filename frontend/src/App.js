@@ -8,6 +8,14 @@ import axios from "axios";
 import HomePage from "./component/HomePage";
 import Profile from "./component/Profile";
 import Courses from "./component/Courses";
+import AddCourse from "./component/instructor/AddCourse";
+import ManageCourse from "./component/instructor/manage-course/ManageCourse";
+import InstructorDashboard from "./component/instructor/InstructorDashboard";
+import Setup from "./component/instructor/manage-course/Setup";
+import Film from "./component/instructor/manage-course/Film";
+import CourseStructure from "./component/instructor/manage-course/CourseStructure";
+import CourseDescription from "./component/instructor/manage-course/CourseDescription";
+import Curriculum from "./component/instructor/manage-course/Curriculum";
 
 function App(props) {
   const [loggedInStatus, setLoggedInStatus] = useState(false);
@@ -54,9 +62,25 @@ function App(props) {
         <Route
           path="/home"
           element={<HomePage onLogOut={handleLogout} userData={userData} />}
+        />
+        <Route path="/home/courses" element={<Courses />} />
+        <Route path="profile" element={<Profile />} />
+        <Route
+          path="/instructor"
+          element={
+            <InstructorDashboard onLogOut={handleLogout} userData={userData} />
+          }
+        />
+        <Route path="/instructor/add-course" element={<AddCourse />} />
+        <Route
+          path="/instructor/course/:courseid/manage"
+          element={<ManageCourse />}
         >
-          <Route path="profile" element={<Profile />} />
-          <Route path="courses" element={<Courses />} />
+          <Route path="course-structure" element={<CourseStructure />} />
+          <Route path="setup" element={<Setup />} />
+          <Route path="film" element={<Film />} />
+          <Route path="description" element={<CourseDescription />} />
+          <Route path="curriculum" element={<Curriculum />} />
         </Route>
       </Routes>
     </div>

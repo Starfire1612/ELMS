@@ -1,0 +1,13 @@
+
+.form{
+  border: 1px solid rgb(255, 255, 255);
+  box-shadow: 0px 0px 5px 2px;
+  padding:20px;
+  border-radius: 0% !important;
+}
+.form-label{
+  color: rgb(46, 46, 46);
+}
+.text-muted{
+  font-size: small;
+}
