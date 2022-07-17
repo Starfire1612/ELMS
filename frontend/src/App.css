@@ -9,11 +9,17 @@
 .form-control {
   border-radius: 0;
   border: 1px solid black;
+  /* border-bottom: 1px solid black; */
 }
 
 .form-select {
   border-radius: 0;
   border: 1px solid black;
+}
+
+label {
+  color: black !important;
+  font-size: medium;
 }
 
 a {
@@ -22,4 +28,8 @@ a {
 
 button {
   border-radius: 0% !important;
+}
+
+.black {
+  color: black;
 }

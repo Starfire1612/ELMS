@@ -10,15 +10,17 @@ export default function ManageCourse() {
     courseName: "Course name",
     courseDuration: "0",
   });
-  const [shouldStateChange, setShouldStateChange] = useState(true);
+  const [shouldStateChange, setShouldStateChange] = useState("0");
 
-  // setShouldStateChange((prevState) => !prevState);
   const fetchCourseDuration = async () => {
     //fetchcourse name and course duration, and set details in course state
   };
   useEffect(() => {
     fetchCourseDuration();
   }, []);
+  useEffect(() => {
+    fetchCourseDuration();
+  }, [shouldStateChange]);
 
   return (
     <div>

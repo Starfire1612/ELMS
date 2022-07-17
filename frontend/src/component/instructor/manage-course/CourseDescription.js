@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 import "../../../styles/manage-course/Filler.css";
 import "../../../styles/manage-course/CourseDescription.css";
 import { dummyCourse } from "../../dummydata/dummyCourse";
@@ -34,6 +36,12 @@ export default function CourseDescription() {
     setTempCourse((prevCourse) => ({
       ...prevCourse,
       [event.target.name]: event.target.value,
+    }));
+  };
+  const handleImageChange = (event) => {
+    setTempCourse((prevCourse) => ({
+      ...prevCourse,
+      [event.target.name]: event.target.files[0],
     }));
   };
   const handleSubmit = (event) => {
@@ -76,50 +84,61 @@ export default function CourseDescription() {
               alt=""
             />
             <Form.Group className="mb-3">
-              <Form.Label>Course image</Form.Label>
-              <Form.Control type="file" accept="image/*" disabled={!editMode} />
+              <Form.Label className="fw-500">Course image</Form.Label>
+              <p className={!editMode ? "d-none" : "text-sm black mb-0"}>
+                Upload your course image here. Important guidelines: .jpg, .jpeg
+                or .png. no text on the image.
+              </p>
+              <Form.Control
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                disabled={!editMode || isLoading}
+              />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Course Name</Form.Label>
+              <Form.Label className="fw-500">Course Name</Form.Label>
               <Form.Control type="text" value={tempCourse.name} readOnly />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Course Description</Form.Label>
+              <Form.Label className="fw-500">Course Description</Form.Label>
               <textarea
                 className="form-control"
                 rows={"5"}
                 placeholder="Insert your course description"
                 defaultValue={course.description}
                 onChange={handleChange}
-                disabled={!editMode}
+                disabled={!editMode || isLoading}
                 required
               />
             </Form.Group>
 
-            <Form.Group className="mb-3">
-              <Form.Label>Price</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Enter price"
-                defaultValue={course.price}
-                min={"0"}
-                onChange={handleChange}
-                disabled={!editMode}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Discount percentage</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Enter discount in percentage"
-                min={"0"}
-                defaultValue={course.discountpercent}
-                onChange={handleChange}
-                disabled={!editMode}
-                required
-              />
-            </Form.Group>
+            <Row>
+              <Form.Group as={Col} className="mb-3">
+                <Form.Label className="fw-500">Price</Form.Label>
+                <Form.Control
+                  type="number"
+                  placeholder="Enter price"
+                  defaultValue={course.price}
+                  min={"0"}
+                  onChange={handleChange}
+                  disabled={!editMode || isLoading}
+                  required
+                />
+              </Form.Group>
+              <Form.Group as={Col} className="mb-3">
+                <Form.Label className="fw-500">Discount percentage</Form.Label>
+                <Form.Control
+                  type="number"
+                  placeholder="Enter discount in percentage"
+                  min={"0"}
+                  defaultValue={course.discountpercent}
+                  onChange={handleChange}
+                  disabled={!editMode || isLoading}
+                  required
+                />
+              </Form.Group>
+            </Row>
             <div className="d-flex justify-content-between align-items-center">
               {editMode ? (
                 <Button variant="primary" onClick={handleCancel}>
