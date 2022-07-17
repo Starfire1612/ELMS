@@ -8,7 +8,7 @@ import CoursesLoadingAnimation from "./Animations/CoursesLoadingAnimation";
 import { useState } from "react";
 
 function Courses({ courses }) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const discountedPrice = (course) =>
     calculateDiscountedPrice(course.price, course.discountpercent);

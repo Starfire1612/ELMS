@@ -1,0 +1,31 @@
+.manage-course-container {
+  display: flex;
+  width: 100%;
+  padding: 3.2rem 2.4rem 6.4rem 2.4rem;
+  max-width: 134rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+
+.side-navbar {
+  /* max-width: 28.6rem; */
+  /* min-width: 26.4rem; */
+  padding: 3.2rem 2.4rem 3.2rem 0;
+  position: relative;
+}
+
+.content {
+  flex: 1;
+  min-width: 1px;
+  width: 100%;
+  background: #fff;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 8%), 0 4px 12px rgb(0 0 0 / 16%);
+}
+
+@media(max-width:900px) {
+  .manage-course-container {
+    flex-direction: column;
+  }
+
+}
