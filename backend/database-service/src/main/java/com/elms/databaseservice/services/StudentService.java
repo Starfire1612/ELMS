@@ -89,12 +89,6 @@ public class StudentService {
 		return new ResponseEntity<Student>(studentDetails.get(), HttpStatus.CREATED);
 	}
 
-	@Transactional
-	public ResponseEntity<Student> updateProfile(@RequestBody Student student) {
-		Optional<Student> studentDetails = studentRepo.findById(student.getStudentId());
-		studentRepo.save(student);
-		return new ResponseEntity<>(studentDetails.get(), HttpStatus.CREATED);
-	}
 
 	@Transactional
 	public ResponseEntity<String> sendCertificate(int studentId, int courseId)
@@ -125,6 +119,13 @@ public class StudentService {
 		payment.setStudentId(s);
 		payment.setCourseId(c);
 		return paymentService.createPayment(payment);
+	}
+
+	@Transactional
+	public ResponseEntity<Student> updateProfile(@RequestBody Student student) {
+		Optional<Student> studentDetails = studentRepo.findById(student.getStudentId());
+		studentRepo.save(student);
+		return new ResponseEntity<>(studentDetails.get(), HttpStatus.CREATED);
 	}
 
 	@Transactional

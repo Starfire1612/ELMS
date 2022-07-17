@@ -2,6 +2,7 @@ package com.elms.databaseservice.services;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -15,13 +16,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.elms.databaseservice.models.Course;
 import com.elms.databaseservice.models.Instructor;
+import com.elms.databaseservice.models.InstructorCourse;
+import com.elms.databaseservice.models.InstructorCourseId;
 import com.elms.databaseservice.models.Lesson;
 import com.elms.databaseservice.models.Student;
 import com.elms.databaseservice.repos.CourseRepo;
+import com.elms.databaseservice.repos.InstructorCourseRepo;
 import com.elms.databaseservice.repos.InstructorRepo;
 
 @Service
@@ -35,7 +40,8 @@ public class InstructorService {
 	CourseService courseService;
 	@Autowired
 	LessonService lessonService;
-
+	@Autowired
+	InstructorCourseRepo instructorCourseRepo;
 	private Logger log = LoggerFactory.getLogger(InstructorService.class);
 
 	@Transactional
@@ -57,13 +63,22 @@ public class InstructorService {
 //	}
 	@Transactional
 	public ResponseEntity<Set<Course>> getCreatedCourses(int instructorId) {
-		Set<Course> instructorCourse = instructorRepo.findById(instructorId).get().getCourses();
-		return new ResponseEntity<Set<Course>>(instructorCourse, HttpStatus.OK);
+		Optional<Instructor> instructor = instructorRepo.findById(instructorId);
+		Set<Course> courses = new HashSet<Course>();
+		if (instructor.isEmpty())
+			return new ResponseEntity<Set<Course>>(courses, HttpStatus.NO_CONTENT);
+		{
+			courses = instructor.get().getCourses();
+			return new ResponseEntity<Set<Course>>(courses, HttpStatus.OK);
+		}
 	}
 
 	@Transactional
-	public Integer addCourse(Course c) {
-		return courseService.addCourse(c);
+	public InstructorCourse addCourse(Course c) {
+		InstructorCourse instructorCourse = new InstructorCourse(c.getInstructorId().getInstructorId(),
+				c.getCourseId());
+		courseService.addCourse(c);
+		return instructorCourseRepo.save(instructorCourse);
 	}
 
 	@Transactional
@@ -87,13 +102,15 @@ public class InstructorService {
 			if (c.getCourseId() == courseId)
 				return new ResponseEntity<>(c, HttpStatus.OK);
 		}
-		return new ResponseEntity<>(null, HttpStatus.OK);
+		return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
 	}
 
 	@Transactional
 	public ResponseEntity<String> deleteCourse(int instructorId, int courseId) {
+		
+		instructorCourseRepo.deleteById(new InstructorCourseId(instructorId, courseId));
+		courseRepo.deleteById(courseId);
 		lessonService.deleteAllLessonsByCourseId(courseId);
-		courseRepo.deleteByInstructorIdAndCourseId(instructorId, courseId);
 		return new ResponseEntity<>("Deleted Course Successfully", HttpStatus.ACCEPTED);
 	}
 
@@ -118,4 +135,12 @@ public class InstructorService {
 			throw new Exception("Could not store file " + fileName + ". Please try again!", ex);
 		}
 	}
+	
+	@Transactional
+	public ResponseEntity<Instructor> updateProfile(@RequestBody Instructor instructor) {
+		Optional<Instructor> instructorDetailks = instructorRepo.findById(instructor.getInstructorId());
+		instructorRepo.save(instructor);
+		return new ResponseEntity<>(instructorDetailks.get(), HttpStatus.CREATED);
+	}
+
 }

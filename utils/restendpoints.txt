@@ -3,6 +3,15 @@ student
 http://localhost:8100/student/1/uploadProfilePic
 http://localhost:8100/student/1/profile
 
+instructor
+http://localhost:8100/instructor/1/create-course
+http://localhost:8100/instructor/1/profile
+http://localhost:8100/instructor/1/uploadProfilePic
+
+lesson
+http://localhost:8100/instructor/1/course/4/lessons
+
+
 get
 
 student
@@ -11,23 +20,52 @@ http://localhost:8100/student/1/profile
 http://localhost:8100/student/2/course/2/certficate
 http://localhost:8100/student/2/courses/2/courseDetails
 http://localhost:8100/student/1/published-courses
-http://localhost:8100/student/1/course/4/enroll
-
 instructor
 http://localhost:8100/instructor/1/course/1/reports
+http://localhost:8100/instructors
+http://localhost:8100/instructor/1/courses
+http://localhost:8100/instructor/1/courses/1
+http://localhost:8100/instructor/1/profile
 
 feedbacks
 http://localhost:8100/feedbacks
 http://localhost:8100/feedback/course/2
 http://localhost:8100/student/1/course/1/feedback
 
+lesson
+http://localhost:8100/instructor/1/course/4/lessons
+
+payment
+http://localhost:8100/all-payments
+http://localhost:8100/instructor/2/course/2/reports
+
 
 delete
 
+feedback
 http://localhost:8100/student/1/course/1/feedback
+
+lessons
+http://localhost:8100/instructor/1/course/1/lessons
+
+instructor
+http://localhost:8100/instructor/1/courses/1
 
 
 post
 
+student
+
+http://localhost:8100/student/1/course/4/enroll
+
+instructor
+
+http://localhost:8100/instructor/1/create-course
+
 feedback
 http://localhost:8100/student/2/course/2/feedback
+
+authentication
+http://localhost:8080/authenticate
+http://localhost:8080/authorize
+

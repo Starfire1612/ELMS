@@ -1,6 +1,5 @@
 package com.elms.databaseservice.models;
 
-import java.sql.Blob;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -15,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
@@ -24,21 +24,19 @@ import org.springframework.data.annotation.CreatedDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "course")
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Course {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	//@Setter(value = AccessLevel.NONE)
 	@Column(name = "course_id", unique = true)
 	private int courseId;
 	@Column(name = "course_name", nullable = false, unique = true)
@@ -50,9 +48,11 @@ public class Course {
 	private byte[] courseImage;
 	@Column(name = "course_duration", nullable = true, columnDefinition = "default int 0")
 	private int totalDuration;
+	
 	// @Currency(value = "INR")
 	@Column(name = "course_price", nullable = true, columnDefinition = "default int 0.0")
 	private float coursePrice;
+	
 	// @DecimalMin(value = "10")
 	@Column(name = "course_discount_percent", nullable = true)
 	private float courseDiscount;
@@ -79,6 +79,11 @@ public class Course {
 	@JsonIgnore
 	@OneToMany(mappedBy = "courseId", cascade = CascadeType.ALL)
 	private Set<StudentCourse> studentCourseDetails = new HashSet<>();
+	
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "courseId", cascade = CascadeType.ALL,targetEntity = InstructorCourse.class)
+	private Set<InstructorCourse> instructorCourseDetails = new HashSet<>();
 //	
 //	@JsonIgnore
 //	@ManyToOne(targetEntity = Instructor.class, cascade = { CascadeType.PERSIST,
@@ -86,11 +91,15 @@ public class Course {
 //	private Set<Instructor> instructors = new HashSet<>();
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "courseId", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "courseId", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY,targetEntity = Lesson.class)
 	private List<Lesson> lessons;
 
 	@JsonIgnore
 	@OrderBy("lesson_id")
 	@OneToMany(mappedBy = "courseId", cascade = CascadeType.ALL)
 	private Set<StudentCourseLesson> studentCourseLessons = new HashSet<>();
+	
+	@JsonIgnore
+	@ManyToMany(cascade = CascadeType.ALL,targetEntity = InstructorCourse.class)
+	private Set<InstructorCourse> instructorCourses = new HashSet<>();
 }

@@ -1,9 +1,5 @@
 package com.elms.databaseservice.models;
 
-import java.math.BigInteger;
-import java.sql.Blob;
-import java.util.Set;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -14,8 +10,8 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,16 +28,19 @@ public class StudentCourseLesson {
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "stu_id")
+	//@Setter(value = AccessLevel.NONE)
 	private Student studentId;
 	@JsonIgnore
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "course_id")
+	//@Setter(value = AccessLevel.NONE)
 	private Course courseId;
 	@JsonIgnore
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "lesson_id")
+	//@Setter(value = AccessLevel.NONE)
 	private Lesson lessonId;
 
 }

@@ -9,14 +9,16 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.elms.authenticationservice.config.JwtTokenUtil;
 import com.elms.authenticationservice.models.JwtRequest;
 import com.elms.authenticationservice.models.JwtResponse;
+
+import io.jsonwebtoken.ExpiredJwtException;
 
 @RestController
 public class JwtAuthenticationController {
@@ -30,7 +32,7 @@ public class JwtAuthenticationController {
 //	@Autowired
 //	private JwtUserDetailsService userDetailsService;
 
-	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+	@PostMapping(value = "/authenticate")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
 		log.info(authenticationRequest.getPassword() + "\t" + authenticationRequest.getUseremail() + "\t"
@@ -45,6 +47,25 @@ public class JwtAuthenticationController {
 //		final UserDetails userDetails = userDetailsService.loadUserByUsername(usernameAndType);
 		final String token = jwtTokenUtil.generateToken(authenticationRequest.getUseremail(), authenticationRequest.getType());
 		return ResponseEntity.ok(new JwtResponse(token));
+	}
+	
+	@PostMapping(value = "/authorize")
+	public boolean authorizeTheRequest(
+			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader) {
+		System.out.println("Inside authorize =============="+requestTokenHeader);
+		String jwtToken = null;
+		String userName = null;
+		if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
+			jwtToken = requestTokenHeader.substring(7);
+			System.out.println("JWT Tocken ======================="+jwtToken);
+			try {
+				userName = jwtTokenUtil.getUsernameFromToken(jwtToken);
+			} catch (IllegalArgumentException | ExpiredJwtException e) {
+				return false;
+			}
+		}
+		return userName != null;
+
 	}
 
 	private Authentication authenticate(String username, String password) throws Exception {

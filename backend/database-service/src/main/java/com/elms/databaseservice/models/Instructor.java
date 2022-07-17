@@ -5,6 +5,7 @@ import java.sql.Blob;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -56,4 +57,9 @@ public class Instructor {
 //	joinColumns = @JoinColumn(name = "instructor_id", referencedColumnName = "instructor_id"),
 //	inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "course_id"))
 	private Set<Course> courses = new HashSet<>();
+	
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "instructorId", cascade = CascadeType.ALL,targetEntity = InstructorCourse.class)
+	private Set<InstructorCourse> instructorCourseDetails = new HashSet<>();
 }

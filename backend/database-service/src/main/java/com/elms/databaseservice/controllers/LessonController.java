@@ -25,6 +25,8 @@ public class LessonController {
 	public ResponseEntity<String> addAllLessonInCourse(@RequestBody List<Lesson> lessons){
 		return lessonService.addLessonsInCourse(lessons);
 	}
+	
+	//discuss with anurag about this lesson ui and functionality
 //	@PutMapping()
 //
 //	@DeleteMapping()
@@ -32,5 +34,10 @@ public class LessonController {
 	@GetMapping(path="/instructor/{id}/course/{cid}/lessons")
 	public  List<Lesson> getAllLessonByCourseId(@PathVariable("cid") int cid){
 		return lessonService.getAllLessonByCourseId(cid);
+	}
+	
+	@DeleteMapping(path="/instructor/{id}/course/{cid}/lessons")
+	public  ResponseEntity<String> deleteAllLessons(@PathVariable("cid") int cid){
+		return lessonService.deleteAllLessonsByCourseId(cid);
 	}
 }

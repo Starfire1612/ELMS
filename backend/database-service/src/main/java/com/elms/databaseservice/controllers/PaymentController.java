@@ -27,8 +27,4 @@ public class PaymentController {
 		return paymentService.getAllPayments();
 	}
 	
-//	@PostMapping()
-//	public ResponseEntity<String> startPaymentProcess(Payment payment) {
-//		return paymentService.createPayment(payment);
-//	}
 }

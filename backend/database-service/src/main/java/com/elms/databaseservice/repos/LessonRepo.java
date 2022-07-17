@@ -13,15 +13,16 @@ public interface LessonRepo extends JpaRepository<Lesson, Integer> {
 	@Query(nativeQuery = true,value = "select count(*) from lesson where course_id=:courseId")
 	public int countByCourseId(int courseId);
 
+	@Modifying
 	@Query(nativeQuery = true, value = "select * from lesson where course_id=:courseId ")
 	public List<Lesson> findAllByCourseId(int courseId);
 
 	@Query(nativeQuery = true, value = "select * from lesson where course_id=:courseId ")
 	public Lesson findByCourseId(int courseId);
 	
-	@Query(nativeQuery = true, value = "delete * from lesson where course_id=:courseId ")
-	public void deleteLessonsByCourseId(int courseId);
-	
 	@Query(nativeQuery = true,value = "select sum(lesson_duration) from lesson where course_id=:courseId")
 	public int courseDuration(int courseId);
+	@Modifying
+	@Query(nativeQuery = true,value = "delete from lesson where course_id=:course_id")
+	void deleteAllLessons(int course_id);
 }

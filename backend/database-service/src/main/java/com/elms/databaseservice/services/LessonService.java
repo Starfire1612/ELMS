@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import com.elms.databaseservice.repos.LessonRepo;
 @Service
 public class LessonService {
 
+	private Logger log=LoggerFactory.getLogger(LessonService.class);
 	@Autowired
 	LessonRepo lessonRepo;
 
@@ -48,7 +51,7 @@ public class LessonService {
 	@Transactional
 	public ResponseEntity<String> updateLessonByCourseIdAndLessonId(int courseId, int lessonId, Lesson lesson) {
 		LessonCourseId lessonCourseId = new LessonCourseId(courseId, lessonId);
-		Lesson existingLesson = lessonRepo.findById(courseId).get();
+		Lesson existingLesson = lessonRepo.findById(lessonId).get();
 		existingLesson.setLessonName(lesson.getLessonName());
 		existingLesson.setLessonLink(lesson.getLessonLink());
 		existingLesson.setLesonDuration(lesson.getLesonDuration());
@@ -56,16 +59,18 @@ public class LessonService {
 		return new ResponseEntity<>("Updated lesson to the course ", HttpStatus.CREATED);
 	}
 
-	@Transactional
-	public ResponseEntity<String> deleteLessonByCourseIdAnsLessonId(int courseId, int lessonId) {
-		LessonCourseId lessonCourseId = new LessonCourseId(courseId, lessonId);
-		lessonRepo.deleteById(lessonId);
-		return new ResponseEntity<>("Removed lesson from the course ", HttpStatus.CREATED);
-	}
-
+//	@Transactional
+//	public ResponseEntity<String> deleteLessonByCourseIdAnsLessonId(int courseId, int lessonId) {
+//		LessonCourseId lessonCourseId = new LessonCourseId(courseId, lessonId);
+//		lessonRepo.deleteById(lessonId);
+//		return new ResponseEntity<>("Removed lesson from the course ", HttpStatus.CREATED);
+//	}
+ 
 	@Transactional
 	public ResponseEntity<String> deleteAllLessonsByCourseId(int courseId) {
-		lessonRepo.deleteLessonsByCourseId(courseId);
+		log.info("in delet method");
+		//lessonRepo.de
+		lessonRepo.deleteAllLessons(courseId);
 		return new ResponseEntity<>("Lessons removal from course successfull!", HttpStatus.CREATED);
 	}
 

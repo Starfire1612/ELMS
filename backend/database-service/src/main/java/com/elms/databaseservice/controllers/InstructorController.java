@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,10 +17,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.elms.databaseservice.models.Course;
 import com.elms.databaseservice.models.Instructor;
+import com.elms.databaseservice.models.InstructorCourse;
 import com.elms.databaseservice.models.Lesson;
+import com.elms.databaseservice.models.Student;
 import com.elms.databaseservice.services.CourseService;
 import com.elms.databaseservice.services.InstructorService;
 
@@ -66,8 +70,8 @@ public class InstructorController {
 		course.setInstructorId(instructor);
 		course.setDatePublished(new Date());
 		course.setInstructorName(instructorName);
-		Integer responseCourseId = instructorService.addCourse(course);
-		if (responseCourseId > 0)
+		InstructorCourse responseCourseId = instructorService.addCourse(course);
+		if (responseCourseId!=null)
 			return new ResponseEntity<>(responseCourseId + "", HttpStatus.CREATED);
 		else
 			return new ResponseEntity<>("Error occured while creating the course", HttpStatus.CREATED);
@@ -85,11 +89,17 @@ public class InstructorController {
 	public ResponseEntity<String> deleteCourse(@PathVariable("id") int id, @PathVariable("courseId") int courseId) {
 		return instructorService.deleteCourse(id, courseId);
 	}
-//
-//	@PutMapping(path="/instructor/{id}/profile")
-//	public ResponseEntity<Instructor> updateInstructorProfile(@PathVariable("id") int id,@RequestBody Instructor instructor){
-//		log.info("update profile");
-//		return instructorService.updateProfile(id,instructor);
-//	}
+
+
+	@PutMapping(path = "/instructor/{id}/profile")
+	public ResponseEntity<Instructor> updateStudentProfil(@RequestBody Instructor i) {
+		return instructorService.updateProfile(i);
+	}
+
+	@PutMapping(path = "/instructor/{id}/uploadProfilePic", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+	public ResponseEntity<String> updateInstructorProfilPic(@PathVariable("id") int id, @RequestBody MultipartFile file)
+			throws Exception {
+		return instructorService.updateProfilePic(id, file);
+	}
 
 }

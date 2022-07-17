@@ -70,6 +70,9 @@ public class FeedbackService {
 	@Transactional
 	public ResponseEntity<String> deleteFeedback(int studentId, int courseId) {
 		Feedback feedback = repo.findByStudentCourseId(studentId, courseId);
+		if(feedback==null) {
+			return new ResponseEntity<>("No such feedback exits", HttpStatus.OK);
+		}
 		repo.delete(feedback);
 		return new ResponseEntity<>("Deleted Feedback Successfully", HttpStatus.ACCEPTED);
 	}
