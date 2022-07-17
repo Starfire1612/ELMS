@@ -1,5 +1,6 @@
 package com.elms.databaseservice.models;
 
+import java.math.BigInteger;
 import java.sql.Blob;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,11 +21,18 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "student")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Student {
 
 	@Id
@@ -37,10 +45,10 @@ public class Student {
 	private String studentEmail;
 	@Column(name = "stu_password", length = 255, nullable = false, unique = false)
 	private String studentPassword;
-//  @JsonIgnore
-//	@Lob
-//	@Column(name="stu_image")
-//	private Blob studentImage;
+	@JsonIgnore
+	@Lob
+	@Column(name = "stu_image")
+	private byte[] studentImage;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "studentId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

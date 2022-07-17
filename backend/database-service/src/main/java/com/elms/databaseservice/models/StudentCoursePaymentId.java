@@ -10,16 +10,18 @@ public class StudentCoursePaymentId implements Serializable {
 	 */
 	private static final long serialVersionUID = -1814474146706585185L;
 	private int paymentId;
-	private StudentCourseId studentCourseId;
+	private int studentId;
+	private int courseId;
+
+	public StudentCoursePaymentId(int paymentId, int studentId, int courseId) {
+		super();
+		this.paymentId = paymentId;
+		this.studentId = studentId;
+		this.courseId = courseId;
+	}
 
 	public StudentCoursePaymentId() {
 		super();
-	}
-
-	public StudentCoursePaymentId(int paymentId, StudentCourseId studentCourseId) {
-		super();
-		this.paymentId = paymentId;
-		this.studentCourseId = studentCourseId;
 	}
 
 	public int getPaymentId() {
@@ -30,12 +32,20 @@ public class StudentCoursePaymentId implements Serializable {
 		this.paymentId = paymentId;
 	}
 
-	public StudentCourseId getStudentCourseId() {
-		return studentCourseId;
+	public int getstudentId() {
+		return studentId;
 	}
 
-	public void setStudentCourseId(StudentCourseId studentCourseId) {
-		this.studentCourseId = studentCourseId;
+	public void setstudentId(int studentId) {
+		this.studentId = studentId;
+	}
+
+	public int getCourseId() {
+		return courseId;
+	}
+
+	public void setCourseId(int courseId) {
+		this.courseId = courseId;
 	}
 
 	public static long getSerialversionuid() {
@@ -44,7 +54,7 @@ public class StudentCoursePaymentId implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(paymentId, studentCourseId);
+		return Objects.hash(courseId, paymentId, studentId);
 	}
 
 	@Override
@@ -56,7 +66,7 @@ public class StudentCoursePaymentId implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		StudentCoursePaymentId other = (StudentCoursePaymentId) obj;
-		return paymentId == other.paymentId && Objects.equals(studentCourseId, other.studentCourseId);
+		return courseId == other.courseId && paymentId == other.paymentId && studentId == other.studentId;
 	}
 
 }

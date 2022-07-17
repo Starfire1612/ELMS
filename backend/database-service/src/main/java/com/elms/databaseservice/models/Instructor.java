@@ -18,11 +18,18 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "instructor")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Instructor {
 
 	@Id
@@ -37,16 +44,16 @@ public class Instructor {
 	private String instructorPassword;
 	@Lob
 	@Column(name = "instructor_image", columnDefinition = "blob default 'https://www.personality-insights.com/wp-content/uploads/2017/12/default-profile-pic-e1513291410505.jpg'")
-	private Blob instructorImage;
+	private byte[] instructorImage;
 	@Column(name = "bank_ifsc_code", columnDefinition = "varchar(20) default 'SBI0005845221'")
 	private String bankIfscCode;
 	@Column(name = "account_number")
 	private BigInteger accountNumber;
 	
 	@JsonIgnore
-	@OneToMany
-	@JoinTable(name = "instructor_course", 
-	joinColumns = @JoinColumn(name = "instructor_id", referencedColumnName = "instructor_id"),
-	inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "course_id"))
+	@OneToMany(mappedBy = "instructorId")
+//	@JoinTable(name = "instructor_course", 
+//	joinColumns = @JoinColumn(name = "instructor_id", referencedColumnName = "instructor_id"),
+//	inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "course_id"))
 	private Set<Course> courses = new HashSet<>();
 }

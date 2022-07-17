@@ -48,13 +48,13 @@ public class StudentCourse {
 	private Course courseId;
 	
 	
-	@Column(name = "course_status", columnDefinition = "varchar default 'pending'")
+	@Column(name = "course_status", columnDefinition = " default varchar(255) 'pending'",nullable = true)
 	private String courseStatus;
 	
-	@Column(name = "course_completion_percent", columnDefinition = "int default 0")
+	@Column(name = "course_completion_percent", columnDefinition = " default int 0")
 	private int courseCompletionPercent;
 	
-	@Column(name = "current_lesson_id", columnDefinition = "int default 1")
+	@Column(name = "current_lesson_id")
 	private int currentLessonId;
 
 

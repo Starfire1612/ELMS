@@ -7,7 +7,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import com.elms.databaseservice.models.Course;
 
-public interface CourseRepo extends PagingAndSortingRepository<Course, Long> , JpaRepository<Course, Long> {
+public interface CourseRepo extends PagingAndSortingRepository<Course, Integer> , JpaRepository<Course, Integer> {
 
 	List<Course> findByInstructorId(int instructorId);
 

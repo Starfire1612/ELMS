@@ -8,5 +8,4 @@ import com.elms.databaseservice.models.Instructor;
 
 public interface InstructorRepo extends JpaRepository<Instructor, Integer> {
 
-	
 }
