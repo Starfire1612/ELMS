@@ -20,6 +20,7 @@ http://localhost:8100/student/1/profile
 http://localhost:8100/student/2/course/2/certficate
 http://localhost:8100/student/2/courses/2/courseDetails
 http://localhost:8100/student/1/published-courses
+
 instructor
 http://localhost:8100/instructor/1/course/1/reports
 http://localhost:8100/instructors
