@@ -1,0 +1,32 @@
+.lesson {
+  padding: 0.8rem;
+  border: 1px solid black !important;
+}
+
+.btn-hover:hover {
+  transform: scale(1.025);
+}
+
+.bg-gray {
+  background-color: rgb(243, 242, 242)
+}
+
+.add-lesson-title:hover {
+  text-align: center;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.hr {
+  opacity: 1;
+}
+
+@media(max-width:750px) {
+  .temp {
+    display: none
+  }
+
+  .delete {
+    margin-left: 0 !important;
+  }
+}

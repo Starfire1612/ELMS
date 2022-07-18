@@ -23,11 +23,16 @@
 }
 
 .nav-link:hover {
-  transform: scale(1.02);
+  transform: scale(1.01);
+  background-color: rgb(249, 243, 255);
 }
 
 .active {
   border-left: 5px solid black;
+}
+
+.fixed-side-nav {
+  top: 5rem;
 }
 
 @media(max-width:900px) {

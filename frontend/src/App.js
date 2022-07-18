@@ -63,7 +63,7 @@ function App(props) {
           path="/home"
           element={<HomePage onLogOut={handleLogout} userData={userData} />}
         />
-        <Route path="/home/courses" element={<Courses />} />
+        {/* <Route path="/home/courses" element={<Courses />} /> */}
         <Route path="profile" element={<Profile />} />
         <Route
           path="/instructor"
@@ -73,7 +73,7 @@ function App(props) {
         />
         <Route path="/instructor/add-course" element={<AddCourse />} />
         <Route
-          path="/instructor/course/:courseid/manage"
+          path="/instructor/course/:courseId/manage"
           element={<ManageCourse />}
         >
           <Route path="course-structure" element={<CourseStructure />} />

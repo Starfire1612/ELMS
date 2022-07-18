@@ -7,6 +7,10 @@
   overflow-x: scroll;
 }
 
+.fw-500 {
+  font-weight: 500;
+}
+
 .layer {
 
   position: absolute;
@@ -14,7 +18,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.534);
+  background-color: rgba(0, 0, 0, 0.186);
   z-index: 2;
   display: grid;
   place-items: center;
