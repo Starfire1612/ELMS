@@ -12,7 +12,10 @@ import org.springframework.stereotype.Service;
 import com.elms.databaseservice.models.Payment;
 import com.elms.databaseservice.models.StudentCourse;
 import com.elms.databaseservice.models.StudentCourseId;
+import com.elms.databaseservice.models.StudentCourseLesson;
+import com.elms.databaseservice.models.StudentCourseLessonId;
 import com.elms.databaseservice.repos.PaymentRepo;
+import com.elms.databaseservice.repos.StudentCourseLessonRepo;
 import com.elms.databaseservice.repos.StudentCourseRepo;
 
 @Service
@@ -24,16 +27,22 @@ public class PaymentService {
 	@Autowired
 	StudentCourseRepo studentCourseRepo;
 
+	@Autowired
+	StudentCourseLessonRepo studentCourseLessonRepo;
+
 	@Transactional
 	public ResponseEntity<String> createPayment(Payment payment) {
 		paymentRepo.save(payment);
-		StudentCourse studentCourse=new StudentCourse();
+		StudentCourse studentCourse = new StudentCourse();
 		studentCourse.setCourseId(payment.getCourseId());
 		studentCourse.setStudentId(payment.getStudentId());
 		studentCourse.setCourseStatus("pending");
-		int lesson=payment.getCourseId().getLessons().get(0).getLessonId();
+		int lesson = payment.getCourseId().getLessons().get(0).getLessonId();
 		studentCourse.setCurrentLessonId(lesson);
 		studentCourseRepo.save(studentCourse);
+		StudentCourseLessonId studentCourseLessonId = new StudentCourseLessonId(payment.getStudentId().getStudentId(),
+				payment.getCourseId().getCourseId(), lesson);
+		studentCourseRepo.save(null);
 		return new ResponseEntity<String>("Payment done successfully!", HttpStatus.OK);
 	}
 
