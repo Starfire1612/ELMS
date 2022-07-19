@@ -32,32 +32,37 @@ public class PaymentService {
 
 	@Transactional
 	public ResponseEntity<String> createPayment(Payment payment) {
-		paymentRepo.save(payment);
-		StudentCourse studentCourse = new StudentCourse();
-		studentCourse.setCourseId(payment.getCourseId());
-		studentCourse.setStudentId(payment.getStudentId());
-		studentCourse.setCourseStatus("pending");
-		int lesson = payment.getCourseId().getLessons().get(0).getLessonId();
-		studentCourse.setCurrentLessonId(lesson);
-		studentCourseRepo.save(studentCourse);
-		StudentCourseLessonId studentCourseLessonId = new StudentCourseLessonId(payment.getStudentId().getStudentId(),
+		try {
+			paymentRepo.save(payment);
+			StudentCourse studentCourse = new StudentCourse();
+			studentCourse.setCourseId(payment.getCourseId());
+			studentCourse.setStudentId(payment.getStudentId());
+			studentCourse.setCourseStatus("pending");
+			int lesson = payment.getCourseId().getLessons().get(0).getLessonId();
+			studentCourse.setCurrentLessonId(lesson);
+			studentCourseRepo.save(studentCourse);
+			StudentCourseLessonId studentCourseLessonId = new StudentCourseLessonId(payment.getStudentId().getStudentId(),
 				payment.getCourseId().getCourseId(), lesson);
-		studentCourseRepo.save(null);
-		return new ResponseEntity<String>("Payment done successfully!", HttpStatus.OK);
+			studentCourseRepo.save(null);
+			return new ResponseEntity<String>("Payment done successfully!", HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<String>("Payment failed", HttpStatus.BAD_GATEWAY);
+		}
 	}
 
 	@Transactional
 	public ResponseEntity<Float> showTotalRevenueByCourseId(int courseId) {
 		try {
 			float totalCourseRevenue = paymentRepo.getTotalRevenueByCourseId(courseId);
-			return new ResponseEntity<Float>(totalCourseRevenue, HttpStatus.OK);
+			return new ResponseEntity<>(totalCourseRevenue, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<Float>(0.0f, HttpStatus.OK);
+			return new ResponseEntity<>(null, HttpStatus.OK);
 		}
 	}
 
 	@Transactional
-	public List<Payment> getAllPayments() {
-		return paymentRepo.findAll();
+	public ResponseEntity<List<Payment>> getAllPayments() {
+		return new ResponseEntity<>(paymentRepo.findAll(),HttpStatus.OK);
 	}
 }

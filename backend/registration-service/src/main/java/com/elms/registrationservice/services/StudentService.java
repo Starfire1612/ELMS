@@ -32,7 +32,7 @@ public class StudentService {
 		Optional<Student> existingStudent=Optional.ofNullable(repo.findByEmail(s.getEmail()));
 		if(!existingStudent.isEmpty())
 			return new ResponseEntity<>("Student with this email id already  exists",
-				HttpStatus.OK);
+				HttpStatus.NOT_IMPLEMENTED);
 		else {
 			repo.save(s);
 			return new ResponseEntity<>("Student registered successfully!",

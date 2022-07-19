@@ -11,6 +11,9 @@ http://localhost:8100/instructor/1/uploadProfilePic
 lesson
 http://localhost:8100/instructor/1/course/4/lessons
 
+StudentCourse
+http://localhost:8100/student/{id}/course/{courseId}/lesson/{lid}
+
 
 get
 
@@ -70,3 +73,5 @@ authentication
 http://localhost:8080/authenticate
 http://localhost:8080/authorize
 
+StudentCourseLesson
+http://localhost:8100/student/{id}/course/{courseId}/lesson/{lid}
