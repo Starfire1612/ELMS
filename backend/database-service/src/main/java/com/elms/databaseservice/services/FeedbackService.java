@@ -23,25 +23,25 @@ public class FeedbackService {
 	FeedbackRepo repo;
 
 	@Transactional
-	public List<Feedback> getAllFeedbacks() {
+	public ResponseEntity<List<Feedback>> getAllFeedbacks() {
 		logger.info("Inside Feedback Service");
-		return repo.findAll();
+		return new ResponseEntity<>(repo.findAll(),HttpStatus.OK);
 	}
 
 	@Transactional
 	public ResponseEntity<List<Feedback>> getAllFeedbacksByCourseId(int id) {
-		List<Feedback> sc = getAllFeedbacks();
+		List<Feedback> sc = getAllFeedbacks().getBody();
 		List<Feedback> fc = new ArrayList<>();
 		for (Feedback f : sc) {
 			if (f.getStudentCourseId().getCourseId().getCourseId() == id)
 				fc.add(f);
 		}
-		return new ResponseEntity<List<Feedback>>(fc, HttpStatus.CREATED);
+		return new ResponseEntity<List<Feedback>>(fc, HttpStatus.OK);
 	}
 
 	@Transactional
 	public ResponseEntity<String> storeFeedback(Feedback feedback) {
-		List<Feedback> sc = getAllFeedbacks();
+		List<Feedback> sc = getAllFeedbacks().getBody();
 		logger.info(feedback.toString());
 		Feedback feed = new Feedback();
 		for (Feedback f : sc) {
@@ -71,17 +71,17 @@ public class FeedbackService {
 	public ResponseEntity<String> deleteFeedback(int studentId, int courseId) {
 		Feedback feedback = repo.findByStudentCourseId(studentId, courseId);
 		if(feedback==null) {
-			return new ResponseEntity<>("No such feedback exits", HttpStatus.OK);
+			return new ResponseEntity<>("No such feedback exits", HttpStatus.NOT_FOUND);
 		}
 		repo.delete(feedback);
-		return new ResponseEntity<>("Deleted Feedback Successfully", HttpStatus.ACCEPTED);
+		return new ResponseEntity<>("Deleted Feedback Successfully", HttpStatus.OK);
 	}
 
 	@Transactional
 	public ResponseEntity<String> existFeedbackById(int studentId, int courseId) {
 		Feedback feedback = repo.findByStudentCourseId(studentId, courseId);
 		if (feedback == null)
-			return new ResponseEntity<>("No Feedback given", HttpStatus.OK);
+			return new ResponseEntity<>("No Feedback given", HttpStatus.NOT_FOUND);
 		else
 			return new ResponseEntity<>("Feedback Already present", HttpStatus.BAD_REQUEST);
 	}

@@ -37,9 +37,9 @@ public class CourseService {
 	}
 	
 	@Transactional
-	public List<Course> getAllCourses() {
+	public ResponseEntity<List<Course>> getAllCourses() {
 		// Course existingCourse=courseRepo.findById(course.getCourseId()).get();
-		return courseRepo.findAll();
+		return new ResponseEntity<>(courseRepo.findAll(),HttpStatus.OK);
 
 	}
 

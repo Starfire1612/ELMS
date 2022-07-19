@@ -68,6 +68,7 @@ public class StudentService {
 
 	@Transactional
 	public ResponseEntity<List<Course>> getEnrolledCourses(int studentId) {
+		try {
 		StudentCourse entry = new StudentCourse();
 		Optional<Student> studentDetails = studentRepo.findById(studentId);
 		List<Course> enrolledCourses = new ArrayList<>();
@@ -80,36 +81,56 @@ public class StudentService {
 		} else {
 			return new ResponseEntity<>(enrolledCourses, HttpStatus.OK);
 		}
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
 
 	}
 
 	@Transactional
 	public ResponseEntity<Student> getProfile(int studentId) {
 		Optional<Student> studentDetails = studentRepo.findById(studentId);
-		return new ResponseEntity<Student>(studentDetails.get(), HttpStatus.CREATED);
+		if(studentDetails.isPresent())
+			return new ResponseEntity<Student>(studentDetails.get(), HttpStatus.OK);
+		else
+			return new ResponseEntity<Student>(studentDetails.get(), HttpStatus.NOT_FOUND);
+		
 	}
 
 
 	@Transactional
 	public ResponseEntity<String> sendCertificate(int studentId, int courseId)
 			throws FileNotFoundException, DocumentException, MessagingException {
+		try {
 		StudentCourseId studentCourseId = new StudentCourseId(studentId, courseId);
 		StudentCourse studentCourseDetails = studentCourseRepo.findById(studentCourseId).get();
 		pdfGenerationService.createPdfViaIText(studentCourseDetails);
 		emailService.sendMailWithAttachment(studentCourseDetails);
 		return new ResponseEntity<>("Course Completion Certificate Mail Sent Successfully!", HttpStatus.CREATED);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("Course Completion Certificate Mail Cannot Be sent due to some error", HttpStatus.NOT_IMPLEMENTED);
+		}
 	}
 
 	@Transactional
 	public ResponseEntity<StudentCourse> getCourseDetails(int studentId, int courseId) {
+		try {
 		StudentCourse studentCourseDetails = studentCourseRepo.findById(new StudentCourseId(studentId, courseId)).get();
 //		studentCourseDetails.getCourseId().getLessons();
 		return new ResponseEntity<>(studentCourseDetails, HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		
+		}
 	}
 
 	@Transactional
 	public ResponseEntity<String> enrollStudentInCourse(int studentId, int courseId, String paymentStatus,
 			String paymentMessage, float amount) {
+		try {
 		Payment payment = new Payment();
 		payment.setPaymentAmount(amount);
 		payment.setPaymentStatus(paymentStatus);
@@ -119,13 +140,21 @@ public class StudentService {
 		payment.setStudentId(s);
 		payment.setCourseId(c);
 		return paymentService.createPayment(payment);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<String>("Cannot enroll student in this course due to some error",HttpStatus.NOT_IMPLEMENTED);
+		}
 	}
 
 	@Transactional
 	public ResponseEntity<Student> updateProfile(@RequestBody Student student) {
 		Optional<Student> studentDetails = studentRepo.findById(student.getStudentId());
-		studentRepo.save(student);
-		return new ResponseEntity<>(studentDetails.get(), HttpStatus.CREATED);
+		if(studentDetails.isPresent())
+		{
+			studentRepo.save(student);
+			return new ResponseEntity<>(studentDetails.get(), HttpStatus.CREATED);
+		}
+		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 	}
 
 	@Transactional
@@ -145,7 +174,7 @@ public class StudentService {
 			}
 			return new ResponseEntity<>("Only upload png images", HttpStatus.CREATED);
 		} catch (IOException ex) {
-			throw new Exception("Could not store file " + fileName + ". Please try again!", ex);
+			return new ResponseEntity<>("Could not store file " + fileName + ". Please try again!", HttpStatus.BAD_GATEWAY);
 		}
 
 	}

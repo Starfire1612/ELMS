@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -36,6 +37,7 @@ public class RegistrationController {
 
 	@PostMapping(path = "/register-user/type/{type}")
 	public ResponseEntity<String> registerUser(@PathVariable("type") String type, @RequestBody RegisterUser user) {
+		try {
 		logger.info(user.toString());
 		if (type.equalsIgnoreCase("student")) {
 			Student s = new Student();
@@ -49,6 +51,10 @@ public class RegistrationController {
 			i.setEmail(user.getUseremail());
 			i.setPassword(encoder.encode(user.getPassword()));
 			return service.registerInstructor(i);
+		}
+		}
+		catch (Exception e) {
+			return new ResponseEntity<String>("Registration Failed",HttpStatus.BAD_REQUEST);
 		}
 	}
 }

@@ -36,27 +36,44 @@ public class LessonService {
 	}
 
 	@Transactional
-	public List<Lesson> getAllLessonByCourseId(int courseId) {
-		return lessonRepo.findAllByCourseId(courseId);
-
+	public ResponseEntity<List<Lesson>> getAllLessonByCourseId(int courseId) {
+		try {
+			List<Lesson> lesson=lessonRepo.findAllByCourseId(courseId);
+			if(lesson==null)
+				return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(lesson,HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>(null,HttpStatus.NOT_ACCEPTABLE);
+		}
 	}
 
 	@Transactional
 	public ResponseEntity<String> addLessonsInCourse(List<Lesson> lessons) {
-		lessonRepo.saveAll(lessons);
+		try {
+			lessonRepo.saveAll(lessons);
 		// boolean areLessonAdded=lessonRepo.addLessonsByCourseId(0)
-		return new ResponseEntity<>("Added lessons to the course ", HttpStatus.CREATED);
+			return new ResponseEntity<>("Added lessons to the course ", HttpStatus.CREATED);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("Cannot add lesson in Course ", HttpStatus.NOT_IMPLEMENTED);
+		}
 	}
 
 	@Transactional
 	public ResponseEntity<String> updateLessonByCourseIdAndLessonId(int courseId, int lessonId, Lesson lesson) {
-		LessonCourseId lessonCourseId = new LessonCourseId(courseId, lessonId);
-		Lesson existingLesson = lessonRepo.findById(lessonId).get();
-		existingLesson.setLessonName(lesson.getLessonName());
-		existingLesson.setLessonLink(lesson.getLessonLink());
-		existingLesson.setLesonDuration(lesson.getLesonDuration());
-		lessonRepo.save(existingLesson);
-		return new ResponseEntity<>("Updated lesson to the course ", HttpStatus.CREATED);
+		try {
+			LessonCourseId lessonCourseId = new LessonCourseId(courseId, lessonId);
+			Lesson existingLesson = lessonRepo.findById(lessonId).get();
+			existingLesson.setLessonName(lesson.getLessonName());
+			existingLesson.setLessonLink(lesson.getLessonLink());
+			existingLesson.setLesonDuration(lesson.getLesonDuration());
+			lessonRepo.save(existingLesson);
+			return new ResponseEntity<>("Updated lesson to the course ", HttpStatus.CREATED);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("Cannot Update lesson to the course ", HttpStatus.NOT_MODIFIED);
+		}
 	}
 
 //	@Transactional
@@ -70,8 +87,14 @@ public class LessonService {
 	public ResponseEntity<String> deleteAllLessonsByCourseId(int courseId) {
 		log.info("in delet method");
 		//lessonRepo.de
+		try {
 		lessonRepo.deleteAllLessons(courseId);
 		return new ResponseEntity<>("Lessons removal from course successfull!", HttpStatus.CREATED);
+	
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("Cannot delete lessons from course", HttpStatus.NOT_IMPLEMENTED);
+		}
 	}
 
 }

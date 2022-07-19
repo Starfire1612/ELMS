@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.elms.registrationservice.models.Instructor;
 import com.elms.registrationservice.models.Student;
+import com.elms.registrationservice.repos.InstructorRepo;
+import com.elms.registrationservice.repos.StudentRepo;
 
 @Service
 public class RegisterService {
@@ -35,7 +37,7 @@ public class RegisterService {
 			studentRepo.save(s);
 			return new ResponseEntity<>("Registered Student "+s.getEmail()+" successfully!",  HttpStatus.CREATED);
 		} else {
-			return new ResponseEntity<>("User email already existed "+s.getEmail()+" successfully!",  HttpStatus.OK);
+			return new ResponseEntity<>("User email already existed "+s.getEmail()+" successfully!",  HttpStatus.NOT_IMPLEMENTED);
 		}
 	}
 	@Transactional
@@ -45,7 +47,7 @@ public class RegisterService {
 			instructorRepo.save(i);
 			return new ResponseEntity<>("Registered Instructor "+i.getEmail()+" successfully!",  HttpStatus.CREATED);
 		} else {
-			return new ResponseEntity<>("User email already existed "+i.getEmail()+" successfully!",  HttpStatus.OK);
+			return new ResponseEntity<>("User email already existed "+i.getEmail()+" successfully!",  HttpStatus.NOT_IMPLEMENTED);
 		}
 	}
 
