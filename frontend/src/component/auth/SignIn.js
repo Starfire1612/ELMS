@@ -46,7 +46,7 @@ function SignIn({ handleLogin }) {
 
   return (
     <div className="contain">
-      <AuthAnimation />
+      {/* <AuthAnimation /> */}
       <Form onSubmit={handleSubmit}>
         <div className="form p-3">
           <h3 className="mb-3"> Sign-In</h3>

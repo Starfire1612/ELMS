@@ -1,3 +1,7 @@
+:root {
+  --primary-color: purple;
+}
+
 .lesson {
   padding: 0.8rem;
   border: 1px solid black !important;
@@ -5,6 +9,7 @@
 
 .btn-hover:hover {
   transform: scale(1.025);
+  color: var(--primary-color);
 }
 
 .bg-gray {
@@ -15,10 +20,22 @@
   text-align: center;
   font-weight: 500;
   cursor: pointer;
+  color: var(--primary-color);
 }
 
 .hr {
   opacity: 1;
+}
+
+.lesson-button-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-basis: 20%;
+}
+
+.lesson-button-group>* {
+  margin-left: 0.8rem;
 }
 
 @media(max-width:750px) {
@@ -28,5 +45,45 @@
 
   .delete {
     margin-left: 0 !important;
+  }
+
+  .abc {
+    flex-direction: column;
+  }
+
+  .abc>div {
+    width: 100%
+  }
+
+  .lesson-button-group {
+    justify-content: space-between;
+  }
+
+  .group-1 {
+    margin-top: 0.8rem;
+  }
+}
+
+@media(max-width:350px) {
+  .lesson-button-group {
+    flex-direction: column;
+  }
+
+  .lesson-button-group>button:last-child {
+    margin-top: 0.8rem;
+  }
+}
+
+@media(max-width:450px) {
+  .abc-2 {
+    flex-direction: column;
+  }
+
+  .abc-2-p {
+    text-align: center !important;
+  }
+
+  .abc-2>div {
+    width: 100%
   }
 }

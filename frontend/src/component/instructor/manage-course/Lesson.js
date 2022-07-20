@@ -5,11 +5,17 @@ import "../../../styles/manage-course/Lesson.css";
 import { getVideoDuration } from "../../../utils/http-requests";
 import { convertDurationToMinutes } from "../../../utils/util";
 
-export default function ({ lesson, index, handleDelete, handleLessonUpdate }) {
+export default function ({
+  lesson,
+  index,
+  handleDeleteLesson,
+  handleUpdateLesson,
+}) {
   const [isActive, setIsActive] = useState(false);
   const [newLesson, setNewLesson] = useState(lesson);
   const [urlChanged, setUrlChanged] = useState(false);
   const [nameChanged, setNameChanged] = useState(false);
+  const [deleteMode, setDeleteMode] = useState(false);
 
   const handleChange = (event) => {
     const eventName = event.target.name;
@@ -40,15 +46,25 @@ export default function ({ lesson, index, handleDelete, handleLessonUpdate }) {
     }));
     setUrlChanged(false);
   };
-  const setStates = () => {
+  const cancelStates = () => {
     setIsActive(false);
     setNameChanged(false);
     setUrlChanged(false);
+    setDeleteMode(false);
     setNewLesson(lesson);
+  };
+  const setStates = (type) => {
+    if (type === "active") {
+      setIsActive(true);
+      setDeleteMode(false);
+    } else {
+      setIsActive(false);
+      setDeleteMode(true);
+    }
   };
 
   return (
-    <div className={"lesson mb-2 " + (isActive ? "bg-gray" : "")}>
+    <div className={"lesson mb-2 " + (isActive || deleteMode ? "bg-gray" : "")}>
       <div className="title d-flex">
         <div className="flex-grow-1">
           <span>{"Lecture " + index + ":"}</span>
@@ -59,7 +75,7 @@ export default function ({ lesson, index, handleDelete, handleLessonUpdate }) {
             className={
               "btn-hover border-0 bg-transparent " + (isActive ? "d-none" : "")
             }
-            onClick={() => setIsActive(true)}
+            onClick={() => setStates("active")}
           >
             <PencilFill />
             <span className="temp ms-2">Edit</span>
@@ -67,8 +83,11 @@ export default function ({ lesson, index, handleDelete, handleLessonUpdate }) {
         </div>
         <div className="ms-3 delete">
           <button
-            className="btn-hover border-0 bg-transparent"
-            onClick={() => handleDelete(lesson.lessonId)}
+            className={
+              "btn-hover border-0 bg-transparent " +
+              (deleteMode ? "d-none" : "")
+            }
+            onClick={() => setStates("delete")}
           >
             <Trash />
             <span className="temp ms-2"> Delete</span>
@@ -76,7 +95,7 @@ export default function ({ lesson, index, handleDelete, handleLessonUpdate }) {
         </div>
       </div>
       {isActive && (
-        <div className="border-top border-dark mt-3 edit-lesson">
+        <div className="border-top border-dark mt-3">
           <Form>
             <Form.Group className="mt-2 mb-3">
               <Form.Label className="mb-0">Lesson name</Form.Label>
@@ -88,10 +107,9 @@ export default function ({ lesson, index, handleDelete, handleLessonUpdate }) {
                 onChange={handleChange}
               />
             </Form.Group>
-            <Row className="align-items-center">
-              <Col xs={7} className=" flex-grow-1">
+            <div className="d-flex align-items-center abc ">
+              <div className="flex-grow-1">
                 <Form.Group>
-                  <Form.Label visuallyHidden>Video Url</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Enter YouTube video url"
@@ -100,24 +118,39 @@ export default function ({ lesson, index, handleDelete, handleLessonUpdate }) {
                     onChange={handleChange}
                   />
                 </Form.Group>
-              </Col>
-              <Col>
+              </div>
+              <div className="lesson-button-group group-1">
                 {urlChanged ? (
-                  <Button onClick={handleUrlCheck}> Check</Button>
+                  <Button onClick={handleUrlCheck}> Verify</Button>
                 ) : (
                   <Button
-                    onClick={() => handleLessonUpdate(newLesson)}
+                    onClick={() => handleUpdateLesson(newLesson)}
                     disabled={!nameChanged}
                   >
                     Update
                   </Button>
                 )}
-              </Col>
-              <Col>
-                <Button onClick={setStates}> Cancel</Button>
-              </Col>
-            </Row>
+
+                <Button onClick={cancelStates}> Cancel</Button>
+              </div>
+            </div>
           </Form>
+        </div>
+      )}
+      {deleteMode && (
+        <div className="border-top border-dark mt-3">
+          <div className="d-flex align-items-center mt-3 abc-2">
+            <div className="flex-grow-1">
+              <p className="text-end my-auto abc-2-p">Remove lesson</p>
+            </div>
+            <div className="lesson-button-group group-2">
+              <Button onClick={() => handleDeleteLesson(lesson.lessonId)}>
+                Yes
+              </Button>
+
+              <Button onClick={cancelStates}>Cancel</Button>
+            </div>
+          </div>
         </div>
       )}
     </div>

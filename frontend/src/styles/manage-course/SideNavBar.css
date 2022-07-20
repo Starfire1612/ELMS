@@ -1,3 +1,7 @@
+:root {
+  --primary-color: purple;
+}
+
 .ol {
   list-style-type: none;
   margin-bottom: 1.6rem;
@@ -28,16 +32,41 @@
 }
 
 .active {
-  border-left: 5px solid black;
+  border-left: 5px solid;
+  border-left-color: var(--primary-color);
+  font-weight: 600;
 }
 
 .fixed-side-nav {
   top: 5rem;
 }
 
+.delete-course-btn {
+  width: 100%;
+}
+
+.side-nav-btn {
+  display: none;
+  color: var(--primary-color)
+}
+
 @media(max-width:900px) {
   .flx {
     display: flex;
-    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 1.6rem;
+    border-top: 1px solid rgb(170, 170, 170);
+    padding-top: 0.8rem;
+  }
+
+  .side-nav-btn {
+    display: block;
+    margin-bottom: 0.8rem;
+  }
+
+  .delete-course {
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 }
