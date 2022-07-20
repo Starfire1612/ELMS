@@ -66,9 +66,9 @@ export default function CourseDescription() {
   return (
     <div>
       <div className="sub-header">
-        <h2 className="sub-header-heading">Course Description</h2>
+        <h2 className="heading">Course Description</h2>
       </div>
-      <div className="manage-course-description">
+      <div className="manage-course manage-course-description">
         <div className={isLoading ? "layer" : ""}>
           {isLoading && (
             <div className="abc">
@@ -141,13 +141,9 @@ export default function CourseDescription() {
             </Row>
             <div className="d-flex justify-content-between align-items-center">
               {editMode ? (
-                <Button variant="primary" onClick={handleCancel}>
-                  Cancel
-                </Button>
+                <Button onClick={handleCancel}>Cancel</Button>
               ) : (
-                <Button variant="primary" onClick={handleModify}>
-                  Modify
-                </Button>
+                <Button onClick={handleModify}>Modify</Button>
               )}
 
               <Button

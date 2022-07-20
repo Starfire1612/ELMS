@@ -1,3 +1,7 @@
+:root {
+  --primary-color: purple;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -9,12 +13,32 @@
 .form-control {
   border-radius: 0;
   border: 1px solid black;
-  /* border-bottom: 1px solid black; */
+}
+
+.form-control:focus {
+  box-shadow: 0 0 1px 0.1px purple;
+  border: 1px solid;
+  border-color: var(--primary-color);
 }
 
 .form-select {
   border-radius: 0;
   border: 1px solid black;
+}
+
+.form-select:focus {
+  box-shadow: 0 0 1px 0.1px purple;
+  border: 1px solid;
+  border-color: var(--primary-color);
+}
+
+.form-select-bg {
+  background-color: red;
+}
+
+option {
+  background: white !important;
+  color: black !important
 }
 
 label {

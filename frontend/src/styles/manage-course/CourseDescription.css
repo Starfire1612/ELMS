@@ -1,11 +1,8 @@
-.manage-course-description {
-  padding: 4.8rem;
+.manage-course-description-body {
   position: relative;
-  /* display: grid;
-  place-items: center; */
-  /* background-color: grey; */
   overflow-x: scroll;
 }
+
 
 .fw-500 {
   font-weight: 500;

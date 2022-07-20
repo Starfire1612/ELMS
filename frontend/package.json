@@ -15,6 +15,7 @@
     "react-bootstrap": "^2.4.0",
     "react-bootstrap-icons": "^1.8.4",
     "react-dom": "^18.2.0",
+    "react-responsive": "^9.0.0-beta.10",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "react-spinners": "^0.13.3"
@@ -49,12 +50,12 @@
     "crypto-browserify": "^3.12.0",
     "https-browserify": "^1.0.0",
     "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
     "process": "^0.11.10",
     "react-app-rewired": "^2.2.1",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "url": "^0.11.0",
-    "web-vitals": "^2.1.4",
-    "path-browserify": "^1.0.1"
+    "web-vitals": "^2.1.4"
   }
 }
