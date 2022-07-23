@@ -5,7 +5,7 @@ import { List } from "react-bootstrap-icons";
 import { useMediaQuery } from "react-responsive";
 import "../../../styles/manage-course/SideNavBar.css";
 
-export default function SideNavBar({ courseid, handleDeleteCourse }) {
+export default function SideNavBar({ courseid, manageDeleteCourse }) {
   const route = `../instructor/course/${courseid}/manage`;
   const [isActive, setIsActive] = useState(false);
   const shouldSideNavRender = useMediaQuery({
@@ -93,7 +93,10 @@ export default function SideNavBar({ courseid, handleDeleteCourse }) {
         </ul>
       )}
       <div className="delete-course">
-        <Button className="delete-course-btn" onClick={handleDeleteCourse}>
+        <Button
+          className="delete-course-btn type-1"
+          onClick={manageDeleteCourse}
+        >
           Delete Course
         </Button>
       </div>

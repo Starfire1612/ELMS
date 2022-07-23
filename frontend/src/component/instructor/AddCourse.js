@@ -45,7 +45,7 @@ function AddCourse() {
         </Form.Group>
         <div className="d-flex align-items-center justify-content-between">
           {isCourseNameUnique ? (
-            <Link to={`../../instructor/course/${courseId}/manage`}>
+            <Link to={`../../instructor/course/${courseId}/manage/description`}>
               <Button variant="primary" type="submit">
                 Confirm
               </Button>

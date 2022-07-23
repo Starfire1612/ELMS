@@ -76,7 +76,7 @@ function App(props) {
           path="/instructor/course/:courseId/manage"
           element={<ManageCourse />}
         >
-          <Route path="course-structure" element={<CourseStructure />} />
+          <Route index path="course-structure" element={<CourseStructure />} />
           <Route path="setup" element={<Setup />} />
           <Route path="film" element={<Film />} />
           <Route path="description" element={<CourseDescription />} />

@@ -95,14 +95,16 @@ function SignIn({ handleLogin }) {
             </FloatingLabel>
           </div>
           <Link to="/forgot-password">
-            <div className="fs-6 mb-3 forgot-password">Forgot Password</div>
+            <div className="fs-6 mb-3 forgot-password text-dark">
+              Forgot Password
+            </div>
           </Link>
 
-          <Button variant="danger" type="submit" disabled={isLoading}>
+          <Button className="type-1" type="submit" disabled={isLoading}>
             Sign In
           </Button>
           <Link to="/sign-up">
-            <Button className="signup-button" variant="danger">
+            <Button className="signup-button type-1" variant="danger">
               Sign Up
             </Button>
           </Link>
