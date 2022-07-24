@@ -21,6 +21,9 @@ export default function AddLesson({ handleUploadLessons }) {
       ...prevLesson,
       [event.target.name]: event.target.value,
     }));
+    if (event.target.name === "lessonLink") {
+      setUrlValidated(false);
+    }
   };
   const handleUrlCheck = async () => {
     setIsloading(true);

@@ -1,7 +1,47 @@
-.navbar{
+.navbar {
   border-bottom: 1px solid rgb(201, 200, 200);
   box-shadow: 0 0 5px 0 grey;
 }
-.dropdown-menu{
-  /* right: 100px !important; */
+
+.dropdown-menu {
+  border-radius: 0;
+  border: 1px solid gray;
+  background-color: rgb(31, 31, 31);
+}
+
+.dropdown-menu-link:hover {
+  background-color: rgb(71, 71, 71);
+  cursor: pointer;
+}
+
+.navbar-user-name>a:hover {
+  background-color: inherit !important;
+}
+
+@media(max-width:450px) {
+  .instructor-navbar {
+    flex-direction: column;
+  }
+
+  .instructor-navbar-right-div {
+    margin-top: 0.8rem;
+    padding-top: 0.4rem;
+    border-top: 1px solid rgb(91, 91, 91);
+  }
+}
+
+@media(max-width:325px) {
+  .instructor-navbar-right-div {
+    flex-direction: column;
+  }
+
+  .navbar-user-name {
+    margin-top: 0.8rem;
+  }
+}
+
+@media(max-width:200px) {
+  .instructor-navbar {
+    overflow-x: scroll;
+  }
 }
