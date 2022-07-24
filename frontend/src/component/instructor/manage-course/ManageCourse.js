@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import "../../../styles/manage-course/ManageCourse.css";
 import ManageCourseNavbar from "./ManageCourseNavbar";
 import SideNavBar from "./SideNavBar";
+import DeleteCourse from "./DeleteCourse";
 
 export default function ManageCourse() {
   const params = useParams();
@@ -16,6 +17,7 @@ export default function ManageCourse() {
     courseDuration: "0",
   });
   const [shouldStateChange, setShouldStateChange] = useState(true);
+  const [showDelete, setShowDelete] = useState(false);
 
   useEffect(() => {
     fetchCourseDuration();
@@ -27,10 +29,13 @@ export default function ManageCourse() {
   const fetchCourseDuration = async () => {
     //fetchcourse name and course duration, and set details in course state
   };
-  const handleDeleteCourse = (courseId) => {
+  const handleDeleteCourse = () => {
     console.log("deleted");
     //delete the course using courseId
     // navigate("/instructor");
+  };
+  const manageDeleteCourse = () => {
+    setShowDelete(true);
   };
 
   return (
@@ -41,8 +46,15 @@ export default function ManageCourse() {
       />
       <div className="manage-course-container">
         <div className="side-navbar">
-          <SideNavBar handleDeleteCourse={handleDeleteCourse} />
+          <SideNavBar manageDeleteCourse={manageDeleteCourse} />
         </div>
+        {showDelete && (
+          <DeleteCourse
+            handleDeleteCourse={handleDeleteCourse}
+            showDelete={showDelete}
+            setShowDelete={setShowDelete}
+          />
+        )}
         <div className="content">
           <Outlet />
         </div>

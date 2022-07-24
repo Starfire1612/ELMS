@@ -1,21 +1,23 @@
 import React, { useState } from "react";
 import { PencilFill, Trash } from "react-bootstrap-icons";
-import { Form, Row, Col, Button } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import "../../../styles/manage-course/Lesson.css";
 import { getVideoDuration } from "../../../utils/http-requests";
 import { convertDurationToMinutes } from "../../../utils/util";
+import { ClipLoader } from "react-spinners";
 
-export default function ({
+export default function Lesson({
   lesson,
-  index,
   handleDeleteLesson,
   handleUpdateLesson,
+  state,
 }) {
   const [isActive, setIsActive] = useState(false);
   const [newLesson, setNewLesson] = useState(lesson);
   const [urlChanged, setUrlChanged] = useState(false);
   const [nameChanged, setNameChanged] = useState(false);
   const [deleteMode, setDeleteMode] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (event) => {
     const eventName = event.target.name;
@@ -30,6 +32,7 @@ export default function ({
     }
   };
   const handleUrlCheck = async () => {
+    setIsLoading(true);
     const url = newLesson?.lessonLink;
     if (!url) return;
     console.log(newLesson);
@@ -45,6 +48,7 @@ export default function ({
       ["lessonDuration"]: durationInMinutes,
     }));
     setUrlChanged(false);
+    setIsLoading(false);
   };
   const cancelStates = () => {
     setIsActive(false);
@@ -67,7 +71,9 @@ export default function ({
     <div className={"lesson mb-2 " + (isActive || deleteMode ? "bg-gray" : "")}>
       <div className="title d-flex">
         <div className="flex-grow-1">
-          <span>{"Lecture " + index + ":"}</span>
+          <span>
+            {"Lecture " + (lesson.lessonId ? lesson.lessonId : "") + ":"}
+          </span>
           <span className="ms-3">{lesson.lessonName}</span>
         </div>
         <div className="edit">
@@ -105,6 +111,7 @@ export default function ({
                 defaultValue={lesson.lessonName}
                 name="lessonName"
                 onChange={handleChange}
+                disabled={isLoading}
               />
             </Form.Group>
             <div className="d-flex align-items-center abc ">
@@ -116,22 +123,34 @@ export default function ({
                     defaultValue={lesson.lessonLink}
                     name="lessonLink"
                     onChange={handleChange}
+                    disabled={isLoading}
                   />
                 </Form.Group>
               </div>
               <div className="lesson-button-group group-1">
                 {urlChanged ? (
-                  <Button onClick={handleUrlCheck}> Verify</Button>
+                  <Button className="type-3" onClick={handleUrlCheck}>
+                    Verify
+                    {isLoading && (
+                      <ClipLoader className="ms-1" size="15px" color="white" />
+                    )}
+                  </Button>
                 ) : (
                   <Button
+                    className="type-3"
                     onClick={() => handleUpdateLesson(newLesson)}
-                    disabled={!nameChanged}
+                    disabled={!nameChanged || isLoading}
                   >
                     Update
+                    {isLoading && (
+                      <ClipLoader className="ms-1" size="15px" color="white" />
+                    )}
                   </Button>
                 )}
 
-                <Button onClick={cancelStates}> Cancel</Button>
+                <Button className="type-3" onClick={cancelStates}>
+                  Cancel
+                </Button>
               </div>
             </div>
           </Form>
@@ -144,11 +163,23 @@ export default function ({
               <p className="text-end my-auto abc-2-p">Remove lesson</p>
             </div>
             <div className="lesson-button-group group-2">
-              <Button onClick={() => handleDeleteLesson(lesson.lessonId)}>
+              <Button
+                className="type-3"
+                onClick={() => {
+                  cancelStates();
+                  handleDeleteLesson(
+                    state === "show-lesson"
+                      ? lesson.lessonId
+                      : lesson.lessonName
+                  );
+                }}
+              >
                 Yes
               </Button>
 
-              <Button onClick={cancelStates}>Cancel</Button>
+              <Button className="type-3" onClick={cancelStates}>
+                Cancel
+              </Button>
             </div>
           </div>
         </div>

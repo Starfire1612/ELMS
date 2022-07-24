@@ -21,11 +21,21 @@
   place-items: center;
 }
 
-.course-image {
+.img-container {
+  width: 60%;
   display: block;
-  height: 20rem;
-  width: 30rem;
-  object-fit: cover;
   margin-left: auto;
   margin-right: auto;
+}
+
+.course-image {
+  height: auto;
+  width: 100%;
+  object-fit: cover;
+}
+
+@media(max-width:700px) {
+  .img-container {
+    width: 100% !important;
+  }
 }

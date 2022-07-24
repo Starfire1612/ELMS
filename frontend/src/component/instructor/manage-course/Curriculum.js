@@ -10,6 +10,8 @@ export default function Curriculum() {
   const params = useParams();
   const courseId = params.courseId;
 
+  const [lessons, setLessons] = useState(dummyLessons);
+
   const fetchLessons = async () => {
     //fetch lessons using courseId and set lessons state
   };
@@ -17,14 +19,14 @@ export default function Curriculum() {
     fetchLessons();
   }, []);
 
-  const handleDeleteLesson = (lessonId) => {
+  const handleDeleteLesson = async (lessonId) => {
     //delete request to delete lesson using lessonId and call fetchlessons to get updated lesson list
     console.log("deleted");
   };
-  const handleUpdateLesson = (lesson) => {
+  const handleUpdateLesson = async (lesson) => {
     //update request to update lesson and call fetchLessons to get updated lesson list
   };
-  const handleUploadLesson = (lesson) => {
+  const handleUploadLessons = async (lessons) => {
     //post request to upload lesson and call fetchlessons to get updated lesson list.
   };
 
@@ -35,15 +37,15 @@ export default function Curriculum() {
       </div>
       <div className="manage-course">
         <div className="mb-5">
-          <AddLesson handleUploadLesson={handleUploadLesson} />
+          <AddLesson handleUploadLessons={handleUploadLessons} />
         </div>
         <hr className="mb-5 hr" />
 
-        {dummyLessons.map((lesson) => (
+        {lessons.map((lesson) => (
           <Lesson
             key={lesson.lessonId}
             lesson={lesson}
-            index={lesson.lessonId}
+            state={"show-lesson"}
             handleUpdateLesson={handleUpdateLesson}
             handleDeleteLesson={handleDeleteLesson}
           />

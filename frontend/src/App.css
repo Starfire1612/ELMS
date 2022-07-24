@@ -1,5 +1,8 @@
 :root {
   --primary-color: purple;
+  --primary-color-hover: rgb(100, 0, 100);
+  --button-type-3-bg: rgb(35, 35, 35);
+  --button-type-3-bg-hover: black;
 }
 
 * {
@@ -10,35 +13,42 @@
   background-color: rgb(255, 255, 255);
 }
 
+.dark-gray {
+  color: rgb(90, 90, 90);
+}
+
 .form-control {
   border-radius: 0;
-  border: 1px solid black;
+  border: 1px solid rgb(106, 106, 106);
+}
+
+.form-control:hover {
+  border-color: black;
 }
 
 .form-control:focus {
-  box-shadow: 0 0 1px 0.1px purple;
-  border: 1px solid;
+  box-shadow: none;
+  border: 1px solid purple;
   border-color: var(--primary-color);
 }
 
 .form-select {
   border-radius: 0;
-  border: 1px solid black;
+  border: 1px solid rgb(106, 106, 106);
 }
 
 .form-select:focus {
-  box-shadow: 0 0 1px 0.1px purple;
-  border: 1px solid;
+  box-shadow: none;
+  border: 1px solid purple;
   border-color: var(--primary-color);
+}
+
+.form-select:hover {
+  border-color: black;
 }
 
 .form-select-bg {
   background-color: red;
-}
-
-option {
-  background: white !important;
-  color: black !important
 }
 
 label {
@@ -54,6 +64,66 @@ button {
   border-radius: 0% !important;
 }
 
+button:focus {
+  box-shadow: none;
+  background-color: var(--button-type-3-bg);
+  border-color: var(--button-type-3-bg)
+}
+
+
 .black {
   color: black;
+}
+
+.type-1 {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.type-1:hover {
+  background-color: var(--primary-color-hover);
+  border-color: var(--primary-color-hover);
+}
+
+.type-1:disabled {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.type-3 {
+  background-color: var(--button-type-3-bg);
+  color: white;
+  border-color: var(--button-type-3-bg) !important;
+}
+
+.type-3:hover {
+  background-color: var(--button-type-3-bg-hover);
+  border-color: var(--button-type-3-bg-hover);
+}
+
+.type-3:disabled {
+  background-color: var(--button-type-3-bg-hover);
+  border-color: var(--button-type-3-bg-hover);
+}
+
+@supports selector(:focus-visible) {
+  .type-3:focus {
+    /* Remove the focus indicator on mouse-focus for browsers
+       that do support :focus-visible */
+    background: var(--button-type-3-bg);
+    border: var(--button-type-3-bg);
+    box-shadow: none;
+  }
+
+  .type-1:focus {
+    box-shadow: none;
+    border: var(--primary-color);
+    background-color: var(--primary-color);
+  }
+
+  .btn-close:focus {
+    background-color: inherit;
+    box-shadow: none;
+  }
 }
