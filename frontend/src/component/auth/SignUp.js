@@ -3,7 +3,6 @@ import { Button, FloatingLabel, Form } from "react-bootstrap";
 import axios from "axios";
 import "../../styles/Register.css";
 import { BASE_URL, LOADING_COLOR } from "../../utils/constants.js";
-import AuthAnimation from "../Animations/AuthAnimation";
 import { requestOtp, verifyOtp } from "../../utils/util";
 import { HashLoader } from "react-spinners";
 import { Link } from "react-router-dom";
@@ -52,7 +51,6 @@ function SignUp() {
 
   return (
     <div className="contain">
-      {/* <AuthAnimation /> */}
       <Form onSubmit={handleSubmit}>
         <div className="form p-3">
           <h3 className="mb-3 "> Sign-Up</h3>

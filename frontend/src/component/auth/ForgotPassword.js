@@ -4,7 +4,6 @@ import { Button, FloatingLabel, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "../../styles/Register.css";
 import bcryptjs from "bcryptjs";
-import AuthAnimation from "../Animations/AuthAnimation";
 import { HashLoader } from "react-spinners";
 import { LOADING_COLOR } from "../../utils/constants";
 import { fetchOtp } from "../../utils/http-requests";
@@ -113,7 +112,6 @@ function ForgotPassword() {
 
   return (
     <div className="contain">
-      {/* <AuthAnimation /> */}
       <Form onSubmit={handleSubmit}>
         <div className="form p-3">
           <h3 className="mb-3"> Forgot Password</h3>

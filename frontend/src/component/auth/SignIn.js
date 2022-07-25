@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { HashLoader } from "react-spinners";
 import "../../styles/Register.css";
 import { LOADING_COLOR } from "../../utils/constants";
-import AuthAnimation from "../Animations/AuthAnimation";
 
 function SignIn({ handleLogin }) {
   const [user, setUser] = useState({});
@@ -46,7 +45,6 @@ function SignIn({ handleLogin }) {
 
   return (
     <div className="contain">
-      {/* <AuthAnimation /> */}
       <Form onSubmit={handleSubmit}>
         <div className="form p-3">
           <h3 className="mb-3"> Sign-In</h3>
