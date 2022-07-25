@@ -1,12 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import InstructorNavbar from "./InstructorNavbar";
 
-function InstructorDashboard() {
+function InstructorDashboard({ handleLogout, userData }) {
   return (
     <div>
-      <Link to="/instructor/add-course">
+      <InstructorNavbar handleLogout={handleLogout} userData={userData} />
+      {/* <Link to="/instructor/add-course">
         <button>add course</button>
-      </Link>
+      </Link> */}
     </div>
   );
 }
