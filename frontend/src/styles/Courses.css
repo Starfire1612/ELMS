@@ -1,19 +1,22 @@
-.courses{
-  display:flex;
+.courses {
+  display: flex;
   flex-wrap: wrap;
-  gap:20px;
+  gap: 20px;
   justify-content: center;
 
 }
-img{
-  height: 150px;
-  width:150px;
+
+.img {
+  width: 100%;
+  object-fit: cover;
 }
-.card{
+
+.card {
   box-shadow: 2px 2px 5px 0 grey;
   border-radius: 0%;
 }
-.card:hover{
+
+.card:hover {
   transform: scale(1.015);
   box-shadow: 0 0 20px 0 grey;
 }
