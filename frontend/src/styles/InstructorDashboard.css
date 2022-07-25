@@ -1,0 +1,49 @@
+.instructor-dashboard {
+  padding: 1.6rem 1.6rem 4.8rem 1.6rem;
+}
+
+.instructor-search-course {
+  max-width: 500px;
+}
+
+.search-course-wrapper {
+  display: flex;
+}
+
+.search-course-inner {
+  display: flex;
+  gap: 3.2rem;
+  flex-grow: 1;
+}
+
+.filter::after {
+  margin-left: 5px;
+  display: inline-block;
+  content: "";
+  vertical-align: middle;
+  border-top: 0.3em solid;
+  border-left: 0.3em solid transparent;
+  border-right: 0.3em solid transparent;
+}
+
+@media(max-width:750px) {
+  .instructor-dashboard {
+    padding: 0.8rem;
+    padding-bottom: 3.2rem;
+  }
+
+  .instructor-dashboard-heading,
+  .search-course-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .new-course-button-1 {
+    display: block !important;
+  }
+
+  .new-course-button-2 {
+    display: none;
+  }
+}
