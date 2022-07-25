@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Entity
@@ -27,6 +29,7 @@ public class Student {
 	private String email;
 	@Column(name = "stu_password", length = 50, nullable = false, unique = false)
 	private String password;
+	@JsonIgnore
 	@Column(name="stu_image",columnDefinition = "blob default 'https://www.personality-insights.com/wp-content/uploads/2017/12/default-profile-pic-e1513291410505.jpg'")
 	private Blob image;
 

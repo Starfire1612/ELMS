@@ -1,0 +1,12 @@
+swagger
+eureka client 
+zipkin
+sleuth
+docker
+aws 
+  1.bean stalk
+  2.ci/cd
+test cases
+layout + rest api integration
+last minute enhancements
+kt sessions

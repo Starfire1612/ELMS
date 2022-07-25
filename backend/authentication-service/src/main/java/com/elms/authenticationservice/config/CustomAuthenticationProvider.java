@@ -34,7 +34,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		String usermail = authentication.getName().split(":")[0];
 		String userType = authentication.getName().split(":")[1];
 
-		log.info(usermail + ":" + userType + ": " + authentication.getCredentials().toString());
+		log.info("Calling from custom auth provider: "+usermail  + ":" + userType + ": " + authentication.getCredentials().toString());
 		if (userType.equalsIgnoreCase("student")) {
 			log.info("Student service class");
 			Student user= authDatabaseService.findStudentByEmail(usermail);
