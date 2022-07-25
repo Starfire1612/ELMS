@@ -4,9 +4,9 @@ import axios from "axios";
 import "../../styles/Register.css";
 import { BASE_URL, LOADING_COLOR } from "../../utils/constants.js";
 import AuthAnimation from "../Animations/AuthAnimation";
-// import { fetchOtp } from "../../utils/http-requests";
 import { requestOtp, verifyOtp } from "../../utils/util";
 import { HashLoader } from "react-spinners";
+import { Link } from "react-router-dom";
 
 function SignUp() {
   const [user, setUser] = useState({});
@@ -52,10 +52,10 @@ function SignUp() {
 
   return (
     <div className="contain">
-      <AuthAnimation />
+      {/* <AuthAnimation /> */}
       <Form onSubmit={handleSubmit}>
         <div className="form p-3">
-          <h3 className="mb-3"> Sign-Up</h3>
+          <h3 className="mb-3 "> Sign-Up</h3>
           <div className="input-fields">
             {isLoading && (
               <div className="loading">
@@ -155,9 +155,13 @@ function SignUp() {
               ""
             )}
           </div>
+          <Link to="/">
+            <div className="fs-6 mb-3 forgot-password text-dark d-inline-block ">
+              Back To Login
+            </div>
+          </Link>
           <Button
-            className="btn-center"
-            variant="danger"
+            className="btn-center type-1"
             type="submit"
             disabled={isLoading}
           >

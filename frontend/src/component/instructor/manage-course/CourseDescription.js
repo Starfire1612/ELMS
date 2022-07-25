@@ -11,7 +11,8 @@ import { HashLoader } from "react-spinners";
 import { LOADING_COLOR } from "../../../utils/constants";
 
 export default function CourseDescription() {
-  const courseid = useParams();
+  const params = useParams();
+  const courseId = params.courseId;
   const [course, setCourse] = useState(dummyCourse);
   const [tempCourse, setTempCourse] = useState(course);
   const [editMode, setEditMode] = useState(false);
@@ -39,10 +40,17 @@ export default function CourseDescription() {
     }));
   };
   const handleImageChange = (event) => {
-    setTempCourse((prevCourse) => ({
-      ...prevCourse,
-      [event.target.name]: event.target.files[0],
-    }));
+    const image = event.target.files[0];
+    //convert image to base64 url
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      console.log(reader.result);
+      setTempCourse((prevCourse) => ({
+        ...prevCourse,
+        [event.target.name]: reader.result,
+      }));
+    };
+    reader.readAsDataURL(image);
   };
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -53,6 +61,7 @@ export default function CourseDescription() {
       setIsLoading(false);
     }
   };
+
   const handleCancel = () => {
     console.log(tempCourse);
     setTempCourse(course);
@@ -66,9 +75,9 @@ export default function CourseDescription() {
   return (
     <div>
       <div className="sub-header">
-        <h2 className="sub-header-heading">Course Description</h2>
+        <h2 className="heading">Course Description</h2>
       </div>
-      <div className="manage-course-description">
+      <div className="manage-course manage-course-description">
         <div className={isLoading ? "layer" : ""}>
           {isLoading && (
             <div className="abc">
@@ -78,11 +87,13 @@ export default function CourseDescription() {
         </div>
         <div>
           <Form onSubmit={handleSubmit}>
-            <img
-              className="course-image mb-3"
-              src={"data:image/jpg;base64, " + tempCourse.image}
-              alt=""
-            />
+            <div className="img-container">
+              <img
+                className="course-image mb-3"
+                src={tempCourse.courseImage}
+                alt=""
+              />
+            </div>
             <Form.Group className="mb-3">
               <Form.Label className="fw-500">Course image</Form.Label>
               <p className={!editMode ? "d-none" : "text-sm black mb-0"}>
@@ -94,19 +105,26 @@ export default function CourseDescription() {
                 accept="image/*"
                 onChange={handleImageChange}
                 disabled={!editMode || isLoading}
+                name="courseImage"
               />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label className="fw-500">Course Name</Form.Label>
-              <Form.Control type="text" value={tempCourse.name} readOnly />
+              <Form.Control
+                type="text"
+                value={tempCourse.courseName}
+                name="courseName"
+                readOnly
+              />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label className="fw-500">Course Description</Form.Label>
               <textarea
                 className="form-control"
+                name="courseDescription"
                 rows={"5"}
                 placeholder="Insert your course description"
-                defaultValue={course.description}
+                defaultValue={tempCourse.courseDescription}
                 onChange={handleChange}
                 disabled={!editMode || isLoading}
                 required
@@ -118,8 +136,9 @@ export default function CourseDescription() {
                 <Form.Label className="fw-500">Price</Form.Label>
                 <Form.Control
                   type="number"
+                  name="coursePrice"
                   placeholder="Enter price"
-                  defaultValue={course.price}
+                  defaultValue={tempCourse.coursePrice}
                   min={"0"}
                   onChange={handleChange}
                   disabled={!editMode || isLoading}
@@ -130,9 +149,10 @@ export default function CourseDescription() {
                 <Form.Label className="fw-500">Discount percentage</Form.Label>
                 <Form.Control
                   type="number"
+                  name="courseDiscountPercent"
                   placeholder="Enter discount in percentage"
                   min={"0"}
-                  defaultValue={course.discountpercent}
+                  defaultValue={tempCourse.courseDiscountPercent}
                   onChange={handleChange}
                   disabled={!editMode || isLoading}
                   required
@@ -141,17 +161,17 @@ export default function CourseDescription() {
             </Row>
             <div className="d-flex justify-content-between align-items-center">
               {editMode ? (
-                <Button variant="primary" onClick={handleCancel}>
+                <Button className="type-3" onClick={handleCancel}>
                   Cancel
                 </Button>
               ) : (
-                <Button variant="primary" onClick={handleModify}>
+                <Button className="type-3" onClick={handleModify}>
                   Modify
                 </Button>
               )}
 
               <Button
-                variant="primary"
+                className="type-3"
                 type="submit"
                 style={!editMode ? { display: "none" } : {}}
               >

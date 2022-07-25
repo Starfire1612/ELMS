@@ -98,8 +98,7 @@ function ForgotPassword() {
   const button = (handleFunction, value) => {
     return (
       <Button
-        className="btn-center mb-3"
-        variant="danger"
+        className="btn-center mb-3 type-1"
         onClick={handleFunction}
         type="submit"
         disabled={isLoading}
@@ -114,7 +113,7 @@ function ForgotPassword() {
 
   return (
     <div className="contain">
-      <AuthAnimation />
+      {/* <AuthAnimation /> */}
       <Form onSubmit={handleSubmit}>
         <div className="form p-3">
           <h3 className="mb-3"> Forgot Password</h3>
@@ -219,7 +218,7 @@ function ForgotPassword() {
           )}
 
           <Link to="/">
-            <div className="fs-6 mb-3 forgot-password text-center">
+            <div className="fs-6 mb-3 forgot-password text-center text-dark ">
               Back To Login
             </div>
           </Link>

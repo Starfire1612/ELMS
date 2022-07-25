@@ -1,4 +1,4 @@
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import "./App.css";
 import ForgotPassword from "./component/auth/ForgotPassword";
 import SignIn from "./component/auth/SignIn";
@@ -21,6 +21,7 @@ function App(props) {
   const [loggedInStatus, setLoggedInStatus] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState({});
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     setIsLoading(true);
@@ -41,6 +42,7 @@ function App(props) {
     localStorage.removeItem("userType");
     setUserData({});
     setLoggedInStatus(false);
+    navigate("/");
   };
 
   return (
@@ -51,7 +53,11 @@ function App(props) {
           exact
           element={
             loggedInStatus ? (
-              <Navigate replace to="/home" />
+              localStorage.getItem("userType") === "student" ? (
+                <Navigate replace to="/home" />
+              ) : (
+                <Navigate replace to="/instructor" />
+              )
             ) : (
               <SignIn handleLogin={handleLogin} />
             )
@@ -61,14 +67,17 @@ function App(props) {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route
           path="/home"
-          element={<HomePage onLogOut={handleLogout} userData={userData} />}
+          element={<HomePage handleLogout={handleLogout} userData={userData} />}
         />
         {/* <Route path="/home/courses" element={<Courses />} /> */}
         <Route path="profile" element={<Profile />} />
         <Route
           path="/instructor"
           element={
-            <InstructorDashboard onLogOut={handleLogout} userData={userData} />
+            <InstructorDashboard
+              handleLogout={handleLogout}
+              userData={userData}
+            />
           }
         />
         <Route path="/instructor/add-course" element={<AddCourse />} />
@@ -76,7 +85,7 @@ function App(props) {
           path="/instructor/course/:courseId/manage"
           element={<ManageCourse />}
         >
-          <Route path="course-structure" element={<CourseStructure />} />
+          <Route index path="course-structure" element={<CourseStructure />} />
           <Route path="setup" element={<Setup />} />
           <Route path="film" element={<Film />} />
           <Route path="description" element={<CourseDescription />} />

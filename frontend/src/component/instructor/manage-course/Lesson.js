@@ -1,15 +1,23 @@
 import React, { useState } from "react";
 import { PencilFill, Trash } from "react-bootstrap-icons";
-import { Form, Row, Col, Button } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import "../../../styles/manage-course/Lesson.css";
 import { getVideoDuration } from "../../../utils/http-requests";
 import { convertDurationToMinutes } from "../../../utils/util";
+import { ClipLoader } from "react-spinners";
 
-export default function ({ lesson, index, handleDelete, handleLessonUpdate }) {
+export default function Lesson({
+  lesson,
+  handleDeleteLesson,
+  handleUpdateLesson,
+  state,
+}) {
   const [isActive, setIsActive] = useState(false);
   const [newLesson, setNewLesson] = useState(lesson);
   const [urlChanged, setUrlChanged] = useState(false);
   const [nameChanged, setNameChanged] = useState(false);
+  const [deleteMode, setDeleteMode] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (event) => {
     const eventName = event.target.name;
@@ -24,6 +32,7 @@ export default function ({ lesson, index, handleDelete, handleLessonUpdate }) {
     }
   };
   const handleUrlCheck = async () => {
+    setIsLoading(true);
     const url = newLesson?.lessonLink;
     if (!url) return;
     console.log(newLesson);
@@ -39,19 +48,32 @@ export default function ({ lesson, index, handleDelete, handleLessonUpdate }) {
       ["lessonDuration"]: durationInMinutes,
     }));
     setUrlChanged(false);
+    setIsLoading(false);
   };
-  const setStates = () => {
+  const cancelStates = () => {
     setIsActive(false);
     setNameChanged(false);
     setUrlChanged(false);
+    setDeleteMode(false);
     setNewLesson(lesson);
+  };
+  const setStates = (type) => {
+    if (type === "active") {
+      setIsActive(true);
+      setDeleteMode(false);
+    } else {
+      setIsActive(false);
+      setDeleteMode(true);
+    }
   };
 
   return (
-    <div className={"lesson mb-2 " + (isActive ? "bg-gray" : "")}>
+    <div className={"lesson mb-2 " + (isActive || deleteMode ? "bg-gray" : "")}>
       <div className="title d-flex">
         <div className="flex-grow-1">
-          <span>{"Lecture " + index + ":"}</span>
+          <span>
+            {"Lecture " + (lesson.lessonId ? lesson.lessonId : "") + ":"}
+          </span>
           <span className="ms-3">{lesson.lessonName}</span>
         </div>
         <div className="edit">
@@ -59,7 +81,7 @@ export default function ({ lesson, index, handleDelete, handleLessonUpdate }) {
             className={
               "btn-hover border-0 bg-transparent " + (isActive ? "d-none" : "")
             }
-            onClick={() => setIsActive(true)}
+            onClick={() => setStates("active")}
           >
             <PencilFill />
             <span className="temp ms-2">Edit</span>
@@ -67,8 +89,11 @@ export default function ({ lesson, index, handleDelete, handleLessonUpdate }) {
         </div>
         <div className="ms-3 delete">
           <button
-            className="btn-hover border-0 bg-transparent"
-            onClick={() => handleDelete(lesson.lessonId)}
+            className={
+              "btn-hover border-0 bg-transparent " +
+              (deleteMode ? "d-none" : "")
+            }
+            onClick={() => setStates("delete")}
           >
             <Trash />
             <span className="temp ms-2"> Delete</span>
@@ -76,7 +101,7 @@ export default function ({ lesson, index, handleDelete, handleLessonUpdate }) {
         </div>
       </div>
       {isActive && (
-        <div className="border-top border-dark mt-3 edit-lesson">
+        <div className="border-top border-dark mt-3">
           <Form>
             <Form.Group className="mt-2 mb-3">
               <Form.Label className="mb-0">Lesson name</Form.Label>
@@ -86,38 +111,77 @@ export default function ({ lesson, index, handleDelete, handleLessonUpdate }) {
                 defaultValue={lesson.lessonName}
                 name="lessonName"
                 onChange={handleChange}
+                disabled={isLoading}
               />
             </Form.Group>
-            <Row className="align-items-center">
-              <Col xs={7} className=" flex-grow-1">
+            <div className="d-flex align-items-center abc ">
+              <div className="flex-grow-1">
                 <Form.Group>
-                  <Form.Label visuallyHidden>Video Url</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Enter YouTube video url"
                     defaultValue={lesson.lessonLink}
                     name="lessonLink"
                     onChange={handleChange}
+                    disabled={isLoading}
                   />
                 </Form.Group>
-              </Col>
-              <Col>
+              </div>
+              <div className="lesson-button-group group-1">
                 {urlChanged ? (
-                  <Button onClick={handleUrlCheck}> Check</Button>
+                  <Button className="type-3" onClick={handleUrlCheck}>
+                    Verify
+                    {isLoading && (
+                      <ClipLoader className="ms-1" size="15px" color="white" />
+                    )}
+                  </Button>
                 ) : (
                   <Button
-                    onClick={() => handleLessonUpdate(newLesson)}
-                    disabled={!nameChanged}
+                    className="type-3"
+                    onClick={() => handleUpdateLesson(newLesson)}
+                    disabled={!nameChanged || isLoading}
                   >
                     Update
+                    {isLoading && (
+                      <ClipLoader className="ms-1" size="15px" color="white" />
+                    )}
                   </Button>
                 )}
-              </Col>
-              <Col>
-                <Button onClick={setStates}> Cancel</Button>
-              </Col>
-            </Row>
+
+                <Button className="type-3" onClick={cancelStates}>
+                  Cancel
+                </Button>
+              </div>
+            </div>
           </Form>
+        </div>
+      )}
+      {deleteMode && (
+        <div className="border-top border-dark mt-3">
+          <div className="d-flex align-items-center mt-3 abc-2">
+            <div className="flex-grow-1">
+              <p className="text-end my-auto abc-2-p">Remove lesson</p>
+            </div>
+            <div className="lesson-button-group group-2">
+              <Button
+                className="type-3"
+                onClick={() => {
+                  cancelStates();
+                  handleDeleteLesson(
+                    state === "show-lesson"
+                      ? lesson.lessonId
+                      : lesson.lessonName
+                  );
+                }}
+              >
+                Yes
+              </Button>
+
+              <Button className="type-3" onClick={cancelStates}>
+                Cancel
+              </Button>
+            </div>
+          </div>
         </div>
       )}
     </div>
