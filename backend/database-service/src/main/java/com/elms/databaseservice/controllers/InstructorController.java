@@ -43,19 +43,19 @@ public class InstructorController {
 	@Autowired
 	AuthClient client;
 	
-	@GetMapping(path = "/instructors")
-	public ResponseEntity<List<Instructor>> getAllInstructors(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader) {
-		log.info("get all instructor");
-		if(client.authorizeTheRequest(requestTokenHeader))
-			return instructorService.getAllInstructors();
-		else
-			return new ResponseEntity<List<Instructor>>(Collections.EMPTY_LIST,HttpStatus.BAD_REQUEST);
-	}
+//	@GetMapping(path = "/instructors")
+//	public ResponseEntity<List<Instructor>> getAllInstructors(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader) {
+//		log.info("get all instructor");
+//		if(client.authorizeTheRequest(requestTokenHeader,id))
+//			return instructorService.getAllInstructors();
+//		else
+//			return new ResponseEntity<List<Instructor>>(Collections.EMPTY_LIST,HttpStatus.BAD_REQUEST);
+//	}
 
 	@GetMapping(path = "/instructor/{id}/courses")
 	public ResponseEntity<Set<Course>> getAllCreatedCourses(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id) {
 		log.info("inside course fetch");
-		if(client.authorizeTheRequest(requestTokenHeader))
+		if(client.authorizeTheRequest(requestTokenHeader,id))
 			return instructorService.getCreatedCourses(id);
 		else
 			return new ResponseEntity<>(Collections.EMPTY_SET,HttpStatus.BAD_REQUEST);
@@ -65,7 +65,7 @@ public class InstructorController {
 	public ResponseEntity<Course> getCreatedCourseDetails(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,
 			@PathVariable("courseId") int courseId) {
 		log.info("inside course details fetch");
-		if(client.authorizeTheRequest(requestTokenHeader))	
+		if(client.authorizeTheRequest(requestTokenHeader,id))	
 			return instructorService.getCreatedCourseDetails(id, courseId);
 		else
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
@@ -74,7 +74,7 @@ public class InstructorController {
 	@GetMapping(path = "/instructor/{id}/profile")
 	public ResponseEntity<Instructor> viewInstructorProfile(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id) {
 		log.info("inside instructor profile");
-		if(client.authorizeTheRequest(requestTokenHeader))	
+		if(client.authorizeTheRequest(requestTokenHeader,id))	
 			return instructorService.viewProfile(id);
 		else
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
@@ -82,7 +82,7 @@ public class InstructorController {
 
 	@PostMapping(path = "/instructor/{id}/create-course")
 	public ResponseEntity<String> createCourse(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id, @RequestBody Course course) {
-		if(client.authorizeTheRequest(requestTokenHeader))	
+		if(client.authorizeTheRequest(requestTokenHeader,id))	
 		{
 			Instructor instructor = instructorService.getInstructorById(id);
 			String instructorName = instructor.getInstructorName();
@@ -104,7 +104,7 @@ public class InstructorController {
 	@PutMapping(path = "/instructor/{id}/create-course")
 	public ResponseEntity<String> publishCourse(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id, @RequestBody Course course,
 			@RequestBody List<Lesson> lessons) {
-		if(client.authorizeTheRequest(requestTokenHeader))
+		if(client.authorizeTheRequest(requestTokenHeader,id))
 			return instructorService.publishCourse(course, lessons);
 		else
 			return new ResponseEntity<>("User authentication failed",HttpStatus.BAD_REQUEST);
@@ -113,7 +113,7 @@ public class InstructorController {
 
 	@DeleteMapping(path = "/instructor/{id}/courses/{courseId}")
 	public ResponseEntity<String> deleteCourse(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id, @PathVariable("courseId") int courseId) {
-		if(client.authorizeTheRequest(requestTokenHeader))	
+		if(client.authorizeTheRequest(requestTokenHeader,id))	
 			return instructorService.deleteCourse(id, courseId);
 		else
 			return new ResponseEntity<>("User authentication failed",HttpStatus.BAD_REQUEST);
@@ -121,9 +121,9 @@ public class InstructorController {
 
 
 	@PutMapping(path = "/instructor/{id}/profile")
-	public ResponseEntity<Instructor> updateInstructorProfil(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@RequestBody Instructor i) {
+	public ResponseEntity<Instructor> updateInstructorProfil(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable int id,@RequestBody Instructor i) {
 		
-		if(client.authorizeTheRequest(requestTokenHeader))	
+		if(client.authorizeTheRequest(requestTokenHeader,id))	
 			return instructorService.updateProfile(i);
 		else
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
@@ -132,7 +132,7 @@ public class InstructorController {
 	@PutMapping(path = "/instructor/{id}/uploadProfilePic", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<String> updateInstructorProfilPic(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id, @RequestBody MultipartFile file)
 			throws Exception {
-		if(client.authorizeTheRequest(requestTokenHeader))	
+		if(client.authorizeTheRequest(requestTokenHeader,id))	
 			return instructorService.updateProfilePic(id, file);
 		else
 			return new ResponseEntity<>("User authentication failed",HttpStatus.BAD_REQUEST);

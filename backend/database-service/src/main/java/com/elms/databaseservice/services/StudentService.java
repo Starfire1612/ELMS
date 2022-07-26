@@ -11,6 +11,8 @@ import java.util.Set;
 import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,7 @@ import com.itextpdf.text.DocumentException;
 @Service
 public class StudentService {
 
+	private Logger log =LoggerFactory.getLogger(StudentService.class);
 	@Autowired
 	StudentRepo studentRepo;
 
@@ -70,10 +73,10 @@ public class StudentService {
 	public ResponseEntity<List<Course>> getEnrolledCourses(int studentId) {
 		try {
 		StudentCourse entry = new StudentCourse();
-		Optional<Student> studentDetails = studentRepo.findById(studentId);
+		Student studentDetails = studentRepo.findById(studentId);
 		List<Course> enrolledCourses = new ArrayList<>();
-		if (studentDetails.isPresent()) {
-			Set<StudentCourse> studentCourseDetails = studentDetails.get().getStudentCoursesDetails();
+		if (studentDetails!=null) {
+			Set<StudentCourse> studentCourseDetails = studentDetails.getStudentCoursesDetails();
 			for (StudentCourse sc : studentCourseDetails) {
 				enrolledCourses.add(sc.getCourseId());
 			}
@@ -90,11 +93,11 @@ public class StudentService {
 
 	@Transactional
 	public ResponseEntity<Student> getProfile(int studentId) {
-		Optional<Student> studentDetails = studentRepo.findById(studentId);
-		if(studentDetails.isPresent())
-			return new ResponseEntity<Student>(studentDetails.get(), HttpStatus.OK);
+		Student studentDetails = studentRepo.findById(studentId);
+		if(studentDetails!=null)
+			return new ResponseEntity<Student>(studentDetails, HttpStatus.OK);
 		else
-			return new ResponseEntity<Student>(studentDetails.get(), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Student>(studentDetails, HttpStatus.NOT_FOUND);
 		
 	}
 
@@ -131,14 +134,20 @@ public class StudentService {
 	public ResponseEntity<String> enrollStudentInCourse(int studentId, int courseId, String paymentStatus,
 			String paymentMessage, float amount) {
 		try {
+		
+
 		Payment payment = new Payment();
 		payment.setPaymentAmount(amount);
 		payment.setPaymentStatus(paymentStatus);
 		payment.setPaymentResponseMessage(paymentMessage);
-		Student s = studentRepo.findByStudentId(studentId);
-		Course c = courseRepo.findById(courseId).get();
+		log.info("Course Id"+courseId);
+		Student s = studentRepo.findById(studentId);
+		log.info(s.getStudentEmail());
+		Course c = courseRepo.findById(courseId);
 		payment.setStudentId(s);
 		payment.setCourseId(c);
+		log.info("Payment enroll process"+s.getStudentEmail());
+		log.info("Payment enroll process"+c.getCourseName());
 		return paymentService.createPayment(payment);
 		}
 		catch (Exception e) {
@@ -148,11 +157,11 @@ public class StudentService {
 
 	@Transactional
 	public ResponseEntity<Student> updateProfile(@RequestBody Student student) {
-		Optional<Student> studentDetails = studentRepo.findById(student.getStudentId());
-		if(studentDetails.isPresent())
+		Student studentDetails = studentRepo.findById(student.getStudentId());
+		if(studentDetails!=null)
 		{
 			studentRepo.save(student);
-			return new ResponseEntity<>(studentDetails.get(), HttpStatus.CREATED);
+			return new ResponseEntity<>(studentDetails, HttpStatus.CREATED);
 		}
 		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 	}
@@ -166,7 +175,7 @@ public class StudentService {
 		try {
 			// Check if the file's name contains invalid characters
 			if (file.getContentType().contains("/png")) {
-				Student studentDetails = studentRepo.findById(id).get();
+				Student studentDetails = studentRepo.findById(id);
 				studentDetails.setStudentImage(file.getBytes());
 				studentRepo.save(studentDetails);
 				return new ResponseEntity<>(file.getName() + " " + file.getResource().getFilename(),

@@ -10,3 +10,25 @@ test cases
 layout + rest api integration
 last minute enhancements
 kt sessions
+
+
+anurag
+api-server
+
+shubham + radhika
+email-service
+backend
+swagger
+(eureka-client,zipkin-sleuth in app)(friday)
+
+radhika
+docker-images
+
+shubham 
+docker-compose
+loggers (api-gateway + authentication)
+
+prateek
+test-cases(friday)
+
+

@@ -31,4 +31,8 @@ public class StudentCourseService {
 		
 	}
 	
+//	@Transactional
+//	public StudentCourse getStudentCourseById(int sid,int cid) {
+//			return studentCourseRepo.findByStudentIdAndCourseId(sid, cid);
+//	}
 }

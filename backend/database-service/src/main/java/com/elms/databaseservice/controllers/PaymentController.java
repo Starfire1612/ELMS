@@ -24,8 +24,8 @@ public class PaymentController {
 
 	
 	@GetMapping("/instructor/{id}/course/{courseId}/reports")
-	public ResponseEntity<Float> getCourseMonthlyReveneue(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("courseId") int courseId) {
-		if(client.authorizeTheRequest(requestTokenHeader))
+	public ResponseEntity<Float> getCourseMonthlyReveneue(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,@PathVariable("courseId") int courseId) {
+		if(client.authorizeTheRequest(requestTokenHeader,id))
 			return paymentService.showTotalRevenueByCourseId(courseId);
 		else
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
@@ -33,11 +33,11 @@ public class PaymentController {
 	}
 	
 	@GetMapping("/all-payments")
-	public ResponseEntity<List<Payment>> getAllPayments(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader) {
-		if(client.authorizeTheRequest(requestTokenHeader))
+	public ResponseEntity<List<Payment>> getAllPayments() {
+//		if(client.authorizeTheRequest(requestTokenHeader))
 			return paymentService.getAllPayments();
-		else
-			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+//		else
+//			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
 
 	}
 	

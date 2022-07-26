@@ -27,7 +27,7 @@ public class StudentCourseLessonController {
 	@PostMapping("/student/{id}/course/{courseId}/lesson/{lid}")
 	public ResponseEntity<String> addLessonIdinStudentCourse(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int sid,@PathVariable("courseId") int cid,@PathVariable("lid") int lid)
 	{
-		if(client.authorizeTheRequest(requestTokenHeader))
+		if(client.authorizeTheRequest(requestTokenHeader,sid))
 			return studentcourselesson.addLessonInStudentCourseLesson(sid,cid,lid);
 		else
 			return new ResponseEntity<>("User authentication failed",HttpStatus.BAD_REQUEST);	

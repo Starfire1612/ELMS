@@ -22,10 +22,10 @@ public class StudentCourseController {
 	
 	
 	@PutMapping("/student/{id}/course/{courseId}/lesson/{lid}")
-	public ResponseEntity<String> addLessonIdinStudentCourse(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int sid,@PathVariable("courseId") int cid,@PathVariable("lid") int lid)
+	public ResponseEntity<String> addLessonIdinStudentCourse(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,@PathVariable("courseId") int cid,@PathVariable("lid") int lid)
 	{
-		if(client.authorizeTheRequest(requestTokenHeader))
-			return studentCourseService.addLessonIdInStudentCourse(sid,cid,lid);
+		if(client.authorizeTheRequest(requestTokenHeader,id))
+			return studentCourseService.addLessonIdInStudentCourse(id,cid,lid);
 		else
 			return new ResponseEntity<>("User authentication failed",HttpStatus.BAD_REQUEST);
 
