@@ -6,9 +6,10 @@ import "../styles/Courses.css";
 import { thumbnailUrl } from "./dummydata/dummyCourses";
 import CoursesLoadingAnimation from "./Animations/CoursesLoadingAnimation";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Courses({ courses }) {
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
 
   const discountedPrice = (course) =>
     calculateDiscountedPrice(course.price, course.discountpercent);
@@ -25,20 +26,31 @@ function Courses({ courses }) {
 
   const card = (course) => {
     return (
-      <Card className="card" id={course.id} style={{ width: "18rem" }}>
-        <Card.Img variant="top" src={thumbnailUrl} />
+      <Card className="card" key={course.id} style={{ width: "18rem" }}>
+        <Card.Img className="img" variant="top" src={thumbnailUrl} />
         <Card.Body>
           <Card.Title className="mb-0">{course.name}</Card.Title>
           <p className="fs-6 fw-light">{course.instructorname}</p>
           <Card.Text>{transformDescription(course.description)}</Card.Text>
           <div className="d-flex justify-content-between align-items-center">
-            <Button variant="success">
-              <span className="fs-5">
-                {"$" + discountedPrice(course) + " "}
-              </span>
-              <span className="fs-6 fst-italic text-decoration-line-through">
-                {"$" + course.price}
-              </span>
+            <Button className="type-1">
+              {localStorage.getItem("userType") === "instructor" ? (
+                <Link
+                  className="text-white"
+                  to={`../instructor/course/${course.id}/manage/description`}
+                >
+                  Edit course
+                </Link>
+              ) : (
+                <>
+                  <span className="fs-5">
+                    {"$" + discountedPrice(course) + " "}
+                  </span>
+                  <span className="fs-6 fst-italic text-decoration-line-through">
+                    {"$" + course.price}
+                  </span>
+                </>
+              )}
             </Button>
             <div className={`ratings fst-italic ${getColor(course.ratings)}`}>
               <span className="fs-5 fw-semibold">{course.ratings}</span>
@@ -52,13 +64,15 @@ function Courses({ courses }) {
 
   return (
     <div>
-      <h1 className="text-center"> Courses </h1>
-      <div className="courses p-3">
-        {isLoading ? (
+      {/* <h1 className="text-center"> Courses </h1> */}
+      <div className="courses p-3 mt-5">
+        {
+          /* {isLoading ? (
           <CoursesLoadingAnimation />
-        ) : (
+        ) : ( */
           courses?.map((course) => card(course))
-        )}
+          /* )} */
+        }
       </div>
     </div>
   );

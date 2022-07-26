@@ -1,0 +1,63 @@
+.static-components-wrapper {
+  display: flex;
+  gap: 1.6rem;
+  flex-wrap: wrap;
+}
+
+.static-component {
+  border: 1px solid rgb(207, 207, 207);
+  box-shadow: 1px 1px 4px 0 gray;
+  flex-basis: 100%;
+  padding: 1.6rem 4.8rem 2.4rem;
+}
+
+.static-component-image-wrapper {
+  width: 100%;
+  text-align: center;
+}
+
+.static-component-image {
+  height: auto;
+  object-fit: cover;
+}
+
+.static-component-body {
+  padding-top: 2.4rem
+}
+
+.static-component-1 {
+  flex-basis: 100%;
+}
+
+@media(max-width:500px) {
+  .static-component-image {
+    width: 100%;
+  }
+}
+
+@media(min-width:900px) {
+  .static-component {
+    display: flex;
+    padding: 1.6rem 4.8rem;
+    gap: 1.6rem;
+    justify-content: space-between;
+  }
+
+  .static-component-2 {
+    flex: 1;
+    flex-shrink: initial;
+  }
+
+  .static-component-1>div>img {
+    width: 210px;
+    height: 210px;
+  }
+
+  .static-component-image-wrapper {
+    width: 210px;
+  }
+
+  .static-component-image {
+    width: 100%;
+  }
+}
