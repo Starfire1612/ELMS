@@ -50,7 +50,7 @@ public class StudentController {
 
 	@GetMapping(path = "/student/{id}/enrolled-courses")
 	public ResponseEntity<List<Course>> getAllEnrolledCourses(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id) {
-		if(client.authorizeTheRequest(requestTokenHeader))
+		if(client.authorizeTheRequest(requestTokenHeader,id))
 			return studentService.getEnrolledCourses(id);
 		else
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
@@ -59,7 +59,7 @@ public class StudentController {
 
 	@GetMapping(path = "/student/{id}/profile")
 	public ResponseEntity<Student> getStudentProfile(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id) {
-		if(client.authorizeTheRequest(requestTokenHeader))
+		if(client.authorizeTheRequest(requestTokenHeader,id))
 			return studentService.getProfile(id);
 		else
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
@@ -67,8 +67,8 @@ public class StudentController {
 	}
 
 	@PutMapping(path = "/student/{id}/profile")
-	public ResponseEntity<Student> updateStudentProfil(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@RequestBody Student s) {
-		if(client.authorizeTheRequest(requestTokenHeader))
+	public ResponseEntity<Student> updateStudentProfil(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,@RequestBody Student s) {
+		if(client.authorizeTheRequest(requestTokenHeader,id))
 			return studentService.updateProfile(s);
 		else
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
@@ -78,7 +78,7 @@ public class StudentController {
 	@PutMapping(path = "/student/{id}/uploadProfilePic", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<String> updateStudentProfilPic(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id, @RequestBody MultipartFile file)
 			throws Exception {
-		if(client.authorizeTheRequest(requestTokenHeader))
+		if(client.authorizeTheRequest(requestTokenHeader,id))
 			return studentService.updateProfilePic(id, file);
 		else
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
@@ -88,7 +88,7 @@ public class StudentController {
 	@GetMapping(path = "/student/{id}/course/{courseId}/certficate")
 	public ResponseEntity<String> sendCourseCompletionCertificate(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,
 			@PathVariable("courseId") int certId) throws FileNotFoundException, DocumentException, MessagingException {
-		if(client.authorizeTheRequest(requestTokenHeader))
+		if(client.authorizeTheRequest(requestTokenHeader,id))
 			return studentService.sendCertificate(id, certId);
 		else
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
@@ -99,7 +99,7 @@ public class StudentController {
 	public ResponseEntity<StudentCourse> getCreatedCourseDetails(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,
 			@PathVariable("courseId") int courseId) {
 		log.info("inside course details fetch");
-		if(client.authorizeTheRequest(requestTokenHeader))
+		if(client.authorizeTheRequest(requestTokenHeader,id))
 			return studentService.getCourseDetails(id, courseId);
 		else
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
@@ -107,8 +107,8 @@ public class StudentController {
 	}
 
 	@GetMapping(path = "/student/{id}/published-courses")
-	public ResponseEntity<List<Course>> getAllPublishedCourses(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader) {
-		if(client.authorizeTheRequest(requestTokenHeader))
+	public ResponseEntity<List<Course>> getAllPublishedCourses(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id) {
+		if(client.authorizeTheRequest(requestTokenHeader,id))
 			return courseService.getAllCourses();
 		else
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
@@ -117,10 +117,14 @@ public class StudentController {
 
 	@PostMapping(path = "/student/{id}/course/{courseId}/enroll")
 	public ResponseEntity<String> enrollInCourse(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id, @PathVariable("courseId") int courseId,
-			@RequestBody Payment paymentResponse) {
-		if(client.authorizeTheRequest(requestTokenHeader))
-			return studentService.enrollStudentInCourse(id, courseId, paymentResponse.getPaymentStatus(),
-					paymentResponse.getPaymentResponseMessage(), paymentResponse.getPaymentAmount());
+			@RequestBody Payment paymentRequest) {
+		if(client.authorizeTheRequest(requestTokenHeader,id)) {
+			log.info("Course Id:"+courseId+"");
+			return studentService.enrollStudentInCourse(id, courseId, paymentRequest.getPaymentStatus(),
+					paymentRequest.getPaymentResponseMessage(), paymentRequest.getPaymentAmount());
+			
+
+		}
 		else
 			return new ResponseEntity<>("User Authentication Failed",HttpStatus.BAD_REQUEST);
 

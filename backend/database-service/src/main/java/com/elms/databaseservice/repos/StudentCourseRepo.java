@@ -8,6 +8,6 @@ import com.elms.databaseservice.models.StudentCourseId;
 
 public interface StudentCourseRepo extends JpaRepository<StudentCourse, StudentCourseId>,
 		PagingAndSortingRepository<StudentCourse, StudentCourseId> {
-	
-	
+//
+//	StudentCourse findByStudentIdAndCourseId(int stuId, int courseId);
 }

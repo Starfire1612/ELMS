@@ -25,7 +25,7 @@ public class FeedbackService {
 	@Transactional
 	public ResponseEntity<List<Feedback>> getAllFeedbacks() {
 		logger.info("Inside Feedback Service");
-		return new ResponseEntity<>(repo.findAll(),HttpStatus.OK);
+		return new ResponseEntity<>(repo.findAll(), HttpStatus.OK);
 	}
 
 	@Transactional
@@ -41,36 +41,29 @@ public class FeedbackService {
 
 	@Transactional
 	public ResponseEntity<String> storeFeedback(Feedback feedback) {
-		List<Feedback> sc = getAllFeedbacks().getBody();
-		logger.info(feedback.toString());
-		Feedback feed = new Feedback();
-		for (Feedback f : sc) {
-			if (f.getStudentCourseId().getCourseId().getCourseId() == feedback.getStudentCourseId().getCourseId()
-					.getCourseId()
-					&& feedback.getStudentCourseId().getStudentId().getStudentId() == f.getStudentCourseId()
-							.getStudentId().getStudentId()) {
-				feed = (f);
-				break;
-			}
-		}
-		if (feed == null) {
-			repo.save(feedback);
-			return new ResponseEntity<>("Stored Feedback " + feedback.getContent() + " successfully!",
-					HttpStatus.CREATED);
+//		List<Feedback> sc = getAllFeedbacks().getBody();
+//		logger.info(feedback.toString());
+//		Feedback feed = new Feedback();
+//		for (Feedback f : sc) {
+//			if (f.getStudentCourseId().getCourseId().getCourseId() == feedback.getStudentCourseId().getCourseId()
+//					.getCourseId()
+//					&& feedback.getStudentCourseId().getStudentId().getStudentId() == f.getStudentCourseId()
+//							.getStudentId().getStudentId()) {
+//				feed = (f);
+//				break;
+//			}
+//		}
 
-		} else {
-			feed.setContent(feedback.getContent());
-			feed.setRatings(feedback.getRatings());
-			repo.save(feed);
-		}
-		logger.info("see " + feed);
-		return new ResponseEntity<>("Updated Feedback " + feedback.getContent() + " successfully!", HttpStatus.OK);
+		logger.info(feedback.getStudentCourseId().getCourseStatus());
+		repo.save(feedback);
+		return new ResponseEntity<>("Stored Feedback " + feedback.getContent() + " successfully!", HttpStatus.CREATED);
+
 	}
 
 	@Transactional
 	public ResponseEntity<String> deleteFeedback(int studentId, int courseId) {
 		Feedback feedback = repo.findByStudentCourseId(studentId, courseId);
-		if(feedback==null) {
+		if (feedback == null) {
 			return new ResponseEntity<>("No such feedback exits", HttpStatus.NOT_FOUND);
 		}
 		repo.delete(feedback);

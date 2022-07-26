@@ -28,35 +28,43 @@ public class LessonController {
 	@Autowired
 	AuthClient client;
 
-	@PostMapping(path="/instructor/{id}/course/{cid}/lessons")
-	public ResponseEntity<String> addAllLessonInCourse(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@RequestBody List<Lesson> lessons){
-		if(client.authorizeTheRequest(requestTokenHeader))
+	@PostMapping(path = "/instructor/{id}/course/{cid}/lessons")
+	public ResponseEntity<String> addAllLessonInCourse(
+			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
+			@PathVariable("id") int id,
+			@RequestBody List<Lesson> lessons) {
+		if (client.authorizeTheRequest(requestTokenHeader, id))
 			return lessonService.addLessonsInCourse(lessons);
 		else
-			return new ResponseEntity<>("User Authentication Failed",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("User Authentication Failed", HttpStatus.BAD_REQUEST);
 
 	}
-	
-	//discuss with anurag about this lesson ui and functionality
+
+	// discuss with anurag about this lesson ui and functionality
 //	@PutMapping()
 //
 //	@DeleteMapping()
 
-	@GetMapping(path="/instructor/{id}/course/{cid}/lessons")
-	public ResponseEntity<List<Lesson>> getAllLessonByCourseId(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("cid") int cid){
-		if(client.authorizeTheRequest(requestTokenHeader))
+	@GetMapping(path = "/instructor/{id}/course/{cid}/lessons")
+	public ResponseEntity<List<Lesson>> getAllLessonByCourseId(
+			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
+			@PathVariable("id") int id,
+			@PathVariable("cid") int cid) {
+		if (client.authorizeTheRequest(requestTokenHeader, id))
 			return lessonService.getAllLessonByCourseId(cid);
 		else
-			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 
 	}
-	
-	@DeleteMapping(path="/instructor/{id}/course/{cid}/lessons")
-	public  ResponseEntity<String> deleteAllLessons(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("cid") int cid){
-		if(client.authorizeTheRequest(requestTokenHeader))
+
+	@DeleteMapping(path = "/instructor/{id}/course/{cid}/lessons")
+	public ResponseEntity<String> deleteAllLessons(
+			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
+			@PathVariable("id") int id, @PathVariable("cid") int cid) {
+		if (client.authorizeTheRequest(requestTokenHeader, id))
 			return lessonService.deleteAllLessonsByCourseId(cid);
 		else
-			return new ResponseEntity<>("User Authentication Failed",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("User Authentication Failed", HttpStatus.BAD_REQUEST);
 
 	}
 }

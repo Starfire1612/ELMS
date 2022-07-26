@@ -37,11 +37,11 @@ public class Lesson {
 //	@Setter(value = AccessLevel.NONE)
 	private int lessonId;
 //	@Id
-	@Setter(value = AccessLevel.NONE)
+//	@Setter(value = AccessLevel.NONE)
 	@ManyToOne(cascade = CascadeType.ALL,targetEntity = Course.class)
 	@JoinColumn(name = "course_id",referencedColumnName = "course_id")
 	@JsonIgnore
-	private int courseId;
+	private Course courseId;
 	@Column(name = "lesson_name")
 	private String lessonName;
 	@Column(name = "lesson_duration")

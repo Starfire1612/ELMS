@@ -35,7 +35,7 @@ public class Payment {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "payment_id")
+	@Column(name = "payment_id") 
 	private int paymentId;
  
 	@Id
@@ -43,7 +43,7 @@ public class Payment {
 	@JoinColumn(name = "stu_id",unique = false)
 	private Student studentId;
 
-	@Id
+	@Id 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = Course.class)
 	@JoinColumn(name = "course_id",unique = false)
 	private Course courseId;
@@ -54,8 +54,10 @@ public class Payment {
 	@Column(name = "payment_amount")
 
 	private float paymentAmount;
+
 	@Column(name = "payment_response_message")
 	private String paymentResponseMessage;
+
 	@Column(name = "payment_status")
 	private String paymentStatus;
 

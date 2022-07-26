@@ -54,7 +54,7 @@ public class StudentCoursePaymentId implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(courseId, paymentId, studentId);
+		return Objects.hash( paymentId, studentId , courseId);
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class StudentCoursePaymentId implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		StudentCoursePaymentId other = (StudentCoursePaymentId) obj;
-		return courseId == other.courseId && paymentId == other.paymentId && studentId == other.studentId;
+		return paymentId == other.paymentId && studentId == other.studentId &&courseId == other.courseId;
 	}
 
 }

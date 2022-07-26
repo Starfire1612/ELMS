@@ -51,7 +51,7 @@ public class Certificate {
 	@Column(name = "cert_issue_date")
 	@CreationTimestamp
 	private Date certficateIssueDate;
-
+ 
 	@Column(name = "cert_link")
 	private String certficateLink;
 

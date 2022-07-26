@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ import com.elms.databaseservice.repos.StudentCourseRepo;
 @Service
 public class PaymentService {
 
+	private Logger log = LoggerFactory.getLogger(PaymentService.class);
 	@Autowired
 	PaymentRepo paymentRepo;
 
@@ -34,19 +37,29 @@ public class PaymentService {
 	public ResponseEntity<String> createPayment(Payment payment) {
 		try {
 			paymentRepo.save(payment);
+
+			log.info(payment.toString());
+
 			StudentCourse studentCourse = new StudentCourse();
 			studentCourse.setCourseId(payment.getCourseId());
+			log.info("course set");
+
 			studentCourse.setStudentId(payment.getStudentId());
+			log.info("student set");
 			studentCourse.setCourseStatus("pending");
+			log.info("status set" + studentCourse.toString());
+
+			log.info(payment.getCourseId().getLessons().toArray().toString());
 			int lesson = payment.getCourseId().getLessons().get(0).getLessonId();
+			log.info("lesson set: " + lesson + "");
+			
 			studentCourse.setCurrentLessonId(lesson);
+			
 			studentCourseRepo.save(studentCourse);
-			StudentCourseLessonId studentCourseLessonId = new StudentCourseLessonId(payment.getStudentId().getStudentId(),
-				payment.getCourseId().getCourseId(), lesson);
-			studentCourseRepo.save(null);
+			StudentCourseLessonId studentCourseLessonId = new StudentCourseLessonId(
+					payment.getStudentId().getStudentId(), payment.getCourseId().getCourseId(), lesson);
 			return new ResponseEntity<String>("Payment done successfully!", HttpStatus.OK);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			return new ResponseEntity<String>("Payment failed", HttpStatus.BAD_GATEWAY);
 		}
 	}
@@ -63,6 +76,6 @@ public class PaymentService {
 
 	@Transactional
 	public ResponseEntity<List<Payment>> getAllPayments() {
-		return new ResponseEntity<>(paymentRepo.findAll(),HttpStatus.OK);
+		return new ResponseEntity<>(paymentRepo.findAll(), HttpStatus.OK);
 	}
 }

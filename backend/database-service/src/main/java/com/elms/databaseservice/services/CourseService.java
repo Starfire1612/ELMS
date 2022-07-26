@@ -52,7 +52,7 @@ public class CourseService {
 		try {
 			// Check if the file's name contains invalid characters
 			if (file.getContentType().contains("/png")) {
-				Course course = courseRepo.findById(id).get();
+				Course course = courseRepo.findById(id);
 				course.setCourseImage(file.getBytes());
 				courseRepo.save(course);
 				return new ResponseEntity<>(file.getName() + " " + file.getResource().getFilename(),

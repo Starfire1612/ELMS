@@ -22,6 +22,8 @@ import com.elms.databaseservice.proxy.AuthClient;
 import com.elms.databaseservice.repos.FeedbackRepo;
 import com.elms.databaseservice.repos.StudentCourseRepo;
 import com.elms.databaseservice.services.FeedbackService;
+import com.elms.databaseservice.services.StudentCourseService;
+import com.elms.databaseservice.services.StudentService;
 
 @RestController
 public class FeedbackController {
@@ -36,58 +38,64 @@ public class FeedbackController {
 	@Autowired
 	AuthClient client;
 
+	@Autowired
+	StudentCourseService studentCourseService;
 
-	@GetMapping(path = "/feedbacks")
-	public ResponseEntity<List<Feedback>> fetchAllStudents(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader) throws Exception {
-		if(client.authorizeTheRequest(requestTokenHeader))
-			return service.getAllFeedbacks();
-		else
-			return new ResponseEntity<List<Feedback>>(Collections.EMPTY_LIST,HttpStatus.BAD_REQUEST);
-
-	}
+//	@GetMapping(path = "/feedbacks")
+//	public ResponseEntity<List<Feedback>> fetchAllStudents(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader) throws Exception {
+//		if(client.authorizeTheRequest(requestTokenHeader))
+//			return service.getAllFeedbacks();
+//		else
+//			return new ResponseEntity<List<Feedback>>(Collections.EMPTY_LIST,HttpStatus.BAD_REQUEST);
+//
+//	}
 
 	@GetMapping(path = "/course/{courseId}/feedback")
-	public ResponseEntity<List<Feedback>> fetchAllFeedbackByCourseId(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("courseId") int courseId) {
-		if(client.authorizeTheRequest(requestTokenHeader))
-			return service.getAllFeedbacksByCourseId(courseId);
-		else
-			return new ResponseEntity<List<Feedback>>(Collections.EMPTY_LIST,HttpStatus.BAD_REQUEST);
+	public ResponseEntity<List<Feedback>> fetchAllFeedbackByCourseId(
+			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
+			@PathVariable("courseId") int courseId) {
+//		if(client.authorizeTheRequest(requestTokenHeader))
+		return service.getAllFeedbacksByCourseId(courseId);
+//		else
+//			return new ResponseEntity<List<Feedback>>(Collections.EMPTY_LIST,HttpStatus.BAD_REQUEST);
 	}
 
 	@GetMapping(path = "/student/{studentId}/course/{courseId}/feedback")
-	public ResponseEntity<String> isFeedbackPresent(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("studentId") int studentId,
-			@PathVariable("courseId") int courseId) {
-		if(client.authorizeTheRequest(requestTokenHeader))
+	public ResponseEntity<String> isFeedbackPresent(
+			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
+			@PathVariable("studentId") int studentId, @PathVariable("courseId") int courseId) {
+		if (client.authorizeTheRequest(requestTokenHeader, studentId))
 			return service.existFeedbackById(studentId, courseId);
 		else
-			return new ResponseEntity<>("User not authenticated",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("User not authenticated", HttpStatus.BAD_REQUEST);
 	}
 
 //
-	@PostMapping(path = "/student/{id}/course/{courseId}/feedback")
-	public ResponseEntity<String> storeFeedback(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,
-			@PathVariable("courseId") int courseId,
+	@PostMapping(path = "/student/{studentId}/course/{courseId}/feedback")
+	public ResponseEntity<String> storeFeedback(
+			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
+			@PathVariable("studentId") int studentId, @PathVariable("courseId") int courseId,
 			@RequestBody Feedback feedback) {
-		if(client.authorizeTheRequest(requestTokenHeader))
-		{
-			StudentCourse studentCourse=studentCourseRepo.findById(new StudentCourseId(id,courseId)).get();
+		if (client.authorizeTheRequest(requestTokenHeader, studentId)) {
+			StudentCourseId studentCourseId=new StudentCourseId(studentId, courseId);
+			StudentCourse studentCourse = studentCourseRepo.findById(studentCourseId).get();
 			feedback.setStudentCourseId(studentCourse);
 			return service.storeFeedback(feedback);
-		}
-		else
-			return new ResponseEntity<>("User not authenticated",HttpStatus.BAD_REQUEST);
-		
+		} else
+			return new ResponseEntity<>("User not authenticated", HttpStatus.BAD_REQUEST);
+
 	}
 
 	@DeleteMapping(path = "/student/{studentId}/course/{courseId}/feedback")
-	public ResponseEntity<String> deleteFeedback(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("studentId") int studentId,
-			@PathVariable("courseId") int courseId) {
+	public ResponseEntity<String> deleteFeedback(
+			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
+			@PathVariable("studentId") int studentId, @PathVariable("courseId") int courseId) {
 		logger.info("feedback savings");
-		if(client.authorizeTheRequest(requestTokenHeader))
+		if (client.authorizeTheRequest(requestTokenHeader, studentId))
 			return service.deleteFeedback(studentId, courseId);
 		else
-			return new ResponseEntity<>("User not authenticated",HttpStatus.BAD_REQUEST);
-	
+			return new ResponseEntity<>("User not authenticated", HttpStatus.BAD_REQUEST);
+
 	}
 
 }

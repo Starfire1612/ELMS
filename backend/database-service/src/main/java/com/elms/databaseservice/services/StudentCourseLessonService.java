@@ -40,8 +40,8 @@ public class StudentCourseLessonService {
 	public ResponseEntity<String> addLessonInStudentCourseLesson(int sid, int cid, int lid) {
 		// TODO Auto-generated method stub
 		try {
-			Student s=studentRepo.findById(sid).get();
-			Course c=courseRepo.findById(cid).get();
+			Student s=studentRepo.findById(sid);
+			Course c=courseRepo.findById(cid);
 			Lesson l=lessonRepo.findById(lid).get();
 			StudentCourseLesson scl=new StudentCourseLesson(s,c,l);
 			studentCourseLessonRepo.save(scl);
@@ -59,7 +59,7 @@ public class StudentCourseLessonService {
 	public void completePercent(int sid, int cid, int completedLesson)
 	{
 		StudentCourse sc=studentCourseRepo.findById(new StudentCourseId(sid,cid)).get();
-		Course c=courseRepo.findById(cid).get();
+		Course c=courseRepo.findById(cid);
 		int completionPercent=(int)((completedLesson*100)/c.getLessonsCount());
 		sc.setCourseCompletionPercent(completionPercent);
 		studentCourseRepo.save(sc);
