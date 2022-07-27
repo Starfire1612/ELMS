@@ -26,11 +26,11 @@ export default function InstructorNavbar({ handleLogout, instructorName }) {
           align="end"
         >
           <div className="p-1">
-            <div className="text-center mt-0 dropdown-menu-link">
+            <div className="text-center dark-gray mt-0 dropdown-menu-link">
               <Link to="/profile">Profile</Link>
             </div>
             <div
-              className="text-center mt-2 border-top border-secondary dropdown-menu-link"
+              className="text-center mt-2 border-top border-secondary dropdown-menu-link dark-gray"
               onClick={handleLogout}
             >
               Sign out

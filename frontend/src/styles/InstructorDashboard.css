@@ -16,15 +16,6 @@
   flex-grow: 1;
 }
 
-.filter::after {
-  margin-left: 5px;
-  display: inline-block;
-  content: "";
-  vertical-align: middle;
-  border-top: 0.3em solid;
-  border-left: 0.3em solid transparent;
-  border-right: 0.3em solid transparent;
-}
 
 @media(max-width:750px) {
   .instructor-dashboard {

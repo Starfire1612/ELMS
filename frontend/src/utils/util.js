@@ -223,6 +223,19 @@ function compareObjects() {
 
   return true;
 }
+const compareObjectsForSorting = (object1, object2, key) => {
+  // console.log(object1, object2, key);
+  const obj1 = object1[key].toString().toUpperCase();
+  const obj2 = object2[key].toString().toUpperCase();
+  // console.log(obj1, obj2);
+  if (obj1 < obj2) {
+    return -1;
+  }
+  if (obj1 > obj2) {
+    return 1;
+  }
+  return 0;
+};
 
 export {
   calculateDiscountedPrice,
@@ -232,4 +245,5 @@ export {
   youtubeParser,
   convertDurationToMinutes,
   compareObjects,
+  compareObjectsForSorting,
 };
