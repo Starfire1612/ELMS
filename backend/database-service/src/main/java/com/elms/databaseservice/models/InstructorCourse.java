@@ -28,13 +28,13 @@ public class InstructorCourse {
 	@JsonIgnore
 	@Id
 	//@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "instructor_id")
+	@JoinColumn(name = "instructor_id",referencedColumnName = "instructor_id")
 	private int instructorId;
 
 	@JsonIgnore
 	@Id
 //	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "course_id")
+	@JoinColumn(name = "course_id",referencedColumnName = "course_id")
 	private int courseId;
 
 }

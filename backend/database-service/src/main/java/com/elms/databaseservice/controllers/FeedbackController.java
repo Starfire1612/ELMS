@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,7 @@ import com.elms.databaseservice.services.StudentCourseService;
 import com.elms.databaseservice.services.StudentService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class FeedbackController {
 
 	private Logger logger = org.slf4j.LoggerFactory.getLogger(FeedbackController.class);
@@ -52,7 +54,7 @@ public class FeedbackController {
 
 	@GetMapping(path = "/course/{courseId}/feedback")
 	public ResponseEntity<List<Feedback>> fetchAllFeedbackByCourseId(
-			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
+			
 			@PathVariable("courseId") int courseId) {
 //		if(client.authorizeTheRequest(requestTokenHeader))
 		return service.getAllFeedbacksByCourseId(courseId);
@@ -77,10 +79,20 @@ public class FeedbackController {
 			@PathVariable("studentId") int studentId, @PathVariable("courseId") int courseId,
 			@RequestBody Feedback feedback) {
 		if (client.authorizeTheRequest(requestTokenHeader, studentId)) {
-			StudentCourseId studentCourseId=new StudentCourseId(studentId, courseId);
-			StudentCourse studentCourse = studentCourseRepo.findById(studentCourseId).get();
-			feedback.setStudentCourseId(studentCourse);
-			return service.storeFeedback(feedback);
+			Feedback feed = repo.findByStudentCourseId(studentId,courseId);
+	        if(feed!=null)
+	        {
+	            feed.setContent(feedback.getContent());
+	            feed.setRatings(feedback.getRatings());
+	            repo.save(feed);
+	            return new ResponseEntity<>("Updated Feedback " + feedback.getContent() + " successfully!", HttpStatus.CREATED);
+	        }
+	        else
+	        {
+	            logger.info(feedback.getStudentCourseId().getCourseStatus());
+	            repo.save(feedback);
+	            return new ResponseEntity<>("Stored Feedback " + feedback.getContent() + " successfully!", HttpStatus.CREATED);
+	        }
 		} else
 			return new ResponseEntity<>("User not authenticated", HttpStatus.BAD_REQUEST);
 

@@ -1,6 +1,7 @@
 package com.elms.databaseservice.services;
 
 import java.util.List;
+import static java.util.stream.IntStream.range;
 
 import javax.transaction.Transactional;
 
@@ -10,11 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.elms.databaseservice.models.Lesson;
 import com.elms.databaseservice.models.LessonCourseId;
 import com.elms.databaseservice.repos.LessonRepo;
-
+import static java.util.stream.IntStream.range;
 @Service
 public class LessonService {
 
@@ -52,6 +54,8 @@ public class LessonService {
 	public ResponseEntity<String> addLessonsInCourse(List<Lesson> lessons) {
 		try {
 			lessonRepo.saveAll(lessons);
+			log.info("After inserting the lessons");
+
 		// boolean areLessonAdded=lessonRepo.addLessonsByCourseId(0)
 			return new ResponseEntity<>("Added lessons to the course ", HttpStatus.CREATED);
 		}
@@ -76,12 +80,12 @@ public class LessonService {
 		}
 	}
 
-//	@Transactional
-//	public ResponseEntity<String> deleteLessonByCourseIdAnsLessonId(int courseId, int lessonId) {
-//		LessonCourseId lessonCourseId = new LessonCourseId(courseId, lessonId);
-//		lessonRepo.deleteById(lessonId);
-//		return new ResponseEntity<>("Removed lesson from the course ", HttpStatus.CREATED);
-//	}
+	@Transactional
+	public ResponseEntity<String> deleteLessonByCourseIdAnsLessonId(int courseId, int lessonId) {
+		LessonCourseId lessonCourseId = new LessonCourseId(courseId, lessonId);
+		lessonRepo.deleteById(lessonId);
+		return new ResponseEntity<>("Removed lesson from the course ", HttpStatus.CREATED);
+	}
  
 	@Transactional
 	public ResponseEntity<String> deleteAllLessonsByCourseId(int courseId) {
@@ -97,4 +101,8 @@ public class LessonService {
 		}
 	}
 
+	@Transactional
+	public Lesson findById(int id) {
+		return lessonRepo.findById(id).get();
+	}
 }

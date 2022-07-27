@@ -89,11 +89,13 @@ public class InstructorController {
 			course.setInstructorId(instructor);
 			course.setDatePublished(new Date());
 			course.setInstructorName(instructorName);
+			log.info(course.toString()+course.getCourseName());
+
 			InstructorCourse responseCourseId = instructorService.addCourse(course).getBody();
 			if (responseCourseId!=null)
-				return new ResponseEntity<>(responseCourseId + "", HttpStatus.CREATED);
+				return new ResponseEntity<>("Course Created Successfully" + "", HttpStatus.CREATED);
 			else
-				return new ResponseEntity<>("Error occured while creating the course", HttpStatus.NOT_ACCEPTABLE);
+				return new ResponseEntity<>("Error occured while creating the course", HttpStatus.OK);
 		}
 		else
 			return new ResponseEntity<>("User authentication failed",HttpStatus.BAD_REQUEST);

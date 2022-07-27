@@ -79,14 +79,22 @@ public class InstructorService {
 	@Transactional
 	public ResponseEntity<InstructorCourse> addCourse(Course c) {
 		try {
+			log.info("Add course");
+
+		
+		log.info(c.getCourseName()+":"+c.getInstructorName());
+	    
+		int courseId=courseService.addCourse(c);
+		log.info("=========================================================");
 		InstructorCourse instructorCourse = new InstructorCourse(c.getInstructorId().getInstructorId(),
-				c.getCourseId());
-		courseService.addCourse(c);
+				courseId);
+		log.info(instructorCourse.getCourseId()+":"+instructorCourse.getInstructorId());
+
 		instructorCourseRepo.save(instructorCourse);
 		return new ResponseEntity<>(instructorCourse,HttpStatus.CREATED);
 		}
 		catch (Exception e) {
-			return new ResponseEntity<>(null,HttpStatus.NOT_IMPLEMENTED);
+			return new ResponseEntity<>(null,HttpStatus.OK);
 		}
 	}
 

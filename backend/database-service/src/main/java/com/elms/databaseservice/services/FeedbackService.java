@@ -29,14 +29,18 @@ public class FeedbackService {
 	}
 
 	@Transactional
-	public ResponseEntity<List<Feedback>> getAllFeedbacksByCourseId(int id) {
-		List<Feedback> sc = getAllFeedbacks().getBody();
-		List<Feedback> fc = new ArrayList<>();
-		for (Feedback f : sc) {
-			if (f.getStudentCourseId().getCourseId().getCourseId() == id)
-				fc.add(f);
-		}
-		return new ResponseEntity<List<Feedback>>(fc, HttpStatus.OK);
+	public ResponseEntity<List<Feedback>> getAllFeedbacksByCourseId(int cid) {
+//		List<Feedback> sc = getAllFeedbacks().getBody();
+//		List<Feedback> fc = new ArrayList<>();
+//		for (Feedback f : sc) {
+//			if (f.getStudentCourseId().getCourseId().getCourseId() == id)
+//				fc.add(f);
+//		}
+		List<Feedback> feedbacks=repo.findByCourseId(cid);
+		logger.info(feedbacks.get(0).getStudentCourseId().getStudentId().getStudentName());
+
+
+		return new ResponseEntity<List<Feedback>>(feedbacks, HttpStatus.OK);
 	}
 
 	@Transactional

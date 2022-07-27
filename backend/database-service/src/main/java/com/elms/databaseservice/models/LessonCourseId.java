@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,13 +17,14 @@ public class LessonCourseId implements Serializable {
 	 * 
 	 */
 
-	
 	private int lessonId;
 	private int courseId;
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(courseId, lessonId);
+		return Objects.hash(lessonId, courseId);
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -32,8 +34,7 @@ public class LessonCourseId implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		LessonCourseId other = (LessonCourseId) obj;
-		return courseId == other.courseId && lessonId == other.lessonId;
+		return lessonId == other.lessonId && courseId == other.courseId;
 	}
-	
-	
+
 }
