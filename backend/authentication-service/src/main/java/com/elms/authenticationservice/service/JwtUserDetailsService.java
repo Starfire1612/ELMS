@@ -33,6 +33,8 @@ public class JwtUserDetailsService implements UserDetailsService {
 			log.info("Student service class");
 		Student user = service.findStudentByEmail(usermail);
 		if (user == null) {
+
+			log.warn("instructor not found with this user name");
 			throw new UsernameNotFoundException("Student not found with username: " + usermail);
 		}
 		return new User(user.getEmail(), bcryptEncoder.encode(user.getPassword()),
@@ -41,6 +43,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 		else {
 			Instructor user = service.findInstructorByEmail(usermail);
 			if (user == null) {
+				log.warn("instructor not found with this user name");
 				throw new UsernameNotFoundException("Instructor not found with username: " + usermail);
 			}
 			return new User(user.getEmail(), bcryptEncoder.encode(user.getPassword()),

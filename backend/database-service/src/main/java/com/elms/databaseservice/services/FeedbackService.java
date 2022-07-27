@@ -44,7 +44,7 @@ public class FeedbackService {
 	}
 
 	@Transactional
-	public ResponseEntity<String> storeFeedback(Feedback feedback) {
+	public ResponseEntity<String> storeFeedback(Feedback feedback,int studentId,int courseId) {
 //		List<Feedback> sc = getAllFeedbacks().getBody();
 //		logger.info(feedback.toString());
 //		Feedback feed = new Feedback();
@@ -57,29 +57,45 @@ public class FeedbackService {
 //				break;
 //			}
 //		}
+		Feedback feed = repo.findByStudentCourseId(studentId,courseId);
+        if(feed!=null)
+        {
+            feed.setContent(feedback.getContent());
+            feed.setRatings(feedback.getRatings());
+            repo.save(feed);
+            logger.debug("Updated Feedback");
+            return new ResponseEntity<>("Updated Feedback " + feedback.getContent() + " successfully!", HttpStatus.CREATED);
+        }
+        else
+        {
+            logger.info(feedback.getStudentCourseId().getCourseStatus());
+            repo.save(feedback);
 
-		logger.info(feedback.getStudentCourseId().getCourseStatus());
-		repo.save(feedback);
-		return new ResponseEntity<>("Stored Feedback " + feedback.getContent() + " successfully!", HttpStatus.CREATED);
-
+            logger.debug("Stored Feedback");
+            return new ResponseEntity<>("Stored Feedback " + feedback.getContent() + " successfully!", HttpStatus.CREATED);
+        }
 	}
 
 	@Transactional
 	public ResponseEntity<String> deleteFeedback(int studentId, int courseId) {
 		Feedback feedback = repo.findByStudentCourseId(studentId, courseId);
 		if (feedback == null) {
+			logger.info("No such feedback exits");
 			return new ResponseEntity<>("No such feedback exits", HttpStatus.NOT_FOUND);
 		}
 		repo.delete(feedback);
+		logger.info("deleted");
 		return new ResponseEntity<>("Deleted Feedback Successfully", HttpStatus.OK);
 	}
 
 	@Transactional
-	public ResponseEntity<String> existFeedbackById(int studentId, int courseId) {
+	public ResponseEntity<Feedback> existFeedbackById(int studentId, int courseId) {
 		Feedback feedback = repo.findByStudentCourseId(studentId, courseId);
 		if (feedback == null)
-			return new ResponseEntity<>("No Feedback given", HttpStatus.NOT_FOUND);
-		else
-			return new ResponseEntity<>("Feedback Already present", HttpStatus.BAD_REQUEST);
+		{
+			logger.info("Feedback does not exist");
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}else
+			return new ResponseEntity<>(feedback, HttpStatus.OK);
 	}
 }

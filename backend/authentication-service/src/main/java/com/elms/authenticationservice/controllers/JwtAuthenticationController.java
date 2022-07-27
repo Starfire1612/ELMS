@@ -78,6 +78,7 @@ public class JwtAuthenticationController {
 					return (i.getId()==id);
 				}
 			} catch (IllegalArgumentException | ExpiredJwtException e) {
+				log.error("Error validating JWT Token");
 				return false;
 			}
 		}
@@ -87,10 +88,13 @@ public class JwtAuthenticationController {
 
 	private Authentication authenticate(String username, String password) throws Exception {
 		try {
+			log.info("Authenticating User");
 			return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 		} catch (DisabledException e) {
+			log.error("xxxxx  User Disabled  xxxxxx");
 			throw new Exception("USER_DISABLED", e);
 		} catch (BadCredentialsException e) {
+			log.error("xxxxxxxxxxx  Wrong Credentials  xxxxxxxxxxx");
 			throw new Exception("INVALID_CREDENTIALS", e);
 		}
 	}

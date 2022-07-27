@@ -22,16 +22,7 @@ public class EmailService {
 	@Autowired
 	JavaMailSender javaMailSender;
 
-	public void sendForgotPasswordOTPEmail(String to, int otp) {
-		SimpleMailMessage mailMessage = new SimpleMailMessage();
-		mailMessage.setFrom("rohoansohan998@gmail.com");
-		mailMessage.setTo(to);
-		mailMessage.setSubject("Forget Password");
-		mailMessage.setText("This is your Otp" + " : " + otp + "");
-		javaMailSender.send(mailMessage);
-		log.info("Sending OTp email " + otp);
 
-	}
 
 	public void sendMailWithAttachment(StudentCourse studentCourse) throws MessagingException {
 		MimeMessage message = javaMailSender.createMimeMessage();
@@ -53,7 +44,22 @@ public class EmailService {
 		log.info("Sending Attachment email ");
 	}
 
+	public void sendForgotPasswordOTPEmail(String to,int otp) {
+		log.info("Sending Mail");
+		SimpleMailMessage mailMessage = new SimpleMailMessage();
+		mailMessage.setFrom("rohoansohan998@gmail.com");
+		mailMessage.setTo(to);
+		mailMessage.setSubject("Forget Password");
+		mailMessage.setText("This is your Otp"+" : "+otp+"");
+		javaMailSender.send(mailMessage);
+		log.info("Sending OTp email "+ otp);
+
+	}
+	
 	public int generateOtp() {
+		
+
+		log.info("Generating OTP");
 		int max = 9999;
 		int min = 1000;
 		int range = max - min + 1;
@@ -62,5 +68,4 @@ public class EmailService {
 		int otp = (int) (Math.random() * range) + min;
 		return otp;
 
-	}
-}
+	}}

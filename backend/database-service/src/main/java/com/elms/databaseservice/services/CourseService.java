@@ -1,11 +1,14 @@
 package com.elms.databaseservice.services;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,8 +24,10 @@ public class CourseService {
 	@Autowired
 	CourseRepo courseRepo;
 
+	private Logger log = LoggerFactory.getLogger(CourseService.class);
 	@Transactional
 	public Integer addCourse(Course c) {
+		
 		Course course = courseRepo.save(c);
 		return course.getCourseId();
 	}
@@ -32,15 +37,17 @@ public class CourseService {
 	public ResponseEntity<String> publishCourse(Course course) {
 		// Course existingCourse=courseRepo.findById(course.getCourseId()).get();
 		courseRepo.save(course);
+		log.info("Course Published");
 		return new ResponseEntity<>("Course published succssfully!", HttpStatus.CREATED);
 
 	}
 	
 	@Transactional
-	public ResponseEntity<List<Course>> getAllCourses() {
-		// Course existingCourse=courseRepo.findById(course.getCourseId()).get();
-		return new ResponseEntity<>(courseRepo.findAll(),HttpStatus.OK);
-
+	public ResponseEntity<Page<Course>> getAllCourses(int page,int size) {
+			Page<Course> coursePage=courseRepo.findAll(PageRequest.of(page,size));
+			log.info("Searched course");
+			
+			return new ResponseEntity<>(coursePage,HttpStatus.OK);
 	}
 
 	@Transactional
@@ -59,8 +66,10 @@ public class CourseService {
 						HttpStatus.CREATED);
 			}
 
+			log.warn("only png images allowed");
 			return new ResponseEntity<>("Only upload png images", HttpStatus.CREATED);
 		} catch (IOException ex) {
+			log.error("Could not store file");		
 			throw new Exception("Could not store file " + fileName + ". Please try again!", ex);
 		}
 	}

@@ -33,20 +33,27 @@ public class RegisterService {
 	@Transactional
 	public ResponseEntity<String> registerStudent(Student s) {
 		Student existingStudent = studentRepo.findByEmail(s.getEmail());
+		logger.info("fetching existing user");
 		if (existingStudent == null) {
 			studentRepo.save(s);
+			logger.info("user registered");
 			return new ResponseEntity<>("Registered Student "+s.getEmail()+" successfully!",  HttpStatus.CREATED);
 		} else {
+logger.warn("User email already exists");
 			return new ResponseEntity<>("User email already existed "+s.getEmail()+" successfully!",  HttpStatus.NOT_IMPLEMENTED);
 		}
 	}
 	@Transactional
 	public ResponseEntity<String> registerInstructor(Instructor i) {
 		Instructor existingInstructor = instructorRepo.findByEmail(i.getEmail());
+		logger.info("fetching existing user");
+		
 		if (existingInstructor == null) {
 			instructorRepo.save(i);
+			logger.info("user registered");
 			return new ResponseEntity<>("Registered Instructor "+i.getEmail()+" successfully!",  HttpStatus.CREATED);
 		} else {
+			logger.warn("User email already exists");
 			return new ResponseEntity<>("User email already existed "+i.getEmail()+" successfully!",  HttpStatus.NOT_IMPLEMENTED);
 		}
 	}

@@ -46,6 +46,8 @@ public class LessonService {
 			return new ResponseEntity<>(lesson,HttpStatus.OK);
 		}
 		catch (Exception e) {
+
+			log.error("Could not get all lessons");
 			return new ResponseEntity<>(null,HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
@@ -60,6 +62,8 @@ public class LessonService {
 			return new ResponseEntity<>("Added lessons to the course ", HttpStatus.CREATED);
 		}
 		catch (Exception e) {
+
+			log.error("Could not add lessons");
 			return new ResponseEntity<>("Cannot add lesson in Course ", HttpStatus.NOT_IMPLEMENTED);
 		}
 	}
@@ -67,15 +71,21 @@ public class LessonService {
 	@Transactional
 	public ResponseEntity<String> updateLessonByCourseIdAndLessonId(int courseId, int lessonId, Lesson lesson) {
 		try {
+
 			LessonCourseId lessonCourseId = new LessonCourseId(courseId, lessonId);
 			Lesson existingLesson = lessonRepo.findById(lessonId).get();
+			log.debug("Got Existing Lessons");
 			existingLesson.setLessonName(lesson.getLessonName());
 			existingLesson.setLessonLink(lesson.getLessonLink());
 			existingLesson.setLesonDuration(lesson.getLesonDuration());
 			lessonRepo.save(existingLesson);
+
+			log.info("Lessons Updated");
 			return new ResponseEntity<>("Updated lesson to the course ", HttpStatus.CREATED);
 		}
 		catch (Exception e) {
+
+			log.error("Could not update lessons");
 			return new ResponseEntity<>("Cannot Update lesson to the course ", HttpStatus.NOT_MODIFIED);
 		}
 	}
@@ -84,6 +94,8 @@ public class LessonService {
 	public ResponseEntity<String> deleteLessonByCourseIdAnsLessonId(int courseId, int lessonId) {
 		LessonCourseId lessonCourseId = new LessonCourseId(courseId, lessonId);
 		lessonRepo.deleteById(lessonId);
+
+		log.info("Removed Lessons");
 		return new ResponseEntity<>("Removed lesson from the course ", HttpStatus.CREATED);
 	}
  
@@ -97,6 +109,8 @@ public class LessonService {
 	
 		}
 		catch (Exception e) {
+
+			log.error("Could not delete lessons");
 			return new ResponseEntity<>("Cannot delete lessons from course", HttpStatus.NOT_IMPLEMENTED);
 		}
 	}

@@ -17,5 +17,7 @@ public interface CourseRepo extends PagingAndSortingRepository<Course, Integer> 
 	@Query(nativeQuery = true,value = "select * from course where course_id=:courseId")
 	Course findById(int courseId);
 	
-
+	@Query(nativeQuery=true,value="SELECT * FROM course c WHERE " +
+            "c.course_name LIKE CONCAT('%',:query, '%')")
+    List<Course> searchCourse(String query);
 }
