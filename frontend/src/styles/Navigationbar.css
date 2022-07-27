@@ -6,12 +6,16 @@
 .dropdown-menu {
   border-radius: 0;
   border: 1px solid gray;
-  background-color: rgb(31, 31, 31);
+  background-color: rgb(255, 255, 255);
 }
 
 .dropdown-menu-link:hover {
-  background-color: rgb(71, 71, 71);
   cursor: pointer;
+  color: black;
+}
+
+.dropdown-menu-link a:hover {
+  color: black !important;
 }
 
 .navbar-user-name>a:hover {

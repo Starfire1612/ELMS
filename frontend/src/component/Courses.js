@@ -12,7 +12,7 @@ function Courses({ courses }) {
   // const [isLoading, setIsLoading] = useState(true);
 
   const discountedPrice = (course) =>
-    calculateDiscountedPrice(course.price, course.discountpercent);
+    calculateDiscountedPrice(course.coursePrice, course.courseDiscount);
 
   const getColor = (ratings) => {
     return "text-" + ratingsColor(ratings);
@@ -26,18 +26,20 @@ function Courses({ courses }) {
 
   const card = (course) => {
     return (
-      <Card className="card" key={course.id} style={{ width: "18rem" }}>
+      <Card className="card" key={course.courseId} style={{ width: "18rem" }}>
         <Card.Img className="img" variant="top" src={thumbnailUrl} />
         <Card.Body>
-          <Card.Title className="mb-0">{course.name}</Card.Title>
-          <p className="fs-6 fw-light">{course.instructorname}</p>
-          <Card.Text>{transformDescription(course.description)}</Card.Text>
+          <Card.Title className="mb-0">{course.courseName}</Card.Title>
+          <p className="fs-6 fw-light">{course.instructorName}</p>
+          <Card.Text>
+            {transformDescription(course.courseDescription)}
+          </Card.Text>
           <div className="d-flex justify-content-between align-items-center">
             <Button className="type-1">
               {localStorage.getItem("userType") === "instructor" ? (
                 <Link
                   className="text-white"
-                  to={`../instructor/course/${course.id}/manage/description`}
+                  to={`../instructor/course/${course.courseId}/manage/description`}
                 >
                   Edit course
                 </Link>
@@ -47,7 +49,7 @@ function Courses({ courses }) {
                     {"$" + discountedPrice(course) + " "}
                   </span>
                   <span className="fs-6 fst-italic text-decoration-line-through">
-                    {"$" + course.price}
+                    {"$" + course.coursePrice}
                   </span>
                 </>
               )}
