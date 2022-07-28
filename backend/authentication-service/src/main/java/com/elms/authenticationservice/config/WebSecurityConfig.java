@@ -4,6 +4,7 @@ import java.util.Collections;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private CustomAuthenticationProvider customAuthenticationProvider;
 
-
+	private static final org.slf4j.Logger LOGGER=LoggerFactory.getLogger(WebSecurityConfig.class);
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		// configure AuthenticationManager so that it knows from where to load

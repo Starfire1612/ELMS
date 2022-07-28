@@ -29,7 +29,7 @@ CREATE TABLE `certificate` (
   `stu_id` int NOT NULL,
   `course_id` int NOT NULL,
   `cert_issue_date` date NOT NULL,
-  `cert_link` mediumtext NOT NULL,
+  `cert_link` varchar(255) NOT NULL,
   `feedback_id` int NOT NULL,
   `feedback_content` varchar(255) DEFAULT NULL,
   `feedback_ratings` int DEFAULT NULL,
@@ -78,7 +78,7 @@ CREATE TABLE `course` (
   UNIQUE KEY `course_name_UNIQUE` (`course_name`),
   KEY `instructor_id_idx` (`instructor_id`),
   CONSTRAINT `instructor_id` FOREIGN KEY (`instructor_id`) REFERENCES `instructor` (`instructor_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -87,7 +87,7 @@ CREATE TABLE `course` (
 
 LOCK TABLES `course` WRITE;
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
-INSERT INTO `course` VALUES (2,'Css','beginner to advanced',NULL,3,1000,10,'2021-09-09',4,2,'Ram',2,NULL),(3,'JS','beginner to advanced',NULL,5,2000,10,'2021-02-09',5,3,'Sham',2,NULL),(4,'React','beginner to advanced',NULL,7,3000,10,'2021-06-09',3,1,'Ravi',2,NULL),(5,'Spring','beginner to advanced',NULL,7,2000,10,'2021-06-05',4,2,'Ram',2,NULL),(6,'Spring Boot','beginner to advanced',NULL,7,2000,10,'2021-06-09',5,3,'Sham',0,NULL),(16,'JWT','beginner to advanced',NULL,0,1000,0,'2022-07-14',0,2,'Anurag Gupta',0,NULL),(43,'Spring Security','beginner to advanced',NULL,0,1000,0,'2022-07-17',0,1,'Radhika Shah',0,NULL);
+INSERT INTO `course` VALUES (2,'Css','beginner to advanced',NULL,3,1000,10,'2021-09-09',4,2,'Ram',2,NULL),(3,'JS','beginner to advanced',NULL,5,2000,10,'2021-02-09',5,3,'Sham',2,NULL),(4,'React','beginner to advanced',NULL,7,3000,10,'2021-06-09',3,1,'Ravi',2,NULL),(5,'Spring','beginner to advanced',NULL,7,2000,10,'2021-06-05',4,2,'Ram',2,NULL),(6,'Spring Boot','beginner to advanced',NULL,7,2000,10,'2021-06-09',5,3,'Sham',0,NULL),(16,'JWT','beginner to advanced',NULL,0,1000,0,'2022-07-14',0,2,'Anurag Gupta',0,NULL),(43,'Spring Security','beginner to advanced',NULL,0,1000,0,'2022-07-17',0,1,'Radhika Shah',0,NULL),(83,'Spring Core','beginner to advanced',NULL,60,300,0,'2022-07-27',0,1,'Radhika Shah',0,NULL);
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -131,13 +131,14 @@ CREATE TABLE `feedback` (
   `course_id` int NOT NULL,
   `feedback_content` text,
   `feedback_ratings` int NOT NULL,
+  `student_name` varchar(255) NOT NULL,
   PRIMARY KEY (`feedback_id`),
   UNIQUE KEY `UK_2oyuw32ohps7wk5ai6vorgp32` (`stu_id`,`course_id`),
   KEY `stu_id_idx` (`stu_id`),
   KEY `course_id_idx` (`course_id`),
-  CONSTRAINT `feedback_course_id` FOREIGN KEY (`course_id`) REFERENCES `student_course` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `feedback_stu_id` FOREIGN KEY (`stu_id`) REFERENCES `student_course` (`stu_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `feedback_course_id` FOREIGN KEY (`course_id`) REFERENCES `student_course` (`course_id`),
+  CONSTRAINT `feedback_stu_id` FOREIGN KEY (`stu_id`) REFERENCES `student_course` (`stu_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -146,7 +147,7 @@ CREATE TABLE `feedback` (
 
 LOCK TABLES `feedback` WRITE;
 /*!40000 ALTER TABLE `feedback` DISABLE KEYS */;
-INSERT INTO `feedback` VALUES (2,2,2,'awesome course',5),(3,3,3,'best',5);
+INSERT INTO `feedback` VALUES (98,4,2,'rock dudes',5,'Radhika');
 /*!40000 ALTER TABLE `feedback` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -168,7 +169,7 @@ CREATE TABLE `hibernate_sequence` (
 
 LOCK TABLES `hibernate_sequence` WRITE;
 /*!40000 ALTER TABLE `hibernate_sequence` DISABLE KEYS */;
-INSERT INTO `hibernate_sequence` VALUES (44);
+INSERT INTO `hibernate_sequence` VALUES (99);
 /*!40000 ALTER TABLE `hibernate_sequence` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -228,7 +229,7 @@ CREATE TABLE `instructor_course` (
 
 LOCK TABLES `instructor_course` WRITE;
 /*!40000 ALTER TABLE `instructor_course` DISABLE KEYS */;
-INSERT INTO `instructor_course` VALUES (2,2),(3,3),(1,4),(2,5),(3,6),(1,16),(1,43);
+INSERT INTO `instructor_course` VALUES (2,2),(3,3),(1,4),(2,5),(3,6),(1,16),(1,43),(1,83);
 /*!40000 ALTER TABLE `instructor_course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -275,7 +276,7 @@ CREATE TABLE `lesson` (
   PRIMARY KEY (`lesson_id`),
   KEY `lesson_course_id_idx` (`course_id`),
   CONSTRAINT `lesson_course_id` FOREIGN KEY (`course_id`) REFERENCES `course` (`course_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -284,7 +285,7 @@ CREATE TABLE `lesson` (
 
 LOCK TABLES `lesson` WRITE;
 /*!40000 ALTER TABLE `lesson` DISABLE KEYS */;
-INSERT INTO `lesson` VALUES (2,2,'Spring Core',2,'https://youtu.be/Chq1DfCQ-Dg'),(3,3,'Spring MVC',3,'https://youtu.be/Chq1DfCQ-Dg'),(4,4,'Spring Boot',6,'https://youtu.be/Chq1DfCQ-Dg'),(5,5,'React',1,'https://youtu.be/Chq1DfCQ-Dg'),(7,2,'Python',6,'https://youtu.be/Chq1DfCQ-Dg'),(8,3,'Microservices',16,'https://youtu.be/Chq1DfCQ-Dg'),(9,4,'AWS',12,'https://youtu.be/Chq1DfCQ-Dg'),(10,5,'Spring Rest API',14,'https://youtu.be/Chq1DfCQ-Dg');
+INSERT INTO `lesson` VALUES (2,2,'Spring Core',2,'https://youtu.be/Chq1DfCQ-Dg'),(3,3,'Spring MVC',3,'https://youtu.be/Chq1DfCQ-Dg'),(4,4,'Spring Boot',6,'https://youtu.be/Chq1DfCQ-Dg'),(5,5,'React',1,'https://youtu.be/Chq1DfCQ-Dg'),(7,2,'Python',6,'https://youtu.be/Chq1DfCQ-Dg'),(8,3,'Microservices',16,'https://youtu.be/Chq1DfCQ-Dg'),(9,4,'AWS',12,'https://youtu.be/Chq1DfCQ-Dg'),(10,5,'Spring Rest API',14,'https://youtu.be/Chq1DfCQ-Dg'),(97,83,'Chapter 2',16,'https://youtu.be/Chq1DfCQ-Dg');
 /*!40000 ALTER TABLE `lesson` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -304,10 +305,8 @@ CREATE TABLE `payment` (
   `payment_response_message` varchar(255) DEFAULT NULL,
   `payment_status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`payment_id`,`stu_id`,`course_id`),
-  UNIQUE KEY `UK_kf2xm2kpc8s6a8ixiy9emehho` (`course_id`),
-  UNIQUE KEY `UK_8jxa9k34ru1r4v1vfhmbkvs7e` (`stu_id`),
-  CONSTRAINT `paymentCourseId` FOREIGN KEY (`course_id`) REFERENCES `course` (`course_id`),
-  CONSTRAINT `paymentStudentId` FOREIGN KEY (`stu_id`) REFERENCES `student` (`stu_id`)
+  KEY `paymentstudentId` (`stu_id`),
+  KEY `paymentcourseId` (`course_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -317,7 +316,7 @@ CREATE TABLE `payment` (
 
 LOCK TABLES `payment` WRITE;
 /*!40000 ALTER TABLE `payment` DISABLE KEYS */;
-INSERT INTO `payment` VALUES (38,1,4,499,'2022-07-15','Success','200');
+INSERT INTO `payment` VALUES (56,4,2,499,'2022-07-26','Success','200'),(57,4,2,499,'2022-07-26','Success','200'),(58,4,2,499,'2022-07-26','Success','200'),(59,4,2,499,'2022-07-26','Success','200'),(60,4,2,499,'2022-07-26','Success','200'),(61,4,2,499,'2022-07-26','Success','200'),(62,4,2,499,'2022-07-26','Success','200'),(63,4,2,499,'2022-07-26','Success','200'),(64,4,2,499,'2022-07-26','Success','200'),(65,4,2,499,'2022-07-26','Success','200'),(66,4,2,499,'2022-07-26','Success','200'),(67,4,2,499,'2022-07-26','Success','200');
 /*!40000 ALTER TABLE `payment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -378,7 +377,7 @@ CREATE TABLE `student_course` (
 
 LOCK TABLES `student_course` WRITE;
 /*!40000 ALTER TABLE `student_course` DISABLE KEYS */;
-INSERT INTO `student_course` VALUES (1,4,'pending',0,4),(2,2,'Pending',60,2),(3,3,'Completed',100,8);
+INSERT INTO `student_course` VALUES (1,4,'pending',0,4),(2,2,'Pending',60,2),(3,3,'Completed',100,8),(4,2,'pending',0,2);
 /*!40000 ALTER TABLE `student_course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -423,4 +422,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-07-18 12:47:25
+-- Dump completed on 2022-07-27 17:19:36

@@ -2,6 +2,8 @@ package com.elms.databaseservice.services;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +37,8 @@ public class StudentCourseLessonService {
 	
 	@Autowired
 	LessonRepo lessonRepo;
+	private static Logger log = LoggerFactory.getLogger(StudentCourseLessonService.class);
+	
 
 	@Transactional
 	public ResponseEntity<String> addLessonInStudentCourseLesson(int sid, int cid, int lid) {
@@ -43,14 +47,17 @@ public class StudentCourseLessonService {
 			Student s=studentRepo.findById(sid);
 			Course c=courseRepo.findById(cid);
 			Lesson l=lessonRepo.findById(lid).get();
+			log.info("Getting student,course and lessons");
 			StudentCourseLesson scl=new StudentCourseLesson(s,c,l);
 			studentCourseLessonRepo.save(scl);
+			log.info("Student Course lesson repo data added");
 			int completedLesson=studentCourseLessonRepo.getCompletedLessonCount(sid,cid);
 			completePercent(sid,cid,completedLesson);
 			return new ResponseEntity<>("Successully Completed Lesson and added to database",HttpStatus.CREATED);
 		}
 		catch (Exception e) {
 			// TODO: handle exception
+			log.error("Cannot add lesson in studentcourselesson table");
 			return new ResponseEntity<>("Lesson not completed",HttpStatus.NOT_IMPLEMENTED);
 		}
 	}
@@ -59,10 +66,13 @@ public class StudentCourseLessonService {
 	public void completePercent(int sid, int cid, int completedLesson)
 	{
 		StudentCourse sc=studentCourseRepo.findById(new StudentCourseId(sid,cid)).get();
+		
 		Course c=courseRepo.findById(cid);
+		log.info("fetched course and student course");
 		int completionPercent=(int)((completedLesson*100)/c.getLessonsCount());
 		sc.setCourseCompletionPercent(completionPercent);
 		studentCourseRepo.save(sc);
+		log.info("saved all in studentcourse repo");
 	}
 	
 

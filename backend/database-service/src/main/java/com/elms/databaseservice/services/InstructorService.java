@@ -55,8 +55,11 @@ public class InstructorService {
 		if(instructorDetails.isPresent())
 			return new ResponseEntity<>(instructorDetails.get(), HttpStatus.OK);
 		else
+		{
+			log.info("Instructor not found");
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-	}
+		}
+		}
 
 //	@Transactional
 //	public ResponseEntity<Instructor> updateProfile(int id,@RequestBody Instructor instructor) {
@@ -69,7 +72,11 @@ public class InstructorService {
 		Optional<Instructor> instructor = instructorRepo.findById(instructorId);
 		Set<Course> courses = new HashSet<Course>();
 		if (instructor.isEmpty())
+		{
+
+			log.info("Cannot get created course");
 			return new ResponseEntity<>(courses, HttpStatus.NO_CONTENT);
+		}else
 		{
 			courses = instructor.get().getCourses();
 			return new ResponseEntity<>(courses, HttpStatus.OK);
@@ -79,9 +86,15 @@ public class InstructorService {
 	@Transactional
 	public ResponseEntity<InstructorCourse> addCourse(Course c) {
 		try {
+			log.info("Add course");
+		log.info(c.getCourseName()+":"+c.getInstructorName());
+	    
+		int courseId=courseService.addCourse(c);
+		log.info("=========================================================");
 		InstructorCourse instructorCourse = new InstructorCourse(c.getInstructorId().getInstructorId(),
-				c.getCourseId());
-		courseService.addCourse(c);
+				courseId);
+		log.info(instructorCourse.getCourseId()+":"+instructorCourse.getInstructorId());
+
 		instructorCourseRepo.save(instructorCourse);
 		return new ResponseEntity<>(instructorCourse,HttpStatus.CREATED);
 		}
@@ -94,12 +107,19 @@ public class InstructorService {
 	public ResponseEntity<String> publishCourse(Course c, List<Lesson> lesson) {
 		try {
 		lessonService.addLessonsInCourse(lesson);
+
+		log.info("Adding lesson in course");
 		c.setDatePublished(new Date());
 		c.setTotalDuration(lessonService.getCourseDuration(c.getCourseId()));
 		c.setLessonsCount(c.getLessonsCount());
+
+		log.info("Publishing Course");
 		return courseService.publishCourse(c);
+		
 		}
 		catch (Exception e) {
+
+			log.error("Error Publishing Course");
 			return new ResponseEntity<>("Error Publishing Course",HttpStatus.NOT_IMPLEMENTED);
 		}
 	}
@@ -116,18 +136,22 @@ public class InstructorService {
 			if (c.getCourseId() == courseId)
 				return new ResponseEntity<>(c, HttpStatus.OK);
 		}
+		log.error("Cannot recieve created course details");
 		return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
 	}
 
 	@Transactional
 	public ResponseEntity<String> deleteCourse(int instructorId, int courseId) {
 		try {
+
+			log.info("Deleting from instructorcourse,course,lesson table");
 		instructorCourseRepo.deleteById(new InstructorCourseId(instructorId, courseId));
 		courseRepo.deleteById(courseId);
 		lessonService.deleteAllLessonsByCourseId(courseId);
 		return new ResponseEntity<>("Deleted Course Successfully", HttpStatus.ACCEPTED);
 		}
 		catch (Exception e) {
+			log.error("Course not found");
 			return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);	
 		}
 	}
@@ -139,15 +163,17 @@ public class InstructorService {
 		try {
 			// Check if the file's name contains invalid characters
 			if (file.getContentType().contains("/png")) {
-
+				log.info("Uploading profile pic");
 				Instructor instructor = instructorRepo.findById(id).get();
 				instructor.setInstructorImage(file.getBytes());
 				instructorRepo.save(instructor);
 				return new ResponseEntity<>(file.getName() + " " + file.getResource().getFilename(),
 						HttpStatus.CREATED);
 			}
+			log.warn("Only upload png images");
 			return new ResponseEntity<>("Only upload png images", HttpStatus.CREATED);
 		} catch (IOException ex) {
+			log.error("Could not store file");
 			return new ResponseEntity<>("Could not store file " + fileName + ". Please try again!",HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -161,7 +187,9 @@ public class InstructorService {
 			return new ResponseEntity<>(instructorDetails.get(), HttpStatus.OK);
 		}
 		else
+		{
+			log.error("Could not update profile");
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-	}
+	}}
 
 }

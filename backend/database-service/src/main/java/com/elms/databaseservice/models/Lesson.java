@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -36,19 +37,19 @@ public class Lesson {
 	@Column(name = "lesson_id", unique = true)
 //	@Setter(value = AccessLevel.NONE)
 	private int lessonId;
-//	@Id
+	// @Id
 //	@Setter(value = AccessLevel.NONE)
-	@ManyToOne(cascade = CascadeType.ALL,targetEntity = Course.class)
-	@JoinColumn(name = "course_id",referencedColumnName = "course_id")
-	@JsonIgnore
-	private Course courseId;
+//	@ManyToOne(cascade = CascadeType.ALL,targetEntity = Course.class)
+	@JoinColumn(name = "course_id", referencedColumnName = "course_id")
+//	@JsonIgnore
+	private int courseId;
 	@Column(name = "lesson_name")
 	private String lessonName;
 	@Column(name = "lesson_duration")
 	private int lesonDuration;
 	@Column(name = "lesson_link")
 	private String lessonLink;
-	
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "lessonId", cascade = CascadeType.ALL)
 	private Set<StudentCourseLesson> studentCourseLessons = new HashSet<>();

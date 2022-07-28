@@ -33,26 +33,30 @@ import lombok.Setter;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Feedback {
 
-	
+	 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "feedback_id", unique = true)
 	private int feedbackId;
 
 	@Id
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = StudentCourse.class)
+	@OneToOne(fetch = FetchType.LAZY, targetEntity = StudentCourse.class)
 	@JoinColumns({
-		@JoinColumn(name = "stu_id"),
-		@JoinColumn(name="course_id")
+		@JoinColumn(name = "stu_id", referencedColumnName = "stu_id") ,
+		@JoinColumn(name="course_id",referencedColumnName = "course_id")
 	})
 	@JsonIgnore
 	private StudentCourse studentCourseId;
-
+    
 	@Column(name = "feedback_content")
 	private String content;
 
 	@Column(name = "feedback_ratings")
 	private int ratings;
+	
+
+	@Column(name = "student_name")
+	private String studentName;
 
 	@Override
 	public String toString() {

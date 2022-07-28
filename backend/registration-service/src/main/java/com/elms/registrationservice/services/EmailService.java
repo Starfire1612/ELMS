@@ -1,4 +1,4 @@
-package com.elms.authenticationservice.service;
+package com.elms.registrationservice.services;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,7 @@ public class EmailService {
 	@Autowired
 	JavaMailSender javaMailSender;
 
-	public void sendForgotPasswordOTPEmail(String to,int otp) {
+	public void sendVerificationMail(String to,int otp) {
 		log.info("Sending Mail");
 		SimpleMailMessage mailMessage = new SimpleMailMessage();
 		mailMessage.setFrom("rohoansohan998@gmail.com");

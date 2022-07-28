@@ -8,6 +8,7 @@ import javax.mail.MessagingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -50,50 +51,83 @@ public class StudentController {
 
 	@GetMapping(path = "/student/{id}/enrolled-courses")
 	public ResponseEntity<List<Course>> getAllEnrolledCourses(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id) {
+		log.info("Getting student enrolled course");
 		if(client.authorizeTheRequest(requestTokenHeader,id))
 			return studentService.getEnrolledCourses(id);
 		else
+		{
+			log.error("User not authenticated");
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
-
+		}
 	}
 
 	@GetMapping(path = "/student/{id}/profile")
 	public ResponseEntity<Student> getStudentProfile(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id) {
+		log.info("Getting Student Profile");
 		if(client.authorizeTheRequest(requestTokenHeader,id))
 			return studentService.getProfile(id);
 		else
+		{
+			log.error("User not authenticated");
+			
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
-
+		}
 	}
 
 	@PutMapping(path = "/student/{id}/profile")
-	public ResponseEntity<Student> updateStudentProfil(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,@RequestBody Student s) {
+	public ResponseEntity<Student> updateStudentProfil(@RequestHeader(value = "Authorization", required = true) 
+	String requestTokenHeader,@PathVariable("id") int id,@RequestBody Student s) {
+		log.info("Updating Student Profile");
 		if(client.authorizeTheRequest(requestTokenHeader,id))
 			return studentService.updateProfile(s);
 		else
+		{
+			log.error("User not authenticated");
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
-
+		}
 	}
 
 	@PutMapping(path = "/student/{id}/uploadProfilePic", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<String> updateStudentProfilPic(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id, @RequestBody MultipartFile file)
 			throws Exception {
+		log.info("Updating profile pic");
+		
 		if(client.authorizeTheRequest(requestTokenHeader,id))
 			return studentService.updateProfilePic(id, file);
 		else
+		{
+			log.error("User not authenticated");
+			
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
-
+		}
 	}
 
 	@GetMapping(path = "/student/{id}/course/{courseId}/certficate")
 	public ResponseEntity<String> sendCourseCompletionCertificate(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,
 			@PathVariable("courseId") int certId) throws FileNotFoundException, DocumentException, MessagingException {
+		log.info("sending certificate");
 		if(client.authorizeTheRequest(requestTokenHeader,id))
 			return studentService.sendCertificate(id, certId);
 		else
+		{
+			log.error("User not authenticated");
+			
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
-
+		}
 	}
+	@GetMapping(path = "/student/{id}/search/{search}")
+	public ResponseEntity<List<Course>> getSearchCourses(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,@PathVariable("search") String search) {
+		log.info("getting searched course");
+		if(client.authorizeTheRequest(requestTokenHeader,id))
+			return studentService.getSearchCourses(search);
+		else
+		{
+			log.error("User not authenticated");
+			
+			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+		}
+	}
+
 
 	@GetMapping(path = "/student/{id}/courses/{courseId}/courseDetails")
 	public ResponseEntity<StudentCourse> getCreatedCourseDetails(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,
@@ -102,32 +136,42 @@ public class StudentController {
 		if(client.authorizeTheRequest(requestTokenHeader,id))
 			return studentService.getCourseDetails(id, courseId);
 		else
+		{
+			log.error("User not authenticated");
+			
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
-
+		}
 	}
 
-	@GetMapping(path = "/student/{id}/published-courses")
-	public ResponseEntity<List<Course>> getAllPublishedCourses(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id) {
+	@GetMapping(path = "/student/{id}/published-courses/{page}")
+	public ResponseEntity<Page<Course>> getAllPublishedCourses(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,@PathVariable("page") int page) {
+		log.info("Getting all course ");
 		if(client.authorizeTheRequest(requestTokenHeader,id))
-			return courseService.getAllCourses();
+			return courseService.getAllCourses(page,3);
 		else
+		{
+			log.error("User not authenticated");
+			
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
-
+		}
 	}
 
 	@PostMapping(path = "/student/{id}/course/{courseId}/enroll")
 	public ResponseEntity<String> enrollInCourse(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id, @PathVariable("courseId") int courseId,
 			@RequestBody Payment paymentRequest) {
 		if(client.authorizeTheRequest(requestTokenHeader,id)) {
-			log.info("Course Id:"+courseId+"");
+			log.info("Enrolling course with Course Id:"+courseId+"");
 			return studentService.enrollStudentInCourse(id, courseId, paymentRequest.getPaymentStatus(),
 					paymentRequest.getPaymentResponseMessage(), paymentRequest.getPaymentAmount());
 			
 
 		}
 		else
+		{
+			log.error("User not authenticated");
+			
 			return new ResponseEntity<>("User Authentication Failed",HttpStatus.BAD_REQUEST);
-
+		}
 	}
 
 }

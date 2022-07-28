@@ -1,4 +1,5 @@
-package com.elms.authenticationservice.service;
+package com.elms.registrationservice.services;
+
 
 import javax.transaction.Transactional;
 
@@ -7,10 +8,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.elms.authenticationservice.models.Instructor;
-import com.elms.authenticationservice.models.Student;
-import com.elms.authenticationservice.repos.InstructorRepo;
-import com.elms.authenticationservice.repos.StudentRepo;
+import com.elms.registrationservice.models.Instructor;
+import com.elms.registrationservice.models.Student;
+import com.elms.registrationservice.repos.InstructorRepo;
+import com.elms.registrationservice.repos.StudentRepo;
+
 
 @Service
 public class AuthDatabaseService {

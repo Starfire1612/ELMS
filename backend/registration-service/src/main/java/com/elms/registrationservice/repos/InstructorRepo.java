@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.elms.registrationservice.models.Instructor;
 
 @Repository
-public interface InstructorRepo extends JpaRepository<Instructor, Long>{
+public interface InstructorRepo extends JpaRepository<Instructor, Integer>{
 	Instructor findByEmail(String email);
 	@Modifying
 	@Query(value = "update instructor set instructor_password=:password where instructor_email=:usermail",nativeQuery = true)
