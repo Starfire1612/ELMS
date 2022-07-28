@@ -41,6 +41,7 @@ export default function CourseDescription() {
   };
   const handleImageChange = (event) => {
     const image = event.target.files[0];
+    console.log(image);
     //convert image to base64 url
     const reader = new FileReader();
     reader.onloadend = () => {
