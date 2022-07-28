@@ -75,13 +75,14 @@ public class StudentController {
 	}
 
 	@PutMapping(path = "/student/{id}/profile")
-	public ResponseEntity<Student> updateStudentProfil(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,@RequestBody Student s) {
+	public ResponseEntity<Student> updateStudentProfil(@RequestHeader(value = "Authorization", required = true) 
+	String requestTokenHeader,@PathVariable("id") int id,@RequestBody Student s) {
 		log.info("Updating Student Profile");
 		if(client.authorizeTheRequest(requestTokenHeader,id))
 			return studentService.updateProfile(s);
 		else
-		{log.error("User not authenticated");
-		
+		{
+			log.error("User not authenticated");
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
 		}
 	}
