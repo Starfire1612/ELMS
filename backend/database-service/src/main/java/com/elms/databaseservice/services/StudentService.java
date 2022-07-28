@@ -74,18 +74,22 @@ public class StudentService {
 		try {
 		StudentCourse entry = new StudentCourse();
 		Student studentDetails = studentRepo.findById(studentId);
+		
 		List<Course> enrolledCourses = new ArrayList<>();
 		if (studentDetails!=null) {
 			Set<StudentCourse> studentCourseDetails = studentDetails.getStudentCoursesDetails();
 			for (StudentCourse sc : studentCourseDetails) {
 				enrolledCourses.add(sc.getCourseId());
 			}
+			log.info("Getting all details regarding enrolled course");
 			return new ResponseEntity<List<Course>>(enrolledCourses, HttpStatus.OK);
 		} else {
+			
 			return new ResponseEntity<>(enrolledCourses, HttpStatus.OK);
 		}
 		}
 		catch (Exception e) {
+			log.error("No Course FOund");
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
 
@@ -95,10 +99,13 @@ public class StudentService {
 	public ResponseEntity<Student> getProfile(int studentId) {
 		Student studentDetails = studentRepo.findById(studentId);
 		if(studentDetails!=null)
+		{
 			return new ResponseEntity<Student>(studentDetails, HttpStatus.OK);
-		else
+		}else
+		{
+log.error("Student details not found");
 			return new ResponseEntity<Student>(studentDetails, HttpStatus.NOT_FOUND);
-		
+		}
 	}
 
 
@@ -108,11 +115,14 @@ public class StudentService {
 		try {
 		StudentCourseId studentCourseId = new StudentCourseId(studentId, courseId);
 		StudentCourse studentCourseDetails = studentCourseRepo.findById(studentCourseId).get();
+		log.info("finding student enrolled in course");
 		pdfGenerationService.createPdfViaIText(studentCourseDetails);
 		emailService.sendMailWithAttachment(studentCourseDetails);
+		log.debug("Sending student certificate");
 		return new ResponseEntity<>("Course Completion Certificate Mail Sent Successfully!", HttpStatus.CREATED);
 		}
 		catch (Exception e) {
+			log.error("Certificate mail cannot be sent");
 			return new ResponseEntity<>("Course Completion Certificate Mail Cannot Be sent due to some error", HttpStatus.NOT_IMPLEMENTED);
 		}
 	}
@@ -125,6 +135,7 @@ public class StudentService {
 		return new ResponseEntity<>(studentCourseDetails, HttpStatus.OK);
 		}
 		catch (Exception e) {
+log.error("Cannot fetch course details");
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		
 		}
@@ -151,6 +162,8 @@ public class StudentService {
 		return paymentService.createPayment(payment);
 		}
 		catch (Exception e) {
+
+log.error("Cannot enroll student in course");
 			return new ResponseEntity<String>("Cannot enroll student in this course due to some error",HttpStatus.NOT_IMPLEMENTED);
 		}
 	}
@@ -158,11 +171,15 @@ public class StudentService {
 	@Transactional
 	public ResponseEntity<Student> updateProfile(@RequestBody Student student) {
 		Student studentDetails = studentRepo.findById(student.getStudentId());
+
+log.info("Fetched Student Details");
 		if(studentDetails!=null)
 		{
 			studentRepo.save(student);
 			return new ResponseEntity<>(studentDetails, HttpStatus.CREATED);
 		}
+
+log.error("Cannot update profile");
 		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 	}
 
@@ -176,16 +193,33 @@ public class StudentService {
 			// Check if the file's name contains invalid characters
 			if (file.getContentType().contains("/png")) {
 				Student studentDetails = studentRepo.findById(id);
+
+log.info("fetched student details");
 				studentDetails.setStudentImage(file.getBytes());
 				studentRepo.save(studentDetails);
 				return new ResponseEntity<>(file.getName() + " " + file.getResource().getFilename(),
 						HttpStatus.CREATED);
 			}
+
+log.warn("Only upload png image");
 			return new ResponseEntity<>("Only upload png images", HttpStatus.CREATED);
 		} catch (IOException ex) {
+
+log.error("Cannot store file");
 			return new ResponseEntity<>("Could not store file " + fileName + ". Please try again!", HttpStatus.BAD_GATEWAY);
 		}
 
+	}
+
+	public ResponseEntity<List<Course>> getSearchCourses(String search) {
+		 List<Course> courses=courseRepo.searchCourse(search);
+		 if(courses==null)
+		 {
+			 log.error("Cannot fetch search course");
+			 return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+		 }
+		 else
+			 return new ResponseEntity<>(courses,HttpStatus.FOUND);
 	}
 
 }

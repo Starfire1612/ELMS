@@ -42,8 +42,11 @@ public class LessonController {
 		if (client.authorizeTheRequest(requestTokenHeader, id))
 			return lessonService.addLessonsInCourse(lessons);
 		else
-			return new ResponseEntity<>("User Authentication Failed", HttpStatus.BAD_REQUEST);
+		{
 
+			log.error("User not authenticated");
+			return new ResponseEntity<>("User Authentication Failed", HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	// discuss with anurag about this lesson ui and functionality
@@ -55,33 +58,46 @@ public class LessonController {
 	public ResponseEntity<List<Lesson>> getAllLessonByCourseId(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
 			@PathVariable("id") int id, @PathVariable("cid") int cid) {
+		log.info("getting all lessons by course");
 		if (client.authorizeTheRequest(requestTokenHeader, id))
 			return lessonService.getAllLessonByCourseId(cid);
 		else
+		{
+
+			log.error("User not authenticated");
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 
-	}
+		}	}
 
 	@DeleteMapping(path = "/instructor/{id}/course/{cid}/lessons")
 	public ResponseEntity<String> deleteAllLessons(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
 			@PathVariable("id") int id, @PathVariable("cid") int cid) {
+		log.info("deleting all lessons");
 		if (client.authorizeTheRequest(requestTokenHeader, id))
 			return lessonService.deleteAllLessonsByCourseId(cid);
 		else
-			return new ResponseEntity<>("User Authentication Failed", HttpStatus.BAD_REQUEST);
+		{
 
+			log.error("User not authenticated");
+			return new ResponseEntity<>("User Authentication Failed", HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@DeleteMapping(path = "/instructor/{id}/course/{cid}/lessons/{lessonId}")
 	public ResponseEntity<String> deleteLesson(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
 			@PathVariable("id") int id, @PathVariable("cid") int cid, @PathVariable("lessonId") int lid) {
+		log.info("deleting individual lessons");
+		
 		if (client.authorizeTheRequest(requestTokenHeader, id))
 			return lessonService.deleteLessonByCourseIdAnsLessonId(cid, lid);
 		else
+		{
+			log.error("User not authenticated");
+			
 			return new ResponseEntity<>("User Authentication Failed", HttpStatus.BAD_REQUEST);
-
+		}
 	}
 
 	@PutMapping(path = "/instructor/{id}/course/{cid}/lessons/{lessonId}")
@@ -89,11 +105,15 @@ public class LessonController {
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
 			@PathVariable("id") int id, @PathVariable("cid") int cid, @PathVariable("lessonId") int lid,
 			@RequestBody Lesson newLesson) {
+		log.info("Updating Lessons");
+		
 		if (client.authorizeTheRequest(requestTokenHeader, id))
 
 			return lessonService.updateLessonByCourseIdAndLessonId(cid, lid, newLesson);
 		else
+		{log.error("User not authenticated");
+		
 			return new ResponseEntity<>("User Authentication Failed", HttpStatus.BAD_REQUEST);
-
+		}
 	}
 }

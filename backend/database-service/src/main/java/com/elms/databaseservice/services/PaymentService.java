@@ -70,6 +70,8 @@ public class PaymentService {
 			float totalCourseRevenue = paymentRepo.getTotalRevenueByCourseId(courseId);
 			return new ResponseEntity<>(totalCourseRevenue, HttpStatus.OK);
 		} catch (Exception e) {
+
+			log.error("Could not fetch total revenue");
 			return new ResponseEntity<>(null, HttpStatus.OK);
 		}
 	}

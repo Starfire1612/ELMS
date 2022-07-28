@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.elms.databaseservice.models.StudentCourse;
@@ -35,7 +37,10 @@ public class PdfGenerationService {
 	private static Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD);
 	private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
 
+	private static Logger log = LoggerFactory.getLogger(PdfGenerationService.class);
 	public void createPdfViaIText(StudentCourse studentCourseDetails) throws FileNotFoundException, DocumentException {
+		
+		log.info("Creating PDF");
 		Document document = new Document(PageSize.LETTER_LANDSCAPE);
         String studentName=studentCourseDetails.getStudentId().getStudentName();
         String courseName=studentCourseDetails.getCourseId().getCourseName();
@@ -49,6 +54,8 @@ public class PdfGenerationService {
 	}
 
 	private static void addMetaData(Document document,StudentCourse studentCourse) {
+
+		log.info("Adding MEta Data");
 		document.addTitle(studentCourse.getCourseId().getCourseName());
 		document.addSubject(studentCourse.getCourseId().getCourseDescription());
 		//document.addKeywords("Java, PDF, iText");
@@ -57,6 +64,8 @@ public class PdfGenerationService {
 	}
 
 	private static void addTitlePage(Document document) throws DocumentException {
+
+		log.info("Added Title page in certificate");
 		Paragraph preface = new Paragraph();
 		// We add one empty line
 		addEmptyLine(preface, 1);
@@ -82,6 +91,8 @@ public class PdfGenerationService {
 	}
 
 	private static void addContent(Document document) throws DocumentException {
+
+		log.info("Adding content in certificate");
 		Anchor anchor = new Anchor("First Chapter", catFont);
 		anchor.setName("First Chapter");
 
@@ -127,6 +138,8 @@ public class PdfGenerationService {
 	}
 
 	private static void createTable(Section subCatPart) throws BadElementException {
+
+		log.info("Creating Table in pdf");
 		PdfPTable table = new PdfPTable(3);
 
 		// t.setBorderColor(BaseColor.GRAY);

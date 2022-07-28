@@ -14,17 +14,21 @@ public class EmailService {
 	JavaMailSender javaMailSender;
 
 	public void sendVerificationMail(String to,int otp) {
+		log.info("Sending Mail");
 		SimpleMailMessage mailMessage = new SimpleMailMessage();
 		mailMessage.setFrom("rohoansohan998@gmail.com");
 		mailMessage.setTo(to);
-		mailMessage.setSubject("Email Verification Mail");
+		mailMessage.setSubject("Forget Password");
 		mailMessage.setText("This is your Otp"+" : "+otp+"");
 		javaMailSender.send(mailMessage);
-		log.info("Sending Registration Verfication Email "+ otp);
+		log.info("Sending OTp email "+ otp);
 
 	}
 	
 	public int generateOtp() {
+		
+
+		log.info("Generating OTP");
 		int max = 9999;
 		int min = 1000;
 		int range = max - min + 1;

@@ -53,12 +53,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 			try {
 				username = jwtTokenUtil.getUsernameFromToken(jwtToken);
 				userType = jwtTokenUtil.getUserTypeFromToken(jwtToken);
-				log.info(userType);
-				log.info(username);
+				log.info(userType+" getting Verified");
+				log.info(username+" getting Verified");
 			} catch (IllegalArgumentException e) {
-				System.out.println("Unable to get JWT Token");
+				log.error("Unable to get JWT Token");
 			} catch (ExpiredJwtException e) {
-				System.out.println("JWT Token has expired");
+				log.error("JWT Token has expired");
 			}
 		} else {
 			logger.warn("JWT Token does not begin with Bearer String");
@@ -68,7 +68,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 //			UserDetails userDetails= this.detailsService.loadUserByUsername(username+":"+userType);
 			String authenticatedUserEmail = "";
-			log.info("This is the username from token:"+username);
+			log.info("This is the username from token: "+username);
 			if (userType.equalsIgnoreCase("student")) {
 				Student student = authDatabaseService.findStudentByEmail(username);
 				authenticatedUserEmail = student.getEmail();

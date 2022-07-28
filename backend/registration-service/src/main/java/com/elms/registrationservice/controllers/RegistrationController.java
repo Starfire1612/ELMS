@@ -76,27 +76,34 @@ public class RegistrationController {
 	public ResponseEntity<String> verifyUserMail(@PathVariable("type") String usertype,
 			@PathVariable("email") String usermail) {
 		int otp = emailService.generateOtp();
+		logger.info("Verifying Email");
 		if (usertype.equalsIgnoreCase("student")) {
 			Optional<Student> registeredStudent = Optional.ofNullable(databaseService.findStudentByEmail(usermail));
 			if (!registeredStudent.isEmpty())
+			{
+				logger.error("No such user exists");
 				return new ResponseEntity<>("No such user email registered!", HttpStatus.NOT_FOUND);
-			else {
+			}else {
 				emailService.sendVerificationMail(usermail, otp);
 				HttpHeaders headers = new HttpHeaders();
 				headers.add("Otp", bCryptPasswordEncoder.encode(otp + ""));
 				headers.setAccessControlExposeHeaders(List.of("Otp"));
-
+				logger.info("Otp Sent");
 				return new ResponseEntity<>("Sent OTP mail to the registered email", headers, HttpStatus.OK);
 			}
 		} else {
 			Optional<Instructor> registeredInstructor = Optional
 					.ofNullable(databaseService.findInstructorByEmail(usermail));
 			if (!registeredInstructor.isEmpty())
+			{
+
+				logger.error("No such user exists");
 				return new ResponseEntity<>("No such user email registered!", HttpStatus.NOT_FOUND);
-			else {
+			}else {
 				emailService.sendVerificationMail(usermail, otp);
 				HttpHeaders headers = new HttpHeaders();
 				headers.add("Otp", otp + "");
+				logger.info("OTP Send");
 				return new ResponseEntity<>("Sent OTP mail to the registered email.", HttpStatus.FOUND);
 			}
 		}
