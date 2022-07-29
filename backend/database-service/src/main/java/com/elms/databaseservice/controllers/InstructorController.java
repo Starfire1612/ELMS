@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -121,7 +122,7 @@ public class InstructorController {
 		
 	}
 
-	@PutMapping(path = "/instructor/{id}/create-course")
+	@PatchMapping(path = "/instructor/{id}/create-course")
 	public ResponseEntity<String> publishCourse(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id, @RequestBody Course course,
 			@RequestBody List<Lesson> lessons) {
 		log.info("Updating Instructor");
@@ -149,7 +150,7 @@ public class InstructorController {
 	}
 
 
-	@PutMapping(path = "/instructor/{id}/profile")
+	@PatchMapping(path = "/instructor/{id}/profile")
 	public ResponseEntity<Instructor> updateInstructorProfil(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable int id,@RequestBody Instructor i) {
 		log.info("updating profile of instructor");
 		if(client.authorizeTheRequest(requestTokenHeader,id))	
@@ -161,7 +162,7 @@ public class InstructorController {
 	}
 	}
 
-	@PutMapping(path = "/instructor/{id}/uploadProfilePic", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+	@PatchMapping(path = "/instructor/{id}/uploadProfilePic", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<String> updateInstructorProfilPic(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id, @RequestBody MultipartFile file)
 			throws Exception {
 		log.info("updating profile pic");

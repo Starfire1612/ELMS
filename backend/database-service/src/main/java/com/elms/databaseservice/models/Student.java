@@ -45,7 +45,7 @@ public class Student {
 	private String studentEmail;
 	@Column(name = "stu_password", length = 255, nullable = false, unique = false)
 	private String studentPassword;
-	@JsonIgnore
+	//@JsonIgnore
 	@Lob
 	@Column(name = "stu_image")
 	private byte[] studentImage;
