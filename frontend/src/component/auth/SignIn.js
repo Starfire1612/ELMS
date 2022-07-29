@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { HashLoader } from "react-spinners";
 import "../../styles/Register.css";
 import { LOADING_COLOR } from "../../utils/constants";
+import { postAuthenticatedUser } from './auth-utils';
 
 function SignIn({ handleLogin }) {
   const [user, setUser] = useState({});
@@ -20,24 +21,18 @@ function SignIn({ handleLogin }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
-    const config = {
-      url: `http://localhost:8080/authenticate`,
-      method: "post",
-      data: {
-        useremail: user.email,
-        password: user.password,
-        type: user.type,
-      },
+    const data = {
+      useremail: user.email,
+      password: user.password,
+      type: user.type,
     };
-    const _userToken = await axios(config)
-      .then((res) => res.data.jwttoken)
-      .catch((err) => console.log(err));
+    const _userToken = await postAuthenticatedUser(data);
     console.log(_userToken);
 
     if (_userToken) {
       localStorage.setItem("userToken", _userToken);
       localStorage.setItem("userType", user.type);
-      console.log(localStorage.getItem("userToken"));
+      console.log(typeof(localStorage.getItem("userToken")));
       handleLogin();
     }
     //set isLoading to false

@@ -10,7 +10,7 @@ import com.elms.authenticationservice.models.Instructor;
 
 @Repository
 public interface InstructorRepo extends JpaRepository<Instructor, Integer>{
-	Instructor findByEmail(String email);
+	Instructor findByInstructorEmail(String email);
 	@Modifying
 	@Query(value = "update instructor set instructor_password=:password where instructor_email=:usermail",nativeQuery = true)
 	int updateInstructorPassword(@Param("usermail") String useremail,@Param("password") String password);

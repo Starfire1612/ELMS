@@ -12,8 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -68,7 +68,7 @@ public class ForgotPasswordController {
 		}
 	}
 	
-	@PostMapping("/forgot-password")
+	@PatchMapping("/forgot-password")
 	public ResponseEntity<String> updatePassword(@RequestBody JwtRequest body){
 		String userType=body.getType();
 		String userEmail=body.getUseremail();

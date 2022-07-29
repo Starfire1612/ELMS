@@ -6,6 +6,7 @@ import "../../styles/StudentDashboard.css";
 import DashboardCarousel from "./DashboardCarousel";
 
 function StudentDashboard({ handleLogout, userData }) {
+  console.log(userData)
   const [courses, setCourses] = useState([]);
 
   //fetch all the courses

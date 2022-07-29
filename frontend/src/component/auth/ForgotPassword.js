@@ -6,7 +6,7 @@ import "../../styles/Register.css";
 import bcryptjs from "bcryptjs";
 import { HashLoader } from "react-spinners";
 import { LOADING_COLOR } from "../../utils/constants";
-import { fetchOtp } from "../../utils/http-requests";
+import { postNewPassword, sendForgotPasswordMail } from "./auth-utils.js";
 // import { validateFields } from "../../utils/util";
 
 function ForgotPassword() {
@@ -53,7 +53,8 @@ function ForgotPassword() {
         }
       }
     );
-    //set isLoading to false
+    // set isLoading to false
+    setIsLoading(false);
     console.log(res);
   };
 
@@ -62,7 +63,7 @@ function ForgotPassword() {
     //   return;
     // }
     setIsLoading(true);
-    const encryptedOtp = await fetchOtp(user.email, user.type);
+    const encryptedOtp = await sendForgotPasswordMail(user.email, user.type);
     if (!encryptedOtp) {
       setIsLoading(false);
       return;
@@ -86,11 +87,9 @@ function ForgotPassword() {
       password: user.password,
     };
     setIsLoading(true);
-    const response = await axios
-      .post("http://localhost:8080/forgot-password", requestBody)
-      .then((res) => res)
-      .catch((err) => console.log(err));
+    const response = await postNewPassword(requestBody);
     console.log(response);
+    setIsLoading(false)
     //after response set isLoading to false
   };
 

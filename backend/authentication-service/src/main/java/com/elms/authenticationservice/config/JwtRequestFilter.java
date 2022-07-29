@@ -71,11 +71,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 			log.info("This is the username from token: "+username);
 			if (userType.equalsIgnoreCase("student")) {
 				Student student = authDatabaseService.findStudentByEmail(username);
-				authenticatedUserEmail = student.getEmail();
+				authenticatedUserEmail = student.getStudentEmail();
 				if (jwtTokenUtil.validateToken(jwtToken, authenticatedUserEmail)) {
 
 					UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-							student, student.getPassword(), Collections.emptyList());
+							student, student.getStudentPassword(), Collections.emptyList());
 					usernamePasswordAuthenticationToken
 							.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 					// After setting the Authentication in the context, we specify
@@ -85,16 +85,16 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 				}
 			} else {
 				Instructor instructor = authDatabaseService.findInstructorByEmail(username);
-				authenticatedUserEmail = instructor.getEmail();
+				authenticatedUserEmail = instructor.getInstructorEmail();
 				if (jwtTokenUtil.validateToken(jwtToken, authenticatedUserEmail)) {
 
 					UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-							instructor, instructor.getPassword(), Collections.emptyList());
+							instructor, instructor.getInstructorPassword(), Collections.emptyList());
 					usernamePasswordAuthenticationToken
 							.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 					// After setting the Authentication in the context, we specify
 					// that the current user is authenticated. So it passes the
-					// Spring Security Configurations successfully.
+					// Spring Security Configurations successfully. 
 					SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 				}
 			}

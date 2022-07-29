@@ -37,7 +37,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 			log.warn("instructor not found with this user name");
 			throw new UsernameNotFoundException("Student not found with username: " + usermail);
 		}
-		return new User(user.getEmail(), bcryptEncoder.encode(user.getPassword()),
+		return new User(user.getStudentEmail(), bcryptEncoder.encode(user.getStudentPassword()),
 				new ArrayList<>());
 		}
 		else {
@@ -46,7 +46,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 				log.warn("instructor not found with this user name");
 				throw new UsernameNotFoundException("Instructor not found with username: " + usermail);
 			}
-			return new User(user.getEmail(), bcryptEncoder.encode(user.getPassword()),
+			return new User(user.getInstructorEmail(), bcryptEncoder.encode(user.getInstructorPassword()),
 					new ArrayList<>());
 		}
 //		if ("radhika".equals(username)) {

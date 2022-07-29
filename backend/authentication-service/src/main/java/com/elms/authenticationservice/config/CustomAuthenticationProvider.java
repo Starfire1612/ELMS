@@ -40,8 +40,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 			if (user == null) {
 				throw new UsernameNotFoundException("Student not found with username: " + usermail);
 			} else {
-				if (passwordEncoder.matches(authentication.getCredentials().toString(), user.getPassword())) {
-					return new UsernamePasswordAuthenticationToken(user, user.getPassword(), Collections.emptyList());
+				if (passwordEncoder.matches(authentication.getCredentials().toString(), user.getStudentPassword())) {
+					return new UsernamePasswordAuthenticationToken(user, user.getStudentPassword(), Collections.emptyList());
 				} else {
 					throw new BadCredentialsException("Wrong password");
 				}
@@ -51,8 +51,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 			if (user == null) {
 				throw new UsernameNotFoundException("Instructor not found with username: " + usermail);
 			} else {
-				if (passwordEncoder.matches(authentication.getCredentials().toString(), user.getPassword())) {
-					return new UsernamePasswordAuthenticationToken(user, user.getPassword(), Collections.emptyList());
+				if (passwordEncoder.matches(authentication.getCredentials().toString(), user.getInstructorPassword())) {
+					return new UsernamePasswordAuthenticationToken(user, user.getInstructorPassword(), Collections.emptyList());
 				} else {
 					throw new BadCredentialsException("Wrong password");
 				}

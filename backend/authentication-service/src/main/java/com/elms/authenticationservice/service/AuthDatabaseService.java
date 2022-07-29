@@ -29,12 +29,12 @@ public class AuthDatabaseService {
 	@Transactional
 	public Student findStudentByEmail(String email) {
 		log.info("finding student by email");
-		return studentRepo.findByEmail(email);
+		return studentRepo.findByStudentEmail(email);
 	}
 	@Transactional
 	public Instructor findInstructorByEmail(String email) {
 		log.info("finding instructor by Id");
-		return instructorRepo.findByEmail(email);
+		return instructorRepo.findByInstructorEmail(email);
 	}
 
 	//make necesasary change in encoding part

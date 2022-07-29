@@ -70,12 +70,12 @@ public class JwtAuthenticationController {
 
 				if (userType.equalsIgnoreCase("student")) {
 					Student s = databaseService.findStudentByEmail(userName);
-					log.info("Token Usename" + userName + " :  \t" + "UserName from Db" + s.getEmail());
-					return (s.getId()==id);
+					log.info("Token Usename" + userName + " :  \t" + "UserName from Db" + s.getStudentEmail());
+					return (s.getStudentId()==id);
 				} else {
 					Instructor i = databaseService.findInstructorByEmail(userName);
-					log.info("Token Usename" + userName + " :  \t" + "UserName from Db" + i.getEmail());
-					return (i.getId()==id);
+					log.info("Token Usename" + userName + " :  \t" + "UserName from Db" + i.getInstructorEmail());
+					return (i.getInstructorId()==id);
 				}
 			} catch (IllegalArgumentException | ExpiredJwtException e) {
 				log.error("Error validating JWT Token");
@@ -99,4 +99,15 @@ public class JwtAuthenticationController {
 		}
 	}
 
+	@GetMapping(value="/greetings")
+	public Object getUser(@RequestHeader("Authorization") String token) {
+		log.info("Greeetings method called with token "+token);
+		token=token.substring(7);
+		String userType=jwtTokenUtil.getUserTypeFromToken(token);
+		String userEmail=jwtTokenUtil.getUsernameFromToken(token);
+		if(userType.equalsIgnoreCase("student"))
+			return (Student) databaseService.findStudentByEmail(userEmail);
+		else
+			return (Instructor) databaseService.findInstructorByEmail(userEmail);
+	}
 }
