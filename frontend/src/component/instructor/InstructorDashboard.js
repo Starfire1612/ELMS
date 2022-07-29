@@ -64,11 +64,11 @@ function InstructorDashboard({ handleLogout, userData }) {
       <div className="instructor-dashboard">
         <div className="instructor-dashboard-heading">
           <p className="fs-1 fw-500">Courses</p>
-          <Button className="type-1 fw-bolder d-none new-course-button-1">
-            <Link to="./add-course" className="text-white">
+          <Link to="./add-course" className="text-white">
+            <Button className="type-1 fw-bolder d-none new-course-button-1">
               New course
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </div>
         <div className="search-course-wrapper">
           <div className="search-course-inner">
@@ -87,7 +87,7 @@ function InstructorDashboard({ handleLogout, userData }) {
               </Button>
             </Form>
 
-            {/* filter button */}
+            {/* Sort button */}
             <Dropdown>
               <Dropdown.Toggle className="type-3">
                 <span className="me-1">
@@ -118,11 +118,11 @@ function InstructorDashboard({ handleLogout, userData }) {
               </Dropdown.Menu>
             </Dropdown>
           </div>
-          <Button className="type-1 fw-bolder new-course-button-2">
-            <Link to="./add-course" className="text-white">
+          <Link to="./add-course" className="text-white">
+            <Button className="type-1 fw-bolder new-course-button-2">
               New course
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </div>
         {isLoading ? (
           <ClipLoader className="d-block mx-auto mt-5" color={LOADING_COLOR} />

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useParams, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import "../../../styles/manage-course/ManageCourse.css";
+// import "../../../styles/manage-course/ManageCourse.css";
+import "../../../styles/Navigationbar.css";
 import ManageCourseNavbar from "./ManageCourseNavbar";
 import SideNavBar from "./SideNavBar";
 import DeleteCourse from "./DeleteCourse";

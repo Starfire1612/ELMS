@@ -1,0 +1,42 @@
+.student-dashboard-body {
+  padding: 1.6rem 0 6.4rem 0;
+  min-height: 100vh;
+}
+
+.carousel-container {
+  padding-inline: 4.8rem;
+  max-height: 400px;
+}
+
+.carousel-item {
+  width: 100%;
+  max-height: 400px;
+}
+
+.carousel-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+
+.explore-dashboard {
+  background-color: #1c1d1e;
+  width: 100%;
+  min-height: 6rem;
+  padding-left: 3.2rem;
+}
+
+.explore-dashboard>p {
+  vertical-align: middle;
+}
+
+.course-list {
+  padding: 1.6rem 4.8rem 0 4.8rem;
+}
+
+@media(max-width:500px) {
+  .carousel-caption {
+    display: none;
+  }
+}

@@ -5,9 +5,7 @@ import SignIn from "./component/auth/SignIn";
 import SignUp from "./component/auth/SignUp";
 import { useState } from "react";
 import axios from "axios";
-import HomePage from "./component/HomePage";
 import Profile from "./component/Profile";
-import Courses from "./component/Courses";
 import AddCourse from "./component/instructor/AddCourse";
 import ManageCourse from "./component/instructor/manage-course/ManageCourse";
 import InstructorDashboard from "./component/instructor/InstructorDashboard";
@@ -16,8 +14,9 @@ import Film from "./component/instructor/manage-course/Film";
 import CourseStructure from "./component/instructor/manage-course/CourseStructure";
 import CourseDescription from "./component/instructor/manage-course/CourseDescription";
 import Curriculum from "./component/instructor/manage-course/Curriculum";
+import StudentDashboard from "./component/student/StudentDashboard";
 
-function App(props) {
+function App() {
   const [loggedInStatus, setLoggedInStatus] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState({});
@@ -67,10 +66,11 @@ function App(props) {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route
           path="/home"
-          element={<HomePage handleLogout={handleLogout} userData={userData} />}
+          element={
+            <StudentDashboard handleLogout={handleLogout} userData={userData} />
+          }
         />
-        {/* <Route path="/home/courses" element={<Courses />} /> */}
-        <Route path="profile" element={<Profile />} />
+        <Route path="/profile" element={<Profile />} />
         <Route
           path="/instructor"
           element={

@@ -4,7 +4,7 @@ const thumbnailUrl =
 const dummyCourses = [
   {
     courseId: 1,
-    courseName: "Html",
+    courseName: "Html lorem ipsum dolor sit amet consectetur",
     courseDescription:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut illo ipsum voluptatum minima impedit ex vitae sed consequatur similique nisi.",
     courseImage: "Lorem ipsum do",
