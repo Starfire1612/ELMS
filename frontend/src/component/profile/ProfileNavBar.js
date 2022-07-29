@@ -1,42 +1,42 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function ProfileNavBar({userData}) {
-  const image = localStorage.getItem("userImage");
-  
+export default function ProfileNavBar({ userData }) {
+  const userType = localStorage.getItem("userType");
+  const [profilePicUrl, setProfilePicUrl] = useState(
+    "https://img-c.udemycdn.com/user/200_H/anonymous_3.png"
+  );
+
   const [userImage, setuserImage] = useState("second");
   useEffect(() => {
-    setuserImage(localStorage.getItem("userImage"));
-    console.log("Image changed",userImage.toString())
-  }, [localStorage.getItem("userImage")]);
+    setProfilePicUrl("data:image/png;base64," + userData[`${userType}Image`]);
+  }, []);
 
   return (
     <div className="navbar-container">
       <div className="navbar-profile-pic-container">
         <img
-          src={
-            image === null
-              ? "https://img-c.udemycdn.com/user/200_H/anonymous_3.png"
-              : userImage.toString()
-          }
+          src={profilePicUrl}
           alt="account.jpeg"
           className="account-circle-avatar"
         />
       </div>
-      <div className="profile-navbar-link">
-        <Link to="edit-profile">Profile</Link>
+      <div className="my-2">
+        <Link to="edit-profile">
+          <div className="profile-navbar-link">Profile</div>
+        </Link>
+        <Link to="edit-profile-pic">
+          <div className="profile-navbar-link">Photo</div>
+        </Link>
+        <Link to="edit-account-security">
+          <div className="profile-navbar-link">Account Security</div>
+        </Link>
+        {localStorage.getItem("userType") === "instructor" && (
+          <Link to="edit-bank-account-details">
+            <div className="profile-navbar-link">Bank Account Details</div>
+          </Link>
+        )}
       </div>
-      <div className="profile-navbar-link">
-        <Link to="edit-profile-pic">Photo</Link>
-      </div>
-      <div className="profile-navbar-link">
-        <Link to="edit-account-security">Account Security</Link>
-      </div>
-      {localStorage.getItem("userType")==="instructor" &&
-      <div className="profile-navbar-link">
-        <Link to="edit-bank-account-details">Bank Account Details</Link>
-      </div>
-      }
     </div>
   );
 }

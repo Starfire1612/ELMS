@@ -40,7 +40,7 @@ public class RegisterService {
 			return new ResponseEntity<>("Registered Student "+s.getEmail()+" successfully!",  HttpStatus.CREATED);
 		} else {
 logger.warn("User email already exists");
-			return new ResponseEntity<>("User email already existed "+s.getEmail()+" successfully!",  HttpStatus.NOT_IMPLEMENTED);
+			return new ResponseEntity<>("User email already existed "+s.getEmail()+" successfully!",  HttpStatus.BAD_REQUEST);
 		}
 	}
 	@Transactional
@@ -54,7 +54,7 @@ logger.warn("User email already exists");
 			return new ResponseEntity<>("Registered Instructor "+i.getEmail()+" successfully!",  HttpStatus.CREATED);
 		} else {
 			logger.warn("User email already exists");
-			return new ResponseEntity<>("User email already existed "+i.getEmail()+" successfully!",  HttpStatus.NOT_IMPLEMENTED);
+			return new ResponseEntity<>("User email already existed "+i.getEmail()+" successfully!",  HttpStatus.BAD_REQUEST);
 		}
 	}
 

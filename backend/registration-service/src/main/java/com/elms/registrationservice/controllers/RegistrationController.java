@@ -81,8 +81,8 @@ public class RegistrationController {
 			Optional<Student> registeredStudent = Optional.ofNullable(databaseService.findStudentByEmail(usermail));
 			if (!registeredStudent.isEmpty())
 			{
-				logger.error("No such user exists");
-				return new ResponseEntity<>("No such user email registered!", HttpStatus.NOT_FOUND);
+				logger.error("User already exists");
+				return new ResponseEntity<>("Email already registered!", HttpStatus.BAD_REQUEST);
 			}else {
 				emailService.sendVerificationMail(usermail, otp);
 				HttpHeaders headers = new HttpHeaders();
@@ -97,8 +97,8 @@ public class RegistrationController {
 			if (!registeredInstructor.isEmpty())
 			{
 
-				logger.error("No such user exists");
-				return new ResponseEntity<>("No such user email registered!", HttpStatus.NOT_FOUND);
+				logger.error("User already exists");
+				return new ResponseEntity<>("Email already registered!", HttpStatus.BAD_REQUEST);
 			}else {
 				emailService.sendVerificationMail(usermail, otp);
 				HttpHeaders headers = new HttpHeaders();

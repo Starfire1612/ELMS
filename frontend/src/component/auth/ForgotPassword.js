@@ -1,18 +1,20 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { Button, FloatingLabel, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../styles/Register.css";
 import bcryptjs from "bcryptjs";
-import { HashLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 import { LOADING_COLOR } from "../../utils/constants";
 import { postNewPassword, sendForgotPasswordMail } from "./auth-utils.js";
-// import { validateFields } from "../../utils/util";
 
 function ForgotPassword() {
+  const navigate = useNavigate();
   const [user, setUser] = useState({});
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [isOtpVerified, setIsOtpVerified] = useState(false);
+
+  // values={-1,0,1}, 1 for successful password change, -1 for something went wrong and 0 is by default
+  const [passwordChanged, setPasswordChanged] = useState(0);
   const [inputFields, setInputFields] = useState({
     type: true,
     email: true,
@@ -64,8 +66,10 @@ function ForgotPassword() {
     // }
     setIsLoading(true);
     const encryptedOtp = await sendForgotPasswordMail(user.email, user.type);
+    console.log(encryptedOtp);
     if (!encryptedOtp) {
       setIsLoading(false);
+      setIsOtpSent(false);
       return;
     }
     setUser((prevState) => ({
@@ -73,7 +77,7 @@ function ForgotPassword() {
       encryptedOtp,
     }));
     setIsOtpSent(true);
-    console.log(encryptedOtp);
+    setIsLoading(false);
     //set isLoading to false
   };
 
@@ -81,6 +85,7 @@ function ForgotPassword() {
     if (user.password !== user.confirmPassword || user.password.length < 8) {
       return;
     }
+    console.log(user);
     const requestBody = {
       type: user.type,
       useremail: user.email,
@@ -88,9 +93,16 @@ function ForgotPassword() {
     };
     setIsLoading(true);
     const response = await postNewPassword(requestBody);
-    console.log(response);
-    setIsLoading(false)
-    //after response set isLoading to false
+    if (response === 200) {
+      setPasswordChanged(1);
+      isLoading(true);
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
+    } else {
+      setPasswordChanged(-1);
+    }
+    setIsLoading(false);
   };
 
   const button = (handleFunction, value) => {
@@ -119,13 +131,11 @@ function ForgotPassword() {
               <div className="input-fields">
                 {isLoading && (
                   <div className="loading">
-                    <HashLoader color={LOADING_COLOR} />
+                    <ClipLoader color={LOADING_COLOR} />
                   </div>
                 )}
-                {!inputFields.type ? (
-                  <p className="not-found">Select correct type</p>
-                ) : (
-                  ""
+                {!inputFields.type && (
+                  <p className="not-found mb-0">Select correct type</p>
                 )}
                 <Form.Select
                   name="type"
@@ -133,14 +143,12 @@ function ForgotPassword() {
                   disabled={isOtpSent || isLoading}
                   required
                 >
-                  <option>Select one</option>
+                  <option value="">Select one</option>
                   <option value="student">Student</option>
                   <option value="instructor">Instructor</option>
                 </Form.Select>
-                {!inputFields.email ? (
-                  <p className="not-found">Enter email</p>
-                ) : (
-                  ""
+                {!inputFields.email && (
+                  <p className="not-found mb-0">Enter email</p>
                 )}
                 <FloatingLabel
                   controlId="floatingInput"
@@ -156,10 +164,8 @@ function ForgotPassword() {
                     required
                   />
                 </FloatingLabel>
-                {!inputFields.otp ? (
-                  <p className="not-found">Enter correct OTP</p>
-                ) : (
-                  ""
+                {!inputFields.otp && (
+                  <p className="not-found mb-0">Enter correct OTP</p>
                 )}
                 <FloatingLabel className="mb-3" label="OTP">
                   <Form.Control
@@ -176,12 +182,17 @@ function ForgotPassword() {
                 ? button(verifyOtp, "Verify")
                 : button(handleOtp, "Send OTP")}
             </>
-          ) : (
+          ) : passwordChanged !== 1 ? (
             <>
+              {passwordChanged === -1 && (
+                <p className="text-center text-danger">
+                  Something went wrong, Try again!
+                </p>
+              )}
               <div className="input-fields">
                 {isLoading && (
                   <div className="loading">
-                    <HashLoader color={LOADING_COLOR} />
+                    <ClipLoader color={LOADING_COLOR} />
                   </div>
                 )}
                 <FloatingLabel className="mb-3" label="Password">
@@ -190,14 +201,12 @@ function ForgotPassword() {
                     name="password"
                     onChange={handleChange}
                     placeholder="Password"
-                    disabled={isLoading}
+                    disabled={isLoading || passwordChanged}
                     required
                   />
                 </FloatingLabel>
-                {!inputFields.password ? (
+                {!inputFields.password && (
                   <p className="not-found mb-1">Password does not match</p>
-                ) : (
-                  ""
                 )}
                 <FloatingLabel className="mb-3" label="Confirm Password">
                   <Form.Control
@@ -205,20 +214,24 @@ function ForgotPassword() {
                     name="confirmPassword"
                     onChange={handleChange}
                     placeholder="Confirm password"
-                    disabled={isLoading}
+                    disabled={isLoading || passwordChanged}
                     required
                   />
                 </FloatingLabel>
               </div>
               {button(handleChangePassword, "Confirm")}
             </>
+          ) : (
+            <div className="password-changed border border-secondary text-center mb-2 mx-auto">
+              <p className="fs-3 mb-0">Password Changed Successfully</p>
+            </div>
           )}
 
-          <Link to="/">
-            <div className="fs-6 mb-3 forgot-password text-center text-dark ">
+          <div className="fs-6 mb-3 forgot-password text-center ">
+            <Link className="text-dark" to="/">
               Back To Login
-            </div>
-          </Link>
+            </Link>
+          </div>
         </div>
       </Form>
     </div>

@@ -1,11 +1,10 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { Button, FloatingLabel, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { HashLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 import "../../styles/Register.css";
 import { LOADING_COLOR } from "../../utils/constants";
-import { postAuthenticatedUser } from './auth-utils';
+import { postAuthenticatedUser } from "./auth-utils";
 
 function SignIn({ handleLogin }) {
   const [user, setUser] = useState({});
@@ -32,10 +31,10 @@ function SignIn({ handleLogin }) {
     if (_userToken) {
       localStorage.setItem("userToken", _userToken);
       localStorage.setItem("userType", user.type);
-      console.log(typeof(localStorage.getItem("userToken")));
+      console.log(typeof localStorage.getItem("userToken"));
       handleLogin();
     }
-    //set isLoading to false
+    setIsLoading(false);
   };
 
   return (
@@ -47,59 +46,52 @@ function SignIn({ handleLogin }) {
           <div className="input-fields">
             {isLoading && (
               <div className="loading">
-                <HashLoader color={LOADING_COLOR} />
+                <ClipLoader color={LOADING_COLOR} />
               </div>
             )}
             <Form.Select
               name="type"
               onChange={handleChange}
               disabled={isLoading}
+              required
             >
-              <option>Select one</option>
+              <option value="">Select one</option>
               <option value="student">Student</option>
               <option value="instructor">Instructor</option>
             </Form.Select>
-            <FloatingLabel
-              controlId="floatingInput"
-              label="Email address"
-              className="mb-3 mt-3"
-            >
+            <FloatingLabel label="Email address" className="mb-3 mt-3">
               <Form.Control
                 type="email"
                 name="email"
                 placeholder="name@example.com"
                 onChange={handleChange}
                 disabled={isLoading}
+                required
               />
             </FloatingLabel>
 
-            <FloatingLabel
-              className="mb-3"
-              controlId="floatingPassword"
-              label="Password"
-            >
+            <FloatingLabel className="mb-3" label="Password">
               <Form.Control
                 type="password"
                 name="password"
                 onChange={handleChange}
                 placeholder="Password"
                 disabled={isLoading}
+                required
               />
             </FloatingLabel>
           </div>
-          <Link to="/forgot-password">
-            <div className="fs-6 mb-3 forgot-password text-dark">
+          <div className="fs-6 mb-3 forgot-password text-center">
+            <Link className="text-dark" to="/forgot-password">
               Forgot Password
-            </div>
-          </Link>
+            </Link>
+          </div>
 
           <Button className="type-1" type="submit" disabled={isLoading}>
             Sign In
           </Button>
           <Link to="/sign-up">
-            <Button className="signup-button type-1" variant="danger">
-              Sign Up
-            </Button>
+            <Button className="signup-button type-1">Sign Up</Button>
           </Link>
         </div>
       </Form>
