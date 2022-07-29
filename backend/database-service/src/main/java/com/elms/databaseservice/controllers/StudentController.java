@@ -12,7 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -29,7 +31,7 @@ import com.elms.databaseservice.proxy.AuthClient;
 import com.elms.databaseservice.services.CourseService;
 import com.elms.databaseservice.services.StudentService;
 import com.itextpdf.text.DocumentException;
-
+@CrossOrigin(origins="http://localhost:3000")
 @RestController
 public class StudentController {
 
@@ -74,7 +76,7 @@ public class StudentController {
 		}
 	}
 
-	@PutMapping(path = "/student/{id}/profile")
+	@PatchMapping(path = "/student/{id}/profile")
 	public ResponseEntity<Student> updateStudentProfil(@RequestHeader(value = "Authorization", required = true) 
 	String requestTokenHeader,@PathVariable("id") int id,@RequestBody Student s) {
 		log.info("Updating Student Profile");
@@ -87,8 +89,11 @@ public class StudentController {
 		}
 	}
 
-	@PutMapping(path = "/student/{id}/uploadProfilePic", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-	public ResponseEntity<String> updateStudentProfilPic(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id, @RequestBody MultipartFile file)
+	@PatchMapping(path = "/student/{id}/uploadProfilePic", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+	public ResponseEntity<Student> updateStudentProfilPic(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
+			@PathVariable("id") int id,
+			@RequestBody MultipartFile file
+			)
 			throws Exception {
 		log.info("Updating profile pic");
 		

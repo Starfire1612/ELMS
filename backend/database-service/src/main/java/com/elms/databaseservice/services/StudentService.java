@@ -2,10 +2,8 @@ package com.elms.databaseservice.services;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import javax.mail.MessagingException;
@@ -184,7 +182,7 @@ log.error("Cannot update profile");
 	}
 
 	@Transactional
-	public ResponseEntity<String> updateProfilePic(int id, MultipartFile file) throws Exception {
+	public ResponseEntity<Student> updateProfilePic(int id, MultipartFile file) throws Exception {
 		// TODO Auto-generated method stub
 		// Normalize file name
 		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
@@ -197,16 +195,16 @@ log.error("Cannot update profile");
 log.info("fetched student details");
 				studentDetails.setStudentImage(file.getBytes());
 				studentRepo.save(studentDetails);
-				return new ResponseEntity<>(file.getName() + " " + file.getResource().getFilename(),
-						HttpStatus.CREATED);
+				Student res = studentRepo.findById(id);
+				return new ResponseEntity<Student>(res,HttpStatus.CREATED);
 			}
 
 log.warn("Only upload png image");
-			return new ResponseEntity<>("Only upload png images", HttpStatus.CREATED);
+			return new ResponseEntity<>(null, HttpStatus.CREATED);
 		} catch (IOException ex) {
 
 log.error("Cannot store file");
-			return new ResponseEntity<>("Could not store file " + fileName + ". Please try again!", HttpStatus.BAD_GATEWAY);
+			return new ResponseEntity<>(null, HttpStatus.BAD_GATEWAY);
 		}
 
 	}
