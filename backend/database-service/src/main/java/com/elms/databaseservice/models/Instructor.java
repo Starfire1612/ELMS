@@ -44,7 +44,7 @@ public class Instructor {
 	@Column(name = "instructor_password", length = 255, nullable = false, unique = false)
 	private String instructorPassword;
 	@Lob
-	@Column(name = "instructor_image", columnDefinition = "blob default 'https://www.personality-insights.com/wp-content/uploads/2017/12/default-profile-pic-e1513291410505.jpg'")
+	@Column(name = "instructor_image", columnDefinition = "blob")
 	private byte[] instructorImage;
 	@Column(name = "bank_ifsc_code", columnDefinition = "varchar(20) default 'SBI0005845221'")
 	private String bankIfscCode;

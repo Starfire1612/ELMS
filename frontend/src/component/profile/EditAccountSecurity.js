@@ -11,7 +11,13 @@ export default function EditAccountSecurity({ userData }) {
 
   const userType = localStorage.getItem("userType");
 
+  const [passwordMatch, setPasswordMatch] = useState(false);
   const [passwords, setPasswords] = useState({});
+  
+  const handleConfirmPassword = (event) => {
+    if (event.target.value === passwords.newPassword) setPasswordMatch(true);
+    else setPasswordMatch(false);
+  };
   const handleChange = (event) => {
     setPasswords((previousState) => ({
       ...previousState,
@@ -20,9 +26,9 @@ export default function EditAccountSecurity({ userData }) {
   };
 
   const updateNewPassword = async () => {
-    if (passwords.newPassword === passwords.confirmPassword) {
-      userData.studentPassword = await bcryptjs.hashSync(passwords.newPassword, 10);
-      console.log(userData.studentPassword)
+    if (passwordMatch) {
+      userData[`${userType}Password`]= await bcryptjs.hashSync(passwords.newPassword, 10);
+      console.log(userData[`${userType}Password`])
       await postProfileDetails(userType, userData);
     }
   };
@@ -49,14 +55,20 @@ export default function EditAccountSecurity({ userData }) {
           type="password"
           onChange={handleChange}
         />
+          {passwords?.newPassword && !passwordMatch && (
+              <p className="text-center does-not-match mb-0">
+                Password does not matches
+              </p>
+            )}
         <Form.Control
-          className="input-style mt-4"
+          className="input-style mt-2"
           placeholder="Confirm Password"
           name="confirmPassword"
           type="password"
-          onChange={handleChange}
+          onChange={handleConfirmPassword}
         />
       </div>
+     
       <div className="content-section-container">
         <Button className="type-1 mx-auto d-block" onClick={updateNewPassword}>
           Change Password

@@ -27,6 +27,6 @@ public class Instructor {
 	private String email;
 	@Column(name = "instructor_password", length = 50, nullable = false, unique = false)
 	private String password;
-	@Column(name="instructor_image",columnDefinition = "blob default 'https://www.personality-insights.com/wp-content/uploads/2017/12/default-profile-pic-e1513291410505.jpg'")
+	@Column(name="instructor_image",columnDefinition = "blob default 'https://img-c.udemycdn.com/user/200_H/anonymous_3.png'")
 	private Blob image;
 }

@@ -90,7 +90,7 @@ public class Course {
 //			CascadeType.MERGE }, fetch = FetchType.EAGER)
 //	private Set<Instructor> instructors = new HashSet<>();
 
-	@JsonIgnore
+	//@JsonIgnore
 	@OneToMany(mappedBy = "courseId", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY,targetEntity = Lesson.class)
 	private List<Lesson> lessons;
 

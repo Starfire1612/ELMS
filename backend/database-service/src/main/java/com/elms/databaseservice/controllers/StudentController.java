@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.elms.databaseservice.models.Course;
+import com.elms.databaseservice.models.CourseFeedbackDetails;
 import com.elms.databaseservice.models.Payment;
 import com.elms.databaseservice.models.Student;
 import com.elms.databaseservice.models.StudentCourse;
@@ -148,18 +149,19 @@ public class StudentController {
 		}
 	}
 
-	@GetMapping(path = "/student/{id}/published-courses/{page}")
-	public ResponseEntity<Page<Course>> getAllPublishedCourses(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,@PathVariable("page") int page) {
-		log.info("Getting all course ");
+	@GetMapping(path = "/student/{id}/course/{cid}/view-course-details")
+	public ResponseEntity<CourseFeedbackDetails> getCourseRelateDetails(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,@PathVariable("cid") int cid) {
+		log.info("Getting all course related details ");
 		if(client.authorizeTheRequest(requestTokenHeader,id))
-			return courseService.getAllCourses(page,3);
+			return courseService.getCourseRelatedDetails(cid);
 		else
 		{
 			log.error("User not authenticated");
-			
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	
 
 	@PostMapping(path = "/student/{id}/course/{courseId}/enroll")
 	public ResponseEntity<String> enrollInCourse(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id, @PathVariable("courseId") int courseId,

@@ -55,7 +55,7 @@ public class Payment {
 
 	private float paymentAmount;
 
-	@Column(name = "payment_response_message")
+	@Column(name = "payment_response_message",columnDefinition = "default varchar(30) 'SUCCESS'")
 	private String paymentResponseMessage;
 
 	@Column(name = "payment_status")

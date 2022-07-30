@@ -1,16 +1,50 @@
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import React from "react";
-import { calculateDiscountedPrice, ratingsColor } from "../utils/util";
-import "../styles/Courses.css";
-import { thumbnailUrl } from "./dummydata/dummyCourses";
-import CoursesLoadingAnimation from "./Animations/CoursesLoadingAnimation";
+import { calculateDiscountedPrice, ratingsColor } from "../../utils/util";
+import "../../styles/Courses.css";
+import { thumbnailUrl } from "../dummydata/dummyCourses";
+import CoursesLoadingAnimation from "../Animations/CoursesLoadingAnimation";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { StarFill } from "react-bootstrap-icons";
+import { PAYMENT_KEY, PAYMENT_KEY_SECRET } from "../../utils/constants.js";
+import { getCourseDetails } from "./courses-util.js";
 
-function Courses({ courses }) {
-  // const [isLoading, setIsLoading] = useState(true);
+
+function Courses({ courses, userData }) {
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate=useNavigate();
+  // const handlePayment = (e) => {
+  //  e.preventDefault();
+  //   let options = {
+  //     key: PAYMENT_KEY,
+  //     key_secret: PAYMENT_KEY_SECRET,
+  //     amount: 1000 * 100,
+  //     currency: "INR",
+  //     name: "ELMS",
+  //     description: "for testing purpose",
+  //     handler: function (response) {
+  //       alert(response);
+  //       console.log(response);
+  //     },
+  //     prefill: {
+  //       name: userData.studentName,
+  //       email: userData.studentEmail,
+  //       contact: "7004581294",
+  //     },
+  //     notes: {
+  //       address: "Razorpay Corporate office",
+  //     },
+  //     theme: {
+  //       color: "#A020F0",
+  //     },
+  //   };
+  //   var pay = new window.Razorpay(options);
+  //   pay.open();
+  // };
+ 
+
 
   const discountedPrice = (course) =>
     calculateDiscountedPrice(course.coursePrice, course.courseDiscount);
@@ -52,8 +86,8 @@ function Courses({ courses }) {
                 <Button className="type-1">Edit course</Button>
               </Link>
             ) : (
-              <>
-                <Button className="type-1">
+              <Link  to={`../home/course/${course.courseId}`}>
+                <Button className="type-1" >
                   <span className="fs-5">
                     {"$" + discountedPrice(course) + " "}
                   </span>
@@ -61,7 +95,7 @@ function Courses({ courses }) {
                     {"$" + course.coursePrice}
                   </span>
                 </Button>
-              </>
+              </Link>
             )}
             <div className={`fst-italic ${getColor(course.ratings)}`}>
               <StarFill className="me-2" />
@@ -81,7 +115,7 @@ function Courses({ courses }) {
           /* {isLoading ? (
           <CoursesLoadingAnimation />
         ) : ( */
-          courses?.map((course) => card(course))
+          courses && courses?.map((course) => card(course))
           /* )} */
         }
       </div>

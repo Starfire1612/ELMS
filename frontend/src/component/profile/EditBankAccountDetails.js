@@ -4,8 +4,8 @@ import { Form, Button } from "react-bootstrap";
 
 import { postProfileDetails } from "../profile/profile-utils.js";
 
-export default function EditBankAccountDetails({ userData2 }) {
-  const userType = "instructor"//localStorage.getItem("userType");
+export default function EditBankAccountDetails({ userData }) {
+  const userType = localStorage.getItem("userType");
 
   const [accountDetails, setAccountDetails] = useState({});
   const handleChange = (event) => {
@@ -16,10 +16,11 @@ export default function EditBankAccountDetails({ userData2 }) {
   };
 
   const updateInstructorAccountDetails = async () => {
-    userData2.accountNumber =parseInt(accountDetails.accountNumber);
-    userData2.bankIfscCode = accountDetails.ifscCode;
-    console.log(userData2)
-    await postProfileDetails(userType, userData2);
+    if(!accountDetails.ifscCode && !accountDetails.accountNumber) return;
+    userData.accountNumber =parseInt(accountDetails.accountNumber);
+    userData.bankIfscCode = accountDetails.ifscCode;
+    console.log(userData)
+    await postProfileDetails(userType, userData);
   };
 
   return (
@@ -33,14 +34,18 @@ export default function EditBankAccountDetails({ userData2 }) {
         <Form.Control
           className="input-style"
           placeholder="Enter Ifsc Code"
+          regex="^[A_Z]{4}[0-9]{7}$"
           name="ifscCode"
+          defaultValue={userData.bankIfscCode}
           onChange={handleChange}
         />
         <p className="input-label mt-3">Account Number:</p>
         <Form.Control
           className="input-style"
           placeholder="Enter Account Number"
+          regex="^[0-9]{5}$"
           name="accountNumber"
+          defaultValue={userData.accountNumber}
           onChange={handleChange}
         />
       </div>

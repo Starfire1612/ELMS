@@ -19,6 +19,8 @@ import EditProfile from "./component/profile/EditProfile";
 import EditProfilePic from "./component/profile/EditProfilePic";
 import EditAccountSecurity from "./component/profile/EditAccountSecurity";
 import EditBankAccountDetails from "./component/profile/EditBankAccountDetails";
+import Payment from "./component/payment/Payment.js";
+import CourseViewPage from "./component/student/CourseViewPage.js";
 
 function App() {
   // const userData1={
@@ -48,24 +50,32 @@ function App() {
           Authorization: `Bearer ${localStorage.getItem("userToken")}`,
         },
       })
-      .then((response) => setUserData(response.data))
+      .then((response) => {
+        return response.data;
+      })
+      .then((data) => {
+        console.log(data);
+        setUserData(data, () => {
+         // setLoggedInStatus(true);
+        });
+      })
       .catch((err) => console.log(err));
   };
 
   //check whether the person has loggedin within last 24hrs
-  //modification required
+  //modification required                                         high priority
   useEffect(() => {
     if (localStorage.getItem("userToken") && localStorage.getItem("userType")) {
       greetUser();
-      setLoggedInStatus(true);
-      navigate("/");
+      if (userData) navigate("/home");
     }
   }, []);
 
   const handleLogin = async () => {
     await greetUser();
-    setLoggedInStatus(true);
+    if (userData) navigate("/home");
   };
+
   const handleLogout = () => {
     localStorage.removeItem("userToken");
     localStorage.removeItem("userType");
@@ -77,6 +87,7 @@ function App() {
   return (
     <div className="App">
       <Routes>
+      
         <Route
           path="/"
           exact
@@ -92,6 +103,7 @@ function App() {
             )
           }
         />
+        <Route path="/payment" element={<Payment/>}/>
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route
@@ -100,9 +112,9 @@ function App() {
             <StudentDashboard handleLogout={handleLogout} userData={userData} />
           }
         />
-        {/* <Route path="/profile" element={<Profile />} /> */}
+        <Route path="/home/course/:courseId" element={<CourseViewPage userData={userData}/> }/>
 
-        <Route path="/profile" exact element={<Profile />}>
+        <Route path="/profile" exact element={<Profile userData={userData} />}>
           <Route
             path="edit-profile"
             element={<EditProfile userData={userData} />}
@@ -142,6 +154,7 @@ function App() {
           <Route path="description" element={<CourseDescription />} />
           <Route path="curriculum" element={<Curriculum />} />
         </Route>
+       
       </Routes>
     </div>
   );

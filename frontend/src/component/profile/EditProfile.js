@@ -3,20 +3,20 @@ import HeaderSection from "./HeaderSection.js";
 import { Form, Button } from "react-bootstrap";
 import { postProfileDetails } from "../profile/profile-utils.js";
 export default function EditProfile({ userData }) {
-  const [fullName, setFullName] = useState("");
-  const userType = localStorage.getItem("userType")
-  
+
+
+  const userType = localStorage.getItem("userType");
+  const [fullName, setFullName] = useState(userData[`${userType}Name`]);
 
   const handleChange = (event) => {
     setFullName(event.target.value);
   };
-  const updateProfileDetails = () => {
+  const updateProfileDetails = async () => {
     //axios call
-    if (userType === "student")
-      userData.studentName=fullName;
-      else
-      userData.instructorName = fullName;
-    postProfileDetails(userType, userData);
+    if(!fullName) return;
+    if (userType === "student") userData.studentName = fullName;
+    else userData.instructorName = fullName;
+    await postProfileDetails(userType, userData);
   };
   return (
     <div className="edit-profile-container">
@@ -33,6 +33,8 @@ export default function EditProfile({ userData }) {
           onChange={handleChange}
           name="name"
         />
+
+        {!fullName && <p>Enter your full name please</p>}
       </div>
       <div className="content-section-container">
         <Button

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { PAYMENT_KEY, PAYMENT_KEY_SECRET } from "../utils/constants";
+import { PAYMENT_KEY, PAYMENT_KEY_SECRET } from "../../utils/constants";
 export default function Payment() {
   const [amount, setamount] = useState("");
 

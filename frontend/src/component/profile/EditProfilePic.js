@@ -5,7 +5,7 @@ import { postProfilePic } from "../profile/profile-utils.js";
 export default function EditProfilePic({ userData }) {
   const [profilePic, setProfilePic] = useState("");
 
-  const userType = localStorage.getItem("userType")
+  const userType = localStorage.getItem("userType");
 
   const [image, setImage] = useState(null);
 
@@ -23,6 +23,7 @@ export default function EditProfilePic({ userData }) {
     // reader.readAsBinaryString(image);
   };
   const updateProfilePic = async () => {
+    if(!image) return;
     const res = await postProfilePic(userType, userData, image);
     console.log("From Profile page", res);
   };
@@ -39,10 +40,10 @@ export default function EditProfilePic({ userData }) {
             className="image-preview"
             src={
               profilePic === ""
-                ? "https://img-c.udemycdn.com/user/200_H/anonymous_3.png"
+                ? "data:image/png;base64," + userData[`${userType}Image`]
                 : profilePic
             }
-            alt="account.jpg"
+            alt="https://img-c.udemycdn.com/user/200_H/anonymous_3.png"
           />
         </div>
 

@@ -7,7 +7,7 @@ import { Funnel, Search, SortAlphaDown, SortDown } from "react-bootstrap-icons";
 import StaticDashboardComponents from "./StaticDashboardComponents";
 import { ClipLoader } from "react-spinners";
 import { LOADING_COLOR } from "../../utils/constants";
-import Courses from "../Courses";
+import Courses from "../courses/Courses.js";
 import { dummyCourses } from "../dummydata/dummyCourses.js";
 import { compareObjectsForSorting } from "../../utils/util";
 

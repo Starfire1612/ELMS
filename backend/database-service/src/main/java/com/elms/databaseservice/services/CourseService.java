@@ -16,7 +16,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.elms.databaseservice.models.Course;
+import com.elms.databaseservice.models.CourseFeedbackDetails;
 import com.elms.databaseservice.repos.CourseRepo;
+import com.elms.databaseservice.repos.FeedbackRepo;
 
 @Service
 public class CourseService {
@@ -24,6 +26,8 @@ public class CourseService {
 	@Autowired
 	CourseRepo courseRepo;
 
+	@Autowired
+	FeedbackRepo feedbackRepo;
 	private Logger log = LoggerFactory.getLogger(CourseService.class);
 	@Transactional
 	public Integer addCourse(Course c) {
@@ -46,7 +50,6 @@ public class CourseService {
 	public ResponseEntity<Page<Course>> getAllCourses(int page,int size) {
 			Page<Course> coursePage=courseRepo.findAll(PageRequest.of(page,size));
 			log.info("Searched course");
-			
 			return new ResponseEntity<>(coursePage,HttpStatus.OK);
 	}
 
@@ -72,5 +75,13 @@ public class CourseService {
 			log.error("Could not store file");		
 			throw new Exception("Could not store file " + fileName + ". Please try again!", ex);
 		}
+	}
+	
+	@Transactional
+	public ResponseEntity<CourseFeedbackDetails> getCourseRelatedDetails(int cid){
+			CourseFeedbackDetails courseFeedbackDetails=new CourseFeedbackDetails();
+			courseFeedbackDetails.setCourse(courseRepo.findById(cid));
+			courseFeedbackDetails.setFeedbacks(feedbackRepo.findByCourseId(cid));
+			return new ResponseEntity<CourseFeedbackDetails>(courseFeedbackDetails,HttpStatus.OK);
 	}
 }
