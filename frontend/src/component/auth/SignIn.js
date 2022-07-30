@@ -87,12 +87,12 @@ function SignIn({ handleLogin }) {
             </Link>
           </div>
 
-          <Button className="type-1" type="submit" disabled={isLoading}>
-            Sign In
-          </Button>
           <Link to="/sign-up">
             <Button className="signup-button type-1">Sign Up</Button>
           </Link>
+          <Button className="type-1" type="submit" disabled={isLoading}>
+            Sign In
+          </Button>
         </div>
       </Form>
     </div>

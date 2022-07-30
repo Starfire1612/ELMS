@@ -33,7 +33,9 @@ export default function SideNavBar({ courseid, manageDeleteCourse }) {
                 <li className="li">
                   <NavLink
                     className={({ isActive }) =>
-                      isActive ? "active nav-link" : "nav-link"
+                      isActive
+                        ? "manage-course-side-navbar-active nav-link"
+                        : "nav-link"
                     }
                     to={route + "/course-structure"}
                   >
@@ -43,7 +45,9 @@ export default function SideNavBar({ courseid, manageDeleteCourse }) {
                 <li className="li">
                   <NavLink
                     className={({ isActive }) =>
-                      isActive ? "active nav-link" : "nav-link"
+                      isActive
+                        ? "manage-course-side-navbar-active nav-link"
+                        : "nav-link"
                     }
                     to={route + "/setup"}
                   >
@@ -53,7 +57,9 @@ export default function SideNavBar({ courseid, manageDeleteCourse }) {
                 <li className="li">
                   <NavLink
                     className={({ isActive }) =>
-                      isActive ? "active nav-link" : "nav-link"
+                      isActive
+                        ? "manage-course-side-navbar-active nav-link"
+                        : "nav-link"
                     }
                     to={route + "/film"}
                   >
@@ -70,7 +76,9 @@ export default function SideNavBar({ courseid, manageDeleteCourse }) {
                 <li className="li">
                   <NavLink
                     className={({ isActive }) =>
-                      isActive ? "active nav-link" : "nav-link"
+                      isActive
+                        ? "manage-course-side-navbar-active nav-link"
+                        : "nav-link"
                     }
                     to={route + "/description"}
                   >
@@ -80,7 +88,9 @@ export default function SideNavBar({ courseid, manageDeleteCourse }) {
                 <li className="li">
                   <NavLink
                     className={({ isActive }) =>
-                      isActive ? "active nav-link" : "nav-link"
+                      isActive
+                        ? "manage-course-side-navbar-active nav-link"
+                        : "nav-link"
                     }
                     to={route + "/curriculum"}
                   >

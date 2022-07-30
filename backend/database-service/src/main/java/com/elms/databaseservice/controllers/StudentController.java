@@ -160,6 +160,18 @@ public class StudentController {
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
 		}
 	}
+	@GetMapping(path = "/student/{id}/published-courses/{page}")
+	public ResponseEntity<Page<Course>> getAllPublishedCourses(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,@PathVariable("page") int page) {
+		log.info("Getting all course ");
+		if(client.authorizeTheRequest(requestTokenHeader,id))
+			return courseService.getAllCourses(page,3);
+		else
+		{
+			log.error("User not authenticated");
+
+			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+		}
+	}
 	
 	
 

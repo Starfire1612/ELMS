@@ -29,7 +29,7 @@ function StudentNavigationbar({ handleLogout, userName }) {
         </Button>
       </Form>
       <div className="d-flex align-items-center navbar-right-div">
-        <Link className="mx-2" to="../home/reports">
+        <Link className="mx-2" to="../home/my-learning">
           My learning
         </Link>
 
