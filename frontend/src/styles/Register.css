@@ -76,6 +76,17 @@
   color: var(--color-2);
 }
 
+.password-changed {
+  width: 90%;
+  min-height: 6.4rem;
+  display: table;
+}
+
+.password-changed>* {
+  display: table-cell;
+  vertical-align: middle;
+}
+
 
 
 @media(max-width:1100px) {

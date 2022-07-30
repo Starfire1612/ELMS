@@ -3,7 +3,7 @@ import "./App.css";
 import ForgotPassword from "./component/auth/ForgotPassword";
 import SignIn from "./component/auth/SignIn";
 import SignUp from "./component/auth/SignUp";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Profile from "./component/profile/Profile";
 import AddCourse from "./component/instructor/AddCourse";
@@ -15,14 +15,12 @@ import CourseStructure from "./component/instructor/manage-course/CourseStructur
 import CourseDescription from "./component/instructor/manage-course/CourseDescription";
 import Curriculum from "./component/instructor/manage-course/Curriculum";
 import StudentDashboard from "./component/student/StudentDashboard";
-import EditProfile from './component/profile/EditProfile';
-import EditProfilePic from './component/profile/EditProfilePic';
-import EditAccountSecurity from './component/profile/EditAccountSecurity';
-import EditBankAccountDetails from './component/profile/EditBankAccountDetails';
+import EditProfile from "./component/profile/EditProfile";
+import EditProfilePic from "./component/profile/EditProfilePic";
+import EditAccountSecurity from "./component/profile/EditAccountSecurity";
+import EditBankAccountDetails from "./component/profile/EditBankAccountDetails";
 
 function App() {
-
-  
   // const userData1={
   //   "studentId": 4,
   //   "studentName": "Radhika",
@@ -40,22 +38,33 @@ function App() {
   // }
 
   const [loggedInStatus, setLoggedInStatus] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState({});
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
-    setIsLoading(true);
-    const data = await axios
+  const greetUser = async () => {
+    await axios
       .get("http://localhost:8080/greetings", {
         headers: {
-          "Authorization": `Bearer ${localStorage.getItem("userToken")}`,
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
         },
       })
       .then((response) => setUserData(response.data))
       .catch((err) => console.log(err));
+  };
+
+  //check whether the person has loggedin within last 24hrs
+  //modification required
+  useEffect(() => {
+    if (localStorage.getItem("userToken") && localStorage.getItem("userType")) {
+      greetUser();
+      setLoggedInStatus(true);
+      navigate("/");
+    }
+  }, []);
+
+  const handleLogin = async () => {
+    await greetUser();
     setLoggedInStatus(true);
-    setIsLoading(false);
   };
   const handleLogout = () => {
     localStorage.removeItem("userToken");
@@ -92,20 +101,27 @@ function App() {
           }
         />
         {/* <Route path="/profile" element={<Profile />} /> */}
-     
-          <Route path="/profile" exact element={<Profile />}>
-            <Route path="edit-profile" element={<EditProfile userData={userData}/>}></Route>
-            <Route path="edit-profile-pic" element={<EditProfilePic userData={userData} />} />
-            <Route
-              path="edit-account-security"
-              element={<EditAccountSecurity userData={userData}/>}
-            />
-            <Route
-              path="edit-bank-account-details"
-              element={<EditBankAccountDetails userData={userData}/>}
-            />
-            <Route path="*"/>
-          </Route>
+
+        <Route path="/profile" exact element={<Profile />}>
+          <Route
+            path="edit-profile"
+            element={<EditProfile userData={userData} />}
+          ></Route>
+          <Route
+            path="edit-profile-pic"
+            element={<EditProfilePic userData={userData} />}
+          />
+          <Route
+            path="edit-account-security"
+            element={<EditAccountSecurity userData={userData} />}
+          />
+          <Route
+            path="edit-bank-account-details"
+            element={<EditBankAccountDetails userData={userData} />}
+          />
+          <Route path="" element={<Navigate to="/profile/edit-profile" />} />
+          <Route path="*" element={<Navigate to="/profile/edit-profile" />} />
+        </Route>
         <Route
           path="/instructor"
           element={

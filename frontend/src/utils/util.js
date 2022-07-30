@@ -1,6 +1,3 @@
-import { fetchOtp } from "./http-requests";
-import bcryptjs from "bcryptjs";
-
 //calculate discounted price
 const calculateDiscountedPrice = (price, discount) => {
   return price - Math.floor((price * discount) / 100);
@@ -18,47 +15,6 @@ const ratingsColor = (ratings) => {
     return "primary";
   }
   return "success";
-};
-
-//hanlde Otp and set proper states for user and loading
-const requestOtp = async (setIsOtpSent, setUser, user) => {
-  // if (!checkEmail || !typeMatch) {
-  //   return;
-  // }
-  const encryptedOtp = await fetchOtp(user.email, user.type);
-  if (!encryptedOtp) {
-    return;
-  }
-  setUser((prevState) => ({
-    ...prevState,
-    encryptedOtp,
-  }));
-  console.log(encryptedOtp);
-  //set isLoading to false
-};
-
-//verify whether entered OTP is correct or not and set appropriate states
-const verifyOtp = async (user, setUser, setIsOtpVerified) => {
-  if (!user?.otp) {
-    return;
-  }
-  const res = await bcryptjs.compare(
-    user.otp,
-    user.encryptedOtp,
-    (err, same) => {
-      if (same) {
-        setIsOtpVerified(true);
-        // setMatch(true);
-        setUser((prevUser) => ({
-          email: prevUser.email,
-          type: prevUser.type,
-        }));
-      } else {
-        //do something is OTP entered is not correct
-      }
-    }
-  );
-  console.log(res);
 };
 
 //Validates YouTube video url and returns videoId
@@ -240,8 +196,6 @@ const compareObjectsForSorting = (object1, object2, key) => {
 export {
   calculateDiscountedPrice,
   ratingsColor,
-  requestOtp,
-  verifyOtp,
   youtubeParser,
   convertDurationToMinutes,
   compareObjects,

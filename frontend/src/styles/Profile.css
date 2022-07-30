@@ -1,125 +1,143 @@
 @media (max-width: 600px) {
-    .profile-container {
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-    .navbar-profile-pic-container{
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .content-section-container{
-      padding: 1.6rem !important;
-    }
-  }
-  
   .profile-container {
-    width: 80%;
-    height: auto;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 2rem;
-    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
   }
-  
-  .profile-content-section{
-    height: 100%;
-    flex-grow: 1;
-  }
-  
-  .profile-navbar {
-    height:auto;  
-    border: 0.5pt solid rgb(212, 218, 224);
-  }
-  
-  
+
   .navbar-container {
-    width: 200px;
-    align-content: center;
-  }
-  .profile-navbar-link {
-    /* margin-inline-start: 1rem;
-    margin-inline-end: 3rem; */
-    padding: 0.25rem;
-    padding-left: 0.4rem;
-  }
-  .profile-navbar-link a{
-   text-decoration: none;
-   color: black;
-  }
-  
-  .profile-navbar-link:hover{
-    background-color: grey;
-    color: white;
-   
-  }
-  
-  .profile-navbar-link a:hover{
-    color: white;
-  }
-  
-  .navbar-profile-pic-container{
-    max-width: 100%;
-    margin-inline: auto;
-    height: 150px;
-    margin-top: 1rem;
-    margin-bottom: 3.5rem;
-    object-fit: contain;
-    /* //justify-content: space-between; */
-  }
-  .account-circle-avatar{
-    border-radius: 50%;
-    height: 100%;
-    width: 100%;
-    padding-inline: 0.6rem;
-    margin-block: 2rem;
-    object-fit: contain;
-  }
-  
-  .edit-profile-container{
-    border:0.5pt solid rgb(212, 218, 224);
-  }
-  .content-section-container{
-    border-top:0.5pt solid rgb(212, 218, 224); 
-    padding: 2rem 6.4rem;
-    /* display:grid; */
-    /* place-items: center; */
-   
-  }
-  .left-content{
-    justify-items: start;
-  }
-  .header-container{
-    justify-content: center;
-    align-items: center;
+    width: 100% !important;
     text-align: center;
   }
-  .header-title{
-    padding-block: 0.3rem;
-    font-size: x-large;
-    font-weight: bold;
+
+  .navbar-profile-pic-container {
+    margin-left: auto;
+    margin-right: auto;
   }
-  .header-subtitle{
-    padding-bottom: 0.5rem;
-    font-size: smaller;
+
+  .content-section-container {
+    padding: 1.6rem !important;
   }
-  .input-style{
-    max-width: 500px;
-    min-width: none;
+}
+
+@media (max-width: 1000px) {
+  .profile-container {
+    width: 80% !important;
   }
-  .input-label{
-    font-size: small;
-    font-weight: bold;
-    text-align: left;
+}
+
+@media (max-width: 700px) {
+  .profile-container {
+    width: 90% !important;
   }
-  .image-preview-container{
+}
+
+.profile-container {
+  width: 60%;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2rem;
+  display: flex;
+}
+
+.profile-content-section {
+  height: 100%;
+  flex-grow: 1;
+}
+
+.profile-navbar {
+  height: auto;
+  border: 0.5pt solid rgb(212, 218, 224);
+}
+
+
+.navbar-container {
+  width: 200px;
+}
+
+.profile-navbar-link {
+  padding: 0.25rem;
+  padding-left: 0.4rem;
+  color: rgb(65, 65, 65);
+  /* color: black */
+}
+
+.profile-navbar-link:hover {
+  background-color: grey;
+  color: white;
+
+
+}
+
+.navbar-profile-pic-container {
+  max-width: 100%;
+  margin-inline: auto;
+  height: 150px;
+  margin-top: 1rem;
+  margin-bottom: 3.5rem;
+  object-fit: contain;
+}
+
+.account-circle-avatar {
+  border-radius: 50%;
+  height: 100%;
+  width: 100%;
+  padding-inline: 0.6rem;
+  margin-block: 2rem;
+  object-fit: contain;
+}
+
+.edit-profile-container {
+  border: 0.5pt solid rgb(212, 218, 224);
+}
+
+.content-section-container {
+  border-top: 0.5pt solid rgb(212, 218, 224);
+  padding: 2rem 6.4rem;
+}
+
+.left-content {
+  justify-items: start;
+}
+
+.header-container {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.header-title {
+  padding-block: 0.3rem;
+  font-size: x-large;
+  font-weight: bold;
+}
+
+.header-subtitle {
+  padding-bottom: 0.5rem;
+  font-size: smaller;
+}
+
+.input-style {
+  max-width: 500px;
+  min-width: none;
+}
+
+.input-label {
+  font-size: small;
+  font-weight: bold;
+  text-align: left;
+}
+
+.image-preview-container {
   height: 150px;
   max-width: 100%;
   border: 1pt solid grey;
   padding: 0.3rem;
   margin-inline: auto;
-  }
-  .image-preview{
-    object-fit: contain;
-    width: 100%;
-    height: 100%;
-  }
+}
+
+.image-preview {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
