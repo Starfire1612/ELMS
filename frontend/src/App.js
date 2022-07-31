@@ -21,24 +21,10 @@ import EditAccountSecurity from "./component/profile/EditAccountSecurity";
 import EditBankAccountDetails from "./component/profile/EditBankAccountDetails";
 import Payment from "./component/payment/Payment.js";
 import CourseViewPage from "./component/student/CourseViewPage.js";
+import StudentExploreCourses from "./component/student/StudentExploreCourses";
+import StudentMyLearning from "./component/student/StudentMyLearning";
 
 function App() {
-  // const userData1={
-  //   "studentId": 4,
-  //   "studentName": "Radhika",
-  //   "studentEmail": "radhikashah1612@gmail.com",
-  //   "studentPassword": "$2a$10$z1E9hcackg/ZezKViK0YseXf0GYqJ9744ur6ehSM6m9mICimkySvK"
-  // }
-
-  // const userData2={
-  //   "instructorId": 1,
-  //   "instructorName": "Radhika Shah",
-  //   "instructorEmail": "radhikashah1612@gmail.com",
-  //   "instructorPassword": "$2a$10$z1E9hcackg/ZezKViK0YseXf0GYqJ9744ur6ehSM6m9mICimkySvK",
-  //   "bankIfscCode": "HDFC0001612",
-  //   "accountNumber": 59183912839281
-  // }
-
   const [loggedInStatus, setLoggedInStatus] = useState(false);
   const [userData, setUserData] = useState({});
   const navigate = useNavigate();
@@ -50,14 +36,11 @@ function App() {
           Authorization: `Bearer ${localStorage.getItem("userToken")}`,
         },
       })
-      .then((response) => {
-        return response.data;
-      })
+      .then((response) => response.data)
       .then((data) => {
         console.log(data);
-        setUserData(data, () => {
-         // setLoggedInStatus(true);
-        });
+        setUserData(data);
+        setLoggedInStatus(true);
       })
       .catch((err) => console.log(err));
   };
@@ -67,18 +50,17 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem("userToken") && localStorage.getItem("userType")) {
       greetUser();
-      if (userData) navigate("/home");
+      if (userData) navigate("/");
     }
   }, []);
 
   const handleLogin = async () => {
     await greetUser();
-    if (userData) navigate("/home");
+    if (userData) navigate("/");
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("userToken");
-    localStorage.removeItem("userType");
+    localStorage.clear();
     setUserData({});
     setLoggedInStatus(false);
     navigate("/");
@@ -87,7 +69,6 @@ function App() {
   return (
     <div className="App">
       <Routes>
-      
         <Route
           path="/"
           exact
@@ -103,7 +84,7 @@ function App() {
             )
           }
         />
-        <Route path="/payment" element={<Payment/>}/>
+        <Route path="/payment" element={<Payment />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route
@@ -111,8 +92,21 @@ function App() {
           element={
             <StudentDashboard handleLogout={handleLogout} userData={userData} />
           }
+        >
+          <Route
+            path="explore"
+            element={<StudentExploreCourses userData={userData} />}
+          />
+          <Route
+            path="my-learning"
+            element={<StudentMyLearning userData={userData} />}
+          />
+          <Route path="" element={<Navigate to="/home/explore" />} />
+        </Route>
+        <Route
+          path="/home/course/:courseId"
+          element={<CourseViewPage userData={userData} />}
         />
-        <Route path="/home/course/:courseId" element={<CourseViewPage userData={userData}/> }/>
 
         <Route path="/profile" exact element={<Profile userData={userData} />}>
           <Route
@@ -154,7 +148,6 @@ function App() {
           <Route path="description" element={<CourseDescription />} />
           <Route path="curriculum" element={<Curriculum />} />
         </Route>
-       
       </Routes>
     </div>
   );

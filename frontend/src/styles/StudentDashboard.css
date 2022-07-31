@@ -1,6 +1,7 @@
 .student-dashboard-body {
   padding: 1.6rem 0 6.4rem 0;
   min-height: 100vh;
+  position: relative;
 }
 
 .carousel-container {
@@ -23,8 +24,11 @@
 .explore-dashboard {
   background-color: #1c1d1e;
   width: 100%;
-  min-height: 6rem;
+  min-height: 4.8rem;
   padding-left: 3.2rem;
+  position: sticky;
+  top: 3.8rem;
+  z-index: 1;
 }
 
 .explore-dashboard>p {
@@ -33,6 +37,22 @@
 
 .course-list {
   padding: 1.6rem 4.8rem 0 4.8rem;
+}
+
+.loading-courses-list {
+  display: grid;
+  place-items: center;
+}
+
+.pagination-button {
+  height: 60px;
+  width: 60px;
+  border-radius: 50% !important;
+}
+
+.pagination-button:hover {
+  box-shadow: 0 0 5px 5px rgb(190, 190, 190);
+  transform: scale(1.03);
 }
 
 @media(max-width:500px) {
