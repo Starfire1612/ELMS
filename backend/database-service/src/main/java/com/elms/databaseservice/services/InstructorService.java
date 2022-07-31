@@ -108,12 +108,10 @@ public class InstructorService {
 	public ResponseEntity<String> publishCourse(Course c, List<Lesson> lesson) {
 		try {
 		lessonService.addLessonsInCourse(lesson);
-
 		log.info("Adding lesson in course");
 		c.setDatePublished(new Date());
 		c.setTotalDuration(lessonService.getCourseDuration(c.getCourseId()));
 		c.setLessonsCount(c.getLessonsCount());
-
 		log.info("Publishing Course");
 		return courseService.publishCourse(c);
 		
@@ -124,6 +122,7 @@ public class InstructorService {
 			return new ResponseEntity<>("Error Publishing Course",HttpStatus.NOT_IMPLEMENTED);
 		}
 	}
+
 
 	@Transactional
 	public ResponseEntity<List<Instructor>> getAllInstructors() {

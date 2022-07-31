@@ -47,7 +47,7 @@ export default function ManageCourse() {
       />
       <div className="manage-course-container">
         <div className="side-navbar">
-          <SideNavBar manageDeleteCourse={manageDeleteCourse} />
+          <SideNavBar manageDeleteCourse={manageDeleteCourse} courseId={courseId} />
         </div>
         {showDelete && (
           <DeleteCourse

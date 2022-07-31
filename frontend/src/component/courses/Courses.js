@@ -82,11 +82,12 @@ function Courses({ courses, userData }) {
               <Link
                 className="text-white"
                 to={`../instructor/course/${course.courseId}/manage/description`}
+                
               >
                 <Button className="type-1">Edit course</Button>
               </Link>
             ) : (
-              <Link  to={`../home/course/${course.courseId}`}>
+              <Link  to={`../../home/course/${course.courseId}`}>
                 <Button className="type-1" >
                   <span className="fs-5">
                     {"$" + discountedPrice(course) + " "}

@@ -8,41 +8,48 @@ import StaticDashboardComponents from "./StaticDashboardComponents";
 import { ClipLoader } from "react-spinners";
 import { LOADING_COLOR } from "../../utils/constants";
 import Courses from "../courses/Courses.js";
-import { dummyCourses } from "../dummydata/dummyCourses.js";
 import { compareObjectsForSorting } from "../../utils/util";
+import { getPublishedCourses } from "./instructor-utils.js";
+import  nodatafound  from '../../static/images/nodatafound.png';
 
 function InstructorDashboard({ handleLogout, userData }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [courseList, setCourseList] = useState(dummyCourses);
+  const [courseList, setCourseList] = useState([]);
   const [searchField, setSearchField] = useState("");
-
-  const fetchCourse = async () => {
+  
+  const fetchPublishedCourses = async () => {
     setIsLoading(true);
-    //fetch instructor courses using id from userData and set courseList
-    // ...
+    const courseData = await getPublishedCourses(userData.instructorId);
+    console.log(courseData);
+    setCourseList(courseData);
     setIsLoading(false);
   };
-
   useEffect(() => {
     setIsLoading(true);
-    fetchCourse();
+    fetchPublishedCourses();
     setIsLoading(false);
-  }, []);
+  }, [userData]);
 
   const handleSearchFieldChange = (event) => {
     setSearchField(event.target.value);
   };
 
-  const handleSearchCourse = async (event) => {
+  const filterCourses=()=>{
+    return courseList.filter(course=>course.courseName.toLowerCase().includes(searchField.trim().toLowerCase()));
+  }
+  const handleSearchCourse =  (event) => {
     event.preventDefault();
     if (!searchField) return;
     setIsLoading(true);
     //fetch courses using searchField and set appropriate courseList
     // ...
+    setCourseList(filterCourses())
+    console.log("filtered"+filterCourses())
     console.log(searchField);
     setSearchField("");
     setIsLoading(false);
   };
+
   const handleSortCoursesUsingName = () => {
     setCourseList((prevCourseList) =>
       [...prevCourseList].sort((course1, course2) =>
@@ -133,9 +140,10 @@ function InstructorDashboard({ handleLogout, userData }) {
           <>
             {/* if no courses available */}
             <div className="courses-list text-center my-5">
-              You do not have published any courses yet.
+              <h2 className="text-center">No such published course</h2>
+              <img src={nodatafound} className="mx-auto d-block"/>
             </div>
-            <StaticDashboardComponents />
+            {/* <StaticDashboardComponents /> */}
           </>
         )}
       </div>

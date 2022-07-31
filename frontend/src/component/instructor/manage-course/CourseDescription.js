@@ -9,32 +9,32 @@ import "../../../styles/manage-course/CourseDescription.css";
 import { dummyCourse } from "../../dummydata/dummyCourse";
 import { HashLoader } from "react-spinners";
 import { LOADING_COLOR } from "../../../utils/constants";
+import { getCourseDetails } from "../instructor-utils.js";
+import { updateCourse } from './../instructor-utils';
 
-export default function CourseDescription() {
+export default function CourseDescription({userData}) {
   const params = useParams();
   const courseId = params.courseId;
-  const [course, setCourse] = useState(dummyCourse);
-  const [tempCourse, setTempCourse] = useState(course);
+  const [course, setCourse] = useState({});
   const [editMode, setEditMode] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const compareCourses = () => {
-    //return true if course state and tempCourse state are same, else false
-  };
-
-  const fetchCourse = () => {
+  const fetchCourse = async() => {
     setIsLoading(true);
-    //fetch course details using courseid and set course state then set tempCourse same as course state
+    //fetch course details using courseid and set course state then set course same as course state
     //....
+    const response=await getCourseDetails(userData.instructorId,courseId);
+    console.log("Course Details",response);
+    setCourse(response);
     setIsLoading(false);
   };
 
   useEffect(() => {
     fetchCourse();
-  }, []);
+  }, [userData]);
 
   const handleChange = (event) => {
-    setTempCourse((prevCourse) => ({
+    setCourse((prevCourse) => ({
       ...prevCourse,
       [event.target.name]: event.target.value,
     }));
@@ -46,26 +46,29 @@ export default function CourseDescription() {
     const reader = new FileReader();
     reader.onloadend = () => {
       console.log(reader.result);
-      setTempCourse((prevCourse) => ({
+      setCourse((prevCourse) => ({
         ...prevCourse,
         [event.target.name]: reader.result,
       }));
     };
     reader.readAsDataURL(image);
   };
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!compareCourses) {
+
       setIsLoading(true);
-      // PUT request to update course
+      // PATCH request to update course
       //...
+      console.log("From CD",course);
+      const status=await updateCourse(userData.instructorId,course);
+      console.log(status);
       setIsLoading(false);
-    }
+    
   };
 
   const handleCancel = () => {
-    console.log(tempCourse);
-    setTempCourse(course);
+    console.log(course);
+    setCourse(course);
     setEditMode(!editMode);
     //implementation of reset form to its default state
   };
@@ -91,7 +94,7 @@ export default function CourseDescription() {
             <div className="img-container">
               <img
                 className="course-image mb-3"
-                src={tempCourse.courseImage}
+                src={course.courseImage}
                 alt=""
               />
             </div>
@@ -113,7 +116,7 @@ export default function CourseDescription() {
               <Form.Label className="fw-500">Course Name</Form.Label>
               <Form.Control
                 type="text"
-                value={tempCourse.courseName}
+                value={course.courseName}
                 name="courseName"
                 readOnly
               />
@@ -125,7 +128,7 @@ export default function CourseDescription() {
                 name="courseDescription"
                 rows={"5"}
                 placeholder="Insert your course description"
-                defaultValue={tempCourse.courseDescription}
+                defaultValue={course.courseDescription}
                 onChange={handleChange}
                 disabled={!editMode || isLoading}
                 required
@@ -139,7 +142,7 @@ export default function CourseDescription() {
                   type="number"
                   name="coursePrice"
                   placeholder="Enter price"
-                  defaultValue={tempCourse.coursePrice}
+                  defaultValue={course.coursePrice}
                   min={"0"}
                   onChange={handleChange}
                   disabled={!editMode || isLoading}
@@ -153,7 +156,7 @@ export default function CourseDescription() {
                   name="courseDiscountPercent"
                   placeholder="Enter discount in percentage"
                   min={"0"}
-                  defaultValue={tempCourse.courseDiscountPercent}
+                  defaultValue={course.courseDiscountPercent}
                   onChange={handleChange}
                   disabled={!editMode || isLoading}
                   required

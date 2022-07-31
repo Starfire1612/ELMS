@@ -11,8 +11,6 @@ export default function ManageCourseNavbar({ CourseName, CourseDuration }) {
         <CaretLeft size={20} color={"#fff"} />
         <span className="b2c">Back to course</span>
       </Link>
-      <p className="ms-3 name">{CourseName}</p>
-      <p className="ms-3">{CourseDuration + "min of video content added."}</p>
     </div>
   );
 }

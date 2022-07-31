@@ -43,7 +43,7 @@ export default function EditAccountSecurity({ userData }) {
         <p className="input-label">Email:</p>
         <Form.Control
           className="input-style"
-          value={`${userData.studentEmail}`}
+          value={userData[`${userType}Email`]}
           disabled
         />
       </div>

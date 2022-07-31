@@ -16,11 +16,21 @@ export default function EditBankAccountDetails({ userData }) {
   };
 
   const updateInstructorAccountDetails = async () => {
-    if(!accountDetails.ifscCode && !accountDetails.accountNumber) return;
-    userData.accountNumber =parseInt(accountDetails.accountNumber);
-    userData.bankIfscCode = accountDetails.ifscCode;
-    console.log(userData)
-    await postProfileDetails(userType, userData);
+    const regexIfsc = /^[A-Z]{4}[0-9]{4,7}$/;
+    const regexAccountNumber = /^[0-9]{5,9}$/;
+    if (!accountDetails.ifscCode && !accountDetails.accountNumber) return;
+    else if (!regexIfsc.test(accountDetails.ifscCode)) {
+      console.log("Not valid ifsc");
+      return;
+    } else if (!regexAccountNumber.test(accountDetails.accountNumber)) {
+      console.log("Not valid AN");
+      return;
+    } else {
+      userData.accountNumber = parseInt(accountDetails.accountNumber);
+      userData.bankIfscCode = accountDetails.ifscCode;
+      console.log(userData);
+      await postProfileDetails(userType, userData);
+    }
   };
 
   return (
@@ -34,7 +44,6 @@ export default function EditBankAccountDetails({ userData }) {
         <Form.Control
           className="input-style"
           placeholder="Enter Ifsc Code"
-          regex="^[A_Z]{4}[0-9]{7}$"
           name="ifscCode"
           defaultValue={userData.bankIfscCode}
           onChange={handleChange}
@@ -43,7 +52,6 @@ export default function EditBankAccountDetails({ userData }) {
         <Form.Control
           className="input-style"
           placeholder="Enter Account Number"
-          regex="^[0-9]{5}$"
           name="accountNumber"
           defaultValue={userData.accountNumber}
           onChange={handleChange}

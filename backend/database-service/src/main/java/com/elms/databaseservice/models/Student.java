@@ -42,7 +42,7 @@ public class Student {
 	@Column(name = "stu_name", length = 50, nullable = false, unique = false)
 	private String studentName;
 	@Column(name = "stu_email", length = 50, nullable = false, unique = true)
-	private String studentEmail;
+	private String studentEmail; 
 	@Column(name = "stu_password", length = 255, nullable = false, unique = false)
 	private String studentPassword;
 	//@JsonIgnore

@@ -16,9 +16,25 @@ export const getAllPublishedCourse = async (id, page) => {
 export const getCourseDetails = async (courseId, id) => {
   // console.log("Index:"+page)
   return await axios
-    .get(`${BASE_URL}/student/${id}/courses/${courseId}/courseDetails`, config)
+    .get(`${BASE_URL}/student/${id}/course/${courseId}/view-course-details`, config)
     .then((response) => response.data)
-    .catch((error) => error);
+    .catch((error) => console.log(error));
+};
+
+export const getStudentEnrolledCourses = async (sid) => {
+  // console.log("Index:"+page)
+  return await axios
+    .get(`${BASE_URL}/student/${sid}/enrolled-courses`, config)
+    .then((response) => response.data)
+    .catch((error) => console.log(error));
+};
+
+export const getSearchedCourses = async (sid,serachQuery) => {
+  // console.log("Index:"+page)
+  return await axios
+    .get(`${BASE_URL}/student/${sid}/search/${serachQuery}`, config)
+    .then((response) => response.data)
+    .catch((error) => console.log(error));
 };
 
 export const enrollStudentInCourse = async (

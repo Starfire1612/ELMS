@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -143,8 +143,7 @@ public class StudentController {
 			return studentService.getCourseDetails(id, courseId);
 		else
 		{
-			log.error("User not authenticated");
-			
+			log.error("User not authenticated");			
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -160,6 +159,7 @@ public class StudentController {
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
 		}
 	}
+	
 	@GetMapping(path = "/student/{id}/published-courses/{page}")
 	public ResponseEntity<Page<Course>> getAllPublishedCourses(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,@PathVariable("page") int page) {
 		log.info("Getting all course ");
@@ -168,13 +168,11 @@ public class StudentController {
 		else
 		{
 			log.error("User not authenticated");
-
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	
-
 	@PostMapping(path = "/student/{id}/course/{courseId}/enroll")
 	public ResponseEntity<String> enrollInCourse(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id, @PathVariable("courseId") int courseId,
 			@RequestBody Payment paymentRequest) {
@@ -187,8 +185,7 @@ public class StudentController {
 		}
 		else
 		{
-			log.error("User not authenticated");
-			
+			log.error("User not authenticated");			
 			return new ResponseEntity<>("User Authentication Failed",HttpStatus.BAD_REQUEST);
 		}
 	}

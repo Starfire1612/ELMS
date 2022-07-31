@@ -23,6 +23,7 @@ import Payment from "./component/payment/Payment.js";
 import CourseViewPage from "./component/student/CourseViewPage.js";
 import StudentExploreCourses from "./component/student/StudentExploreCourses";
 import StudentMyLearning from "./component/student/StudentMyLearning";
+import SearchedCourses from "./component/student/SearchedCourses";
 
 function App() {
   const [loggedInStatus, setLoggedInStatus] = useState(false);
@@ -101,6 +102,10 @@ function App() {
             path="my-learning"
             element={<StudentMyLearning userData={userData} />}
           />
+          <Route
+            path="searchedCourses/:search"
+            element={<SearchedCourses userData={userData} />}
+          />
           <Route path="" element={<Navigate to="/home/explore" />} />
         </Route>
         <Route
@@ -145,8 +150,14 @@ function App() {
           <Route path="course-structure" element={<CourseStructure />} />
           <Route path="setup" element={<Setup />} />
           <Route path="film" element={<Film />} />
-          <Route path="description" element={<CourseDescription />} />
-          <Route path="curriculum" element={<Curriculum />} />
+          <Route
+            path="description"
+            element={<CourseDescription userData={userData} />}
+          />
+          <Route
+            path="curriculum"
+            element={<Curriculum userData={userData} />}
+          />
         </Route>
       </Routes>
     </div>

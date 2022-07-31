@@ -5,8 +5,8 @@ import { List } from "react-bootstrap-icons";
 import { useMediaQuery } from "react-responsive";
 import "../../../styles/manage-course/SideNavBar.css";
 
-export default function SideNavBar({ courseid, manageDeleteCourse }) {
-  const route = `../instructor/course/${courseid}/manage`;
+export default function SideNavBar({ manageDeleteCourse ,courseId}) {
+  const route = `../instructor/course/${courseId}/manage`;
   const [isActive, setIsActive] = useState(false);
   const shouldSideNavRender = useMediaQuery({
     query: "(min-width: 900px)",

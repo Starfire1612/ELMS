@@ -107,6 +107,7 @@ public class InstructorController {
 			course.setInstructorId(instructor);
 			course.setDatePublished(new Date());
 			course.setInstructorName(instructorName);
+			course.setLessons(course.getLessons());
 			log.info(course.toString()+course.getCourseName());
 
 			InstructorCourse responseCourseId = instructorService.addCourse(course).getBody();
@@ -124,19 +125,35 @@ public class InstructorController {
 		
 	}
 
+//	@PatchMapping(path = "/instructor/{id}/create-course")
+//	public ResponseEntity<String> publishCourse(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id, @RequestBody Course course,
+//			@RequestBody List<Lesson> lessons) {
+//		log.info("Updating Instructor");
+//		if(client.authorizeTheRequest(requestTokenHeader,id))
+//			return instructorService.publishCourse(course, lessons);
+//		else {
+//
+//			log.error("User not authenticated");
+//			return new ResponseEntity<>("User authentication failed",HttpStatus.BAD_REQUEST);
+//		}
+//	}
+	
 	@PatchMapping(path = "/instructor/{id}/create-course")
-	public ResponseEntity<String> publishCourse(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id, @RequestBody Course course,
-			@RequestBody List<Lesson> lessons) {
+	public ResponseEntity<String> publishCourse(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id, @RequestBody Course course) {
 		log.info("Updating Instructor");
 		if(client.authorizeTheRequest(requestTokenHeader,id))
-			return instructorService.publishCourse(course, lessons);
+		{   
+			Instructor instructor = instructorService.getInstructorById(id);
+			course.setInstructorId(instructor);
+			course.setInstructorName(instructor.getInstructorName());
+			return instructorService.publishCourse(course, course.getLessons());
+		}
 		else {
 
 			log.error("User not authenticated");
 			return new ResponseEntity<>("User authentication failed",HttpStatus.BAD_REQUEST);
 		}
 	}
-
 	@DeleteMapping(path = "/instructor/{id}/courses/{courseId}")
 	public ResponseEntity<String> deleteCourse(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id, @PathVariable("courseId") int courseId) {
 

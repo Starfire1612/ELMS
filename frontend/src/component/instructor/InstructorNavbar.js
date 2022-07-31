@@ -7,7 +7,7 @@ import {
 } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 
-export default function InstructorNavbar({ handleLogout, instructorName }) {
+export default function InstructorNavbar({ handleLogout, userData }) {
   return (
     <div className="nav-bar nav-bar-dark justify-content-between instructor-navbar">
       <div>
@@ -25,7 +25,7 @@ export default function InstructorNavbar({ handleLogout, instructorName }) {
 
         <NavDropdown
           className="navbar-user-name"
-          title={instructorName ? instructorName : "Instructor's name"}
+          title={userData ? userData.instructorName : "Instructor's name"}
           menuVariant="dark"
           align="end"
         >

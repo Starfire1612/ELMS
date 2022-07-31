@@ -1,20 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Dropdown, Form, FormControl } from "react-bootstrap";
 import { Funnel, Search, SortAlphaDown, SortDown } from "react-bootstrap-icons";
 import { ClipLoader } from "react-spinners";
 import { LOADING_COLOR } from "../../utils/constants";
 import { compareObjectsForSorting } from "../../utils/util";
-import { dummyCourses } from "../dummydata/dummyCourses";
 import "../../styles/StudentMyLearning.css";
 import Courses from "../courses/Courses";
+import { getStudentEnrolledCourses } from "./../courses/courses-util";
 
-function StudentMyLearning() {
+//if time permits add pagination in this page as well
+
+function StudentMyLearning({ userData }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [courseList, setCourseList] = useState(dummyCourses);
+  const [courseList, setCourseList] = useState([]);
   const [searchField, setSearchField] = useState("");
   const handleSearchFieldChange = (event) => {
     setSearchField(event.target.value);
   };
+
+  const fetchEnrolledCourses = async () => {
+    setIsLoading(true);
+    const courseData = await getStudentEnrolledCourses(userData.studentId);
+    console.log(courseData);
+    setCourseList(courseData);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    fetchEnrolledCourses();
+  }, [userData]);
 
   const handleSearchCourse = async (event) => {
     event.preventDefault();

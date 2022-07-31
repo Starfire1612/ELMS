@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Form, FormControl } from "react-bootstrap";
 import { BoxArrowLeft, PersonCircle } from "react-bootstrap-icons";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../styles/Navigationbar.css";
 
 function StudentNavigationbar({ handleLogout, userName }) {
+  const navigate=useNavigate();
+
+  const [searchQuery, setSearchQuery] = useState("")
+
+  const handleOnChange=(event)=>{
+    setSearchQuery(event.target.value);
+  }
   const handleSearchCourse = (event) => {
     event.preventDefault();
+    navigate(`/home/searchedCourses/${searchQuery}`)
   };
 
   return (
@@ -23,8 +31,10 @@ function StudentNavigationbar({ handleLogout, userName }) {
           type="text"
           required
           placeholder="Search for anything"
+          name="searchQuery"
+          onChange={handleOnChange}
         />
-        <Button className="type-1 navbar-search-course-button" type="submit">
+        <Button className="type-1 navbar-search-course-button" type="submit" >
           Search
         </Button>
       </Form>
