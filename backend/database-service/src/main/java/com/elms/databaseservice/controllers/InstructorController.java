@@ -32,6 +32,7 @@ import com.elms.databaseservice.models.Student;
 import com.elms.databaseservice.proxy.AuthClient;
 import com.elms.databaseservice.services.CourseService;
 import com.elms.databaseservice.services.InstructorService;
+import com.elms.databaseservice.services.LessonService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -45,6 +46,8 @@ public class InstructorController {
 	CourseService courseService;
 	@Autowired
 	AuthClient client;
+	@Autowired
+	LessonService lessonService;
 
 //	@GetMapping(path = "/instructors")
 //	public ResponseEntity<List<Instructor>> getAllInstructors(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader) {
@@ -147,7 +150,10 @@ public class InstructorController {
 			Instructor instructor = instructorService.getInstructorById(id);
 			course.setInstructorId(instructor);
 			course.setInstructorName(instructor.getInstructorName());
-			return instructorService.publishCourse(course, course.getLessons());
+			course.setLessonsCount(lessonService.getTotalLessonsCountByCourseId(course.getCourseId()));
+			course.setTotalDuration(lessonService.getCourseDuration(course.getCourseId()));
+			course.setRatings(course.getRatings());
+			return instructorService.publishCourse(course,course.getLessons());
 		} else {
 
 			log.error("User not authenticated");

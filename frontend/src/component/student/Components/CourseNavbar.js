@@ -17,7 +17,7 @@ function CourseNavBar(props) {
           />
         </div>
       </div>
-      <Button className="enroll type-1 d-none">Enroll Now</Button>
+      <Button className="enroll type-1 d-none" onClick={props.handleEnrollStudent}>Enroll Now</Button>
     </div>
   );
 }

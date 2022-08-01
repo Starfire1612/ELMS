@@ -95,7 +95,9 @@ public class InstructorService {
 		InstructorCourse instructorCourse = new InstructorCourse(c.getInstructorId().getInstructorId(),
 				courseId);
 		log.info(instructorCourse.getCourseId()+":"+instructorCourse.getInstructorId());
-
+		c.setDatePublished(new Date());
+		c.setTotalDuration(lessonService.getCourseDuration(c.getCourseId()));
+		c.setLessonsCount(c.getLessonsCount());
 		instructorCourseRepo.save(instructorCourse);
 		return new ResponseEntity<>(instructorCourse,HttpStatus.CREATED);
 		}

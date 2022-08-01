@@ -178,6 +178,7 @@ public class StudentController {
 			@RequestBody Payment paymentRequest) {
 		if(client.authorizeTheRequest(requestTokenHeader,id)) {
 			log.info("Enrolling course with Course Id:"+courseId+"");
+			
 			return studentService.enrollStudentInCourse(id, courseId, paymentRequest.getPaymentStatus(),
 					paymentRequest.getPaymentResponseMessage(), paymentRequest.getPaymentAmount());
 			

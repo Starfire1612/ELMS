@@ -4,16 +4,17 @@ import "../../../styles/manage-course/Curriculum.css";
 import { useParams } from "react-router-dom";
 import Lesson from "./Lesson";
 import AddLesson from "./AddLesson";
-import { getCourseLessons } from "../instructor-utils.js";
+import { deleteLesson, getCourseLessons, updateLesson } from "../instructor-utils.js";
 import { ClipLoader } from "react-spinners";
 import { LOADING_COLOR } from "../../../utils/constants.js";
+import { updateCourseLessons } from './../instructor-utils';
 
 export default function Curriculum({ userData }) {
   const params = useParams();
   const courseId = params.courseId;
 
   const [isLoading, setIsLoading] = useState(false);
-
+  const [listChanged,setListChanged]=useState(false);
   const [lessons, setLessons] = useState([]);
 
   const fetchLessons = async () => {
@@ -27,17 +28,26 @@ export default function Curriculum({ userData }) {
   };
   useEffect(() => {
     fetchLessons();
-  }, [userData]);
+  }, [userData,listChanged]);
 
   const handleDeleteLesson = async (lessonId) => {
     //delete request to delete lesson using lessonId and call fetchlessons to get updated lesson list
-    console.log("deleted");
+    const response=await deleteLesson(userData.instructorId, courseId, lessonId)
+    console.log(response);
+    setListChanged(!listChanged);
   };
   const handleUpdateLesson = async (lesson) => {
     //update request to update lesson and call fetchLessons to get updated lesson list
+    const response=await updateLesson(userData.instructorId, courseId, lesson.lessonId, lesson)
+    console.log(response);
+    setListChanged(!listChanged);
   };
   const handleUploadLessons = async (lessons) => {
     //post request to upload lesson and call fetchlessons to get updated lesson list.
+    console.log(lessons)
+    const response=await updateCourseLessons(userData.instructorId, courseId, lessons);
+    console.log(response);
+    setListChanged(!listChanged);
   };
 
   return (

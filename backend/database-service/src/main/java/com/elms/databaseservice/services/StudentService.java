@@ -202,7 +202,8 @@ public class StudentService {
 		}
 
 	}
-    @Transactional
+
+	@Transactional
 	public ResponseEntity<List<Course>> getSearchCourses(String search) {
 		List<Course> courses = courseRepo.searchCourse(search);
 		if (courses == null) {

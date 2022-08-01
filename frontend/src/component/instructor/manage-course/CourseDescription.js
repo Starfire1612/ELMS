@@ -10,7 +10,7 @@ import { dummyCourse } from "../../dummydata/dummyCourse";
 import { HashLoader } from "react-spinners";
 import { LOADING_COLOR } from "../../../utils/constants";
 import { getCourseDetails } from "../instructor-utils.js";
-import { updateCourse } from './../instructor-utils';
+import { updateCourse, createCourse } from './../instructor-utils';
 
 export default function CourseDescription({userData}) {
   const params = useParams();
@@ -60,6 +60,7 @@ export default function CourseDescription({userData}) {
       // PATCH request to update course
       //...
       console.log("From CD",course);
+
       const status=await updateCourse(userData.instructorId,course);
       console.log(status);
       setIsLoading(false);

@@ -19,6 +19,7 @@ export const getCourseDetails = async (id, cid) => {
     .catch((error) => console.log(error));
 };
 
+//publish course
 export const createCourse = async (id, course) => {
   return await axios
     .post(`${BASE_URL}${id}/create-course`, course, config)
@@ -26,6 +27,7 @@ export const createCourse = async (id, course) => {
     .catch((error) => console.log(error));
 };
 
+//post course picture
 export const postCoursePic = async (id, cid, imageFile) => {
   console.log("Instructor Id:", id, "Course Id:", cid, "ImageFile", imageFile);
   const formData = new FormData();
@@ -53,6 +55,7 @@ export const postCoursePic = async (id, cid, imageFile) => {
   return result;
 };
 
+//updating course with lessons
 export const updateCourse = async (id, course) => {
   return await axios
     .patch(`${BASE_URL}${id}/create-course`, course, config)

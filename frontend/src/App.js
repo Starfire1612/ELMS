@@ -19,7 +19,6 @@ import EditProfile from "./component/profile/EditProfile";
 import EditProfilePic from "./component/profile/EditProfilePic";
 import EditAccountSecurity from "./component/profile/EditAccountSecurity";
 import EditBankAccountDetails from "./component/profile/EditBankAccountDetails";
-import Payment from "./component/payment/Payment.js";
 // import CourseViewPage from "./component/student/CourseViewPage.js";
 import StudentExploreCourses from "./component/student/StudentExploreCourses";
 import StudentMyLearning from "./component/student/StudentMyLearning";
@@ -86,7 +85,7 @@ function App() {
             )
           }
         />
-        <Route path="/payment" element={<Payment />} />
+        {/* <Route path="/payment" element={<Payment userData={userData}/>} /> */}
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route

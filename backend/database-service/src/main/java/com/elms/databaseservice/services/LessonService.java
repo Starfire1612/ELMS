@@ -77,7 +77,7 @@ public class LessonService {
 			log.debug("Got Existing Lessons");
 			existingLesson.setLessonName(lesson.getLessonName());
 			existingLesson.setLessonLink(lesson.getLessonLink());
-			existingLesson.setLesonDuration(lesson.getLesonDuration());
+			existingLesson.setLessonDuration(lesson.getLessonDuration());
 			lessonRepo.save(existingLesson);
 
 			log.info("Lessons Updated");

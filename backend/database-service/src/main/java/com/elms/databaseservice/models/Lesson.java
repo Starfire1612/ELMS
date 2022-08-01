@@ -46,7 +46,7 @@ public class Lesson {
 	@Column(name = "lesson_name")
 	private String lessonName;
 	@Column(name = "lesson_duration")
-	private int lesonDuration;
+	private int lessonDuration;
 	@Column(name = "lesson_link")
 	private String lessonLink;
 

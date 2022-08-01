@@ -41,14 +41,16 @@ export const getSearchedCourses = async (sid, serachQuery) => {
 };
 
 export const enrollStudentInCourse = async (
+  id,
   courseId,
-  studentId,
   paymentResponseBody
 ) => {
-  return await axios.post(
-    `${BASE_URL}/student/{id}/course/{courseId}/enroll`,
-    paymentResponseBody,
-    config
-  ).then((response) => response.data)
-  .catch((error) => console.log(error));
+  return await axios
+    .post(
+      `${BASE_URL}/student/${id}/course/${courseId}/enroll`,
+      paymentResponseBody,
+      config
+    )
+    .then((response) => response.data)
+    .catch((error) => console.log(error));
 };

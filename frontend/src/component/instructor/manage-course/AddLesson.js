@@ -36,7 +36,7 @@ export default function AddLesson({ handleUploadLessons }) {
       return;
     }
     const durationInMinutes = convertDurationToMinutes(duration);
-    // console.log(durationInMinutes);
+    console.log(durationInMinutes);
     setLesson((prevLesson) => ({
       ...prevLesson,
       ["lessonDuration"]: durationInMinutes,
@@ -72,7 +72,7 @@ export default function AddLesson({ handleUploadLessons }) {
   };
 
   const manageUploadLessons = async () => {
-    await handleUploadLessons();
+    await handleUploadLessons(lessonList);
     setLessonList([]);
   };
 
