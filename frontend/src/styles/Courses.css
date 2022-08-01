@@ -13,13 +13,13 @@
   border-radius: 0;
 }
 
-.card {
+.course-card {
   border: 0;
   box-shadow: 1px 1px 5px 0 grey;
   border-radius: 0%;
 }
 
-.card:hover {
+.course-card:hover {
   transform: scale(1.0001);
   box-shadow: 0 0 15px 0 grey;
 }

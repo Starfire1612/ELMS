@@ -1,19 +1,18 @@
-
-
 export const postProfileDetails = async (userType, userData) => {
-  
   console.log(userData);
   switch (userType) {
     case "student": {
-      await fetch(`http://localhost:8100/student/${userData.studentId}/profile`, {
-        method: "PATCH",
-        body: JSON.stringify(userData),
-        headers: {
-          Authorization:
-            `Bearer ${localStorage.getItem("userToken")}`,
-          "Content-Type": "application/json",
-        },
-      })
+      await fetch(
+        `http://localhost:8100/student/${userData.studentId}/profile`,
+        {
+          method: "PATCH",
+          body: JSON.stringify(userData),
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
         .then((response) => response.data)
         .then((result) => {
           console.log("Success:", result);
@@ -24,15 +23,17 @@ export const postProfileDetails = async (userType, userData) => {
       break;
     }
     case "instructor": {
-      await fetch(`http://localhost:8100/instructor/${userData.instructorId}/profile`, {
-        method: "PATCH",
-        body: JSON.stringify(userData),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization:
-          `Bearer ${localStorage.getItem("userToken")}`,
-        },
-      })
+      await fetch(
+        `http://localhost:8100/instructor/${userData.instructorId}/profile`,
+        {
+          method: "PATCH",
+          body: JSON.stringify(userData),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          },
+        }
+      )
         .then((response) => console.log(response))
         .then((result) => {
           // console.log('Success:', result);
@@ -60,9 +61,8 @@ export const postProfilePic = async (userType, userData, imageFile) => {
           method: "PATCH",
           body: formData,
           headers: {
-            "Authorization":
-            `Bearer ${localStorage.getItem("userToken")}`,
-          }
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          },
         }
       )
         .then((response) => response.json())
@@ -76,7 +76,6 @@ export const postProfilePic = async (userType, userData, imageFile) => {
           console.error("Error:", error);
         });
       return result;
-      break;
     }
     case "instructor": {
       const result = await fetch(
@@ -85,9 +84,8 @@ export const postProfilePic = async (userType, userData, imageFile) => {
           method: "PATCH",
           body: formData,
           headers: {
-            "Authorization":
-            `Bearer ${localStorage.getItem("userToken")}`,
-          }
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          },
         }
       )
         .then((response) => response.json())
@@ -101,7 +99,6 @@ export const postProfilePic = async (userType, userData, imageFile) => {
           console.error("Error:", error);
         });
       return result;
-      break;
     }
     default:
   }

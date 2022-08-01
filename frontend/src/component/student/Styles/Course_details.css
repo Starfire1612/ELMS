@@ -1,29 +1,31 @@
-.main-content
-{
-    padding-top:2rem;
-    margin-left: 10%;
-    max-width: 70rem;
-    margin-right:4rem;
-}
-.course-view-container{
-    position:relative;
+.main-content {
+    padding-top: 2rem;
+    margin-left: 4.8rem;
+    max-width: 40rem;
+    margin-right: 4.8rem;
 }
 
-.desc{
-    margin-top:3rem;
-    
+.course-view-container {
+    position: relative;
 }
-.desc-content
-{
-    margin-top:3rem;
+
+.desc {
+    margin-top: 3rem;
+
 }
-.instructor-head{
-    margin-top:.4rem;
-    
-    border-top:1px solid #d1d7dc;
-    border-bottom:   1px solid #d1d7dc;
-    padding-bottom:2rem;
+
+.desc-content {
+    margin-top: 3rem;
 }
+
+.instructor-head {
+    margin-top: .4rem;
+
+    border-top: 1px solid #d1d7dc;
+    border-bottom: 1px solid #d1d7dc;
+    padding-bottom: 2rem;
+}
+
 .block-lesson {
     border: 1px solid #d1d7dc;
 }
@@ -40,38 +42,39 @@
     padding-left: 5%;
     padding-bottom: 3%;
 }
-.requirement
-{
-    margin-top:4rem;
-    
-    border-top:1px solid #d1d7dc;
-    border-bottom:   1px solid #d1d7dc;
+
+.requirement {
+    margin-top: 4rem;
+
+    border-top: 1px solid #d1d7dc;
+    border-bottom: 1px solid #d1d7dc;
 }
-.require
-{
-    padding-top:1rem;
-    padding-bottom:1rem;
-    
-    
-    font-size:1.5rem;
+
+.require {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+
+
+    font-size: 1.5rem;
 }
-.course-content-head{
-    padding-bottom:2rem;
+
+.course-content-head {
+    padding-bottom: 2rem;
 }
-.course-content
-{
-    border:1px solid #d1d7dc;
+
+.course-content {
+    border: 1px solid #d1d7dc;
 }
-.lesson-content{
-    min-height:5rem;
-    border-bottom:1px solid #d1d7dc;
+
+.lesson-content {
+    min-height: 5rem;
+    border-bottom: 1px solid #d1d7dc;
 }
-.lesson-content:nth-child(even)
-{
+
+.lesson-content:nth-child(even) {
     background-color: #f5fcff;
 }
 
-.lesson-content:nth-child(odd)
-{
+.lesson-content:nth-child(odd) {
     background-color: #eef6ff;
 }

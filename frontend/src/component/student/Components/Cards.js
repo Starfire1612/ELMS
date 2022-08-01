@@ -15,9 +15,8 @@ function Cards(props) {
 
   return (
     <div className="enroll-component">
-      <Card style={{ width: "37rem" }}>
-        <Card.Img variant="top" src={download} />
-
+      <Card style={{ width: "24rem" }}>
+        <Card.Img className="card-image" src={download} />
         <div className="courseview-card-body">
           <Button
             className="course-enroll type-1 mb-5"

@@ -1,4 +1,10 @@
-import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
+import {
+  Route,
+  Routes,
+  Navigate,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import "./App.css";
 import ForgotPassword from "./component/auth/ForgotPassword";
 import SignIn from "./component/auth/SignIn";
@@ -19,16 +25,21 @@ import EditProfile from "./component/profile/EditProfile";
 import EditProfilePic from "./component/profile/EditProfilePic";
 import EditAccountSecurity from "./component/profile/EditAccountSecurity";
 import EditBankAccountDetails from "./component/profile/EditBankAccountDetails";
-// import CourseViewPage from "./component/student/CourseViewPage.js";
 import StudentExploreCourses from "./component/student/StudentExploreCourses";
 import StudentMyLearning from "./component/student/StudentMyLearning";
 import SearchedCourses from "./component/student/SearchedCourses";
-import CourseDetailsPage from "./component/student/Components/CouseDetails.js"
+import CourseDetailsPage from "./component/student/Components/CouseDetails.js";
 
 function App() {
   const [loggedInStatus, setLoggedInStatus] = useState(false);
+  const [fetchUserFlag, setFetchUserFlag] = useState(true);
   const [userData, setUserData] = useState({});
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const reFetchUser = () => {
+    setFetchUserFlag(!fetchUserFlag);
+  };
 
   const greetUser = async () => {
     await axios
@@ -39,7 +50,6 @@ function App() {
       })
       .then((response) => response.data)
       .then((data) => {
-        console.log(data);
         setUserData(data);
         setLoggedInStatus(true);
       })
@@ -51,9 +61,9 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem("userToken") && localStorage.getItem("userType")) {
       greetUser();
-      if (userData) navigate("/");
+      // if (userData) navigate(location.pathname);
     }
-  }, []);
+  }, [fetchUserFlag]);
 
   const handleLogin = async () => {
     await greetUser();
@@ -112,24 +122,46 @@ function App() {
           path="/home/course/:courseId"
           element={<CourseViewPage userData={userData} />}
         /> */}
-<Route path="/home/course/:courseId"
-element={<CourseDetailsPage userData={userData}/>}/>
-        <Route path="/profile" exact element={<Profile userData={userData} />}>
+        <Route
+          path="/home/course/:courseId"
+          element={<CourseDetailsPage userData={userData} />}
+        />
+
+        {/* Profile Routes */}
+        <Route
+          path="/profile"
+          exact
+          element={<Profile userData={userData} reFetchUser={reFetchUser} />}
+        >
           <Route
             path="edit-profile"
-            element={<EditProfile userData={userData} />}
+            element={
+              <EditProfile userData={userData} reFetchUser={reFetchUser} />
+            }
           ></Route>
           <Route
             path="edit-profile-pic"
-            element={<EditProfilePic userData={userData} />}
+            element={
+              <EditProfilePic userData={userData} reFetchUser={reFetchUser} />
+            }
           />
           <Route
             path="edit-account-security"
-            element={<EditAccountSecurity userData={userData} />}
+            element={
+              <EditAccountSecurity
+                userData={userData}
+                reFetchUser={reFetchUser}
+              />
+            }
           />
           <Route
             path="edit-bank-account-details"
-            element={<EditBankAccountDetails userData={userData} />}
+            element={
+              <EditBankAccountDetails
+                userData={userData}
+                reFetchUser={reFetchUser}
+              />
+            }
           />
           <Route path="" element={<Navigate to="/profile/edit-profile" />} />
           <Route path="*" element={<Navigate to="/profile/edit-profile" />} />

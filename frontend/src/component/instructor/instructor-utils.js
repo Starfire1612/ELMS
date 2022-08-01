@@ -6,6 +6,7 @@ const config = {
   },
 };
 export const getPublishedCourses = async (id) => {
+  if (!id) return;
   return await axios
     .get(`${BASE_URL}${id}/courses`, config)
     .then((response) => response.data)

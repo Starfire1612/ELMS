@@ -7,6 +7,7 @@ const config = {
   },
 };
 export const getAllPublishedCourse = async (id, page) => {
+  if (!id) return;
   return await axios
     .get(`${BASE_URL}/student/${id}/published-courses/${page}`, config)
     .then((response) => response.data)

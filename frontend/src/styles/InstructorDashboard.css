@@ -16,6 +16,19 @@
   flex-grow: 1;
 }
 
+.search-course-not-found-image {
+  max-width: 300px;
+}
+
+.go-back-to-your-courses {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.go-back-to-your-courses:hover {
+  transform: scale(1.01);
+}
+
 
 @media(max-width:750px) {
   .instructor-dashboard {

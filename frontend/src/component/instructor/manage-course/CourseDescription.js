@@ -6,25 +6,24 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import "../../../styles/manage-course/Filler.css";
 import "../../../styles/manage-course/CourseDescription.css";
-import { dummyCourse } from "../../dummydata/dummyCourse";
-import { HashLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 import { LOADING_COLOR } from "../../../utils/constants";
 import { getCourseDetails } from "../instructor-utils.js";
-import { updateCourse, createCourse } from './../instructor-utils';
+import { updateCourse, createCourse } from "./../instructor-utils";
 
-export default function CourseDescription({userData}) {
+export default function CourseDescription({ userData }) {
   const params = useParams();
   const courseId = params.courseId;
   const [course, setCourse] = useState({});
   const [editMode, setEditMode] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchCourse = async() => {
+  const fetchCourse = async () => {
     setIsLoading(true);
     //fetch course details using courseid and set course state then set course same as course state
     //....
-    const response=await getCourseDetails(userData.instructorId,courseId);
-    console.log("Course Details",response);
+    const response = await getCourseDetails(userData.instructorId, courseId);
+    console.log("Course Details", response);
     setCourse(response);
     setIsLoading(false);
   };
@@ -56,15 +55,14 @@ export default function CourseDescription({userData}) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-      setIsLoading(true);
-      // PATCH request to update course
-      //...
-      console.log("From CD",course);
+    setIsLoading(true);
+    // PATCH request to update course
+    //...
+    console.log("From CD", course);
 
-      const status=await updateCourse(userData.instructorId,course);
-      console.log(status);
-      setIsLoading(false);
-    
+    const status = await updateCourse(userData.instructorId, course);
+    console.log(status);
+    setIsLoading(false);
   };
 
   const handleCancel = () => {
@@ -86,7 +84,7 @@ export default function CourseDescription({userData}) {
         <div className={isLoading ? "layer" : ""}>
           {isLoading && (
             <div className="abc">
-              <HashLoader color={LOADING_COLOR} />
+              <ClipLoader color={LOADING_COLOR} />
             </div>
           )}
         </div>

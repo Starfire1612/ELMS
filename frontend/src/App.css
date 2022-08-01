@@ -5,6 +5,10 @@
   --button-type-3-bg-hover: black;
 }
 
+body {
+  font-size: 16px;
+}
+
 * {
   box-sizing: border-box;
 }
