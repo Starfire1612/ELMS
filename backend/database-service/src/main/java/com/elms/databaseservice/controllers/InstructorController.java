@@ -45,7 +45,7 @@ public class InstructorController {
 	CourseService courseService;
 	@Autowired
 	AuthClient client;
-	
+
 //	@GetMapping(path = "/instructors")
 //	public ResponseEntity<List<Instructor>> getAllInstructors(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader) {
 //		log.info("get all instructor");
@@ -56,73 +56,73 @@ public class InstructorController {
 //	}
 
 	@GetMapping(path = "/instructor/{id}/courses")
-	public ResponseEntity<Set<Course>> getAllCreatedCourses(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id) {
+	public ResponseEntity<Set<Course>> getAllCreatedCourses(
+			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
+			@PathVariable("id") int id) {
 		log.info("inside course fetch");
-		if(client.authorizeTheRequest(requestTokenHeader,id))
-		{
+		if (client.authorizeTheRequest(requestTokenHeader, id)) {
 			log.info("Getting courses by instructor");
 			return instructorService.getCreatedCourses(id);
-		}else {
+		} else {
 
 			log.error("User not authenticated");
-			return new ResponseEntity<>(Collections.EMPTY_SET,HttpStatus.BAD_REQUEST);
-	}
+			return new ResponseEntity<>(Collections.EMPTY_SET, HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@GetMapping(path = "/instructor/{id}/courses/{courseId}")
-	public ResponseEntity<Course> getCreatedCourseDetails(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,
-			@PathVariable("courseId") int courseId) {
+	public ResponseEntity<Course> getCreatedCourseDetails(
+			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
+			@PathVariable("id") int id, @PathVariable("courseId") int courseId) {
 		log.info("inside course details fetch");
-		if(client.authorizeTheRequest(requestTokenHeader,id))	
-		{
+		if (client.authorizeTheRequest(requestTokenHeader, id)) {
 			log.info("Getting Course Details");
 			return instructorService.getCreatedCourseDetails(id, courseId);
-		}else
-		{
+		} else {
 
 			log.error("User not authenticated");
-			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@GetMapping(path = "/instructor/{id}/profile")
-	public ResponseEntity<Instructor> viewInstructorProfile(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id) {
+	public ResponseEntity<Instructor> viewInstructorProfile(
+			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
+			@PathVariable("id") int id) {
 		log.info("inside instructor profile");
-		if(client.authorizeTheRequest(requestTokenHeader,id))	
+		if (client.authorizeTheRequest(requestTokenHeader, id))
 			return instructorService.viewProfile(id);
-		else
-		{
+		else {
 
 			log.error("User not authenticated");
-		return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
-	}
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
+	}
 
 	@PostMapping(path = "/instructor/{id}/create-course")
-	public ResponseEntity<String> createCourse(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id, @RequestBody Course course) {
-		if(client.authorizeTheRequest(requestTokenHeader,id))	
-		{
+	public ResponseEntity<String> createCourse(
+			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
+			@PathVariable("id") int id, @RequestBody Course course) {
+		if (client.authorizeTheRequest(requestTokenHeader, id)) {
 			Instructor instructor = instructorService.getInstructorById(id);
 			String instructorName = instructor.getInstructorName();
 			course.setInstructorId(instructor);
 			course.setDatePublished(new Date());
 			course.setInstructorName(instructorName);
 			course.setLessons(course.getLessons());
-			log.info(course.toString()+course.getCourseName());
+			log.info(course.toString() + course.getCourseName());
 
 			InstructorCourse responseCourseId = instructorService.addCourse(course).getBody();
-			if (responseCourseId!=null)
+			if (responseCourseId != null)
 				return new ResponseEntity<>("Course Created Successfully" + "", HttpStatus.CREATED);
 			else
 				return new ResponseEntity<>("Error occured while creating the course", HttpStatus.OK);
-		}
-		else
-		{
+		} else {
 
 			log.error("User not authenticated");
-			return new ResponseEntity<>("User authentication failed",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("User authentication failed", HttpStatus.BAD_REQUEST);
 		}
-		
+
 	}
 
 //	@PatchMapping(path = "/instructor/{id}/create-course")
@@ -137,62 +137,80 @@ public class InstructorController {
 //			return new ResponseEntity<>("User authentication failed",HttpStatus.BAD_REQUEST);
 //		}
 //	}
-	
+
 	@PatchMapping(path = "/instructor/{id}/create-course")
-	public ResponseEntity<String> publishCourse(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id, @RequestBody Course course) {
+	public ResponseEntity<String> publishCourse(
+			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
+			@PathVariable("id") int id, @RequestBody Course course) {
 		log.info("Updating Instructor");
-		if(client.authorizeTheRequest(requestTokenHeader,id))
-		{   
+		if (client.authorizeTheRequest(requestTokenHeader, id)) {
 			Instructor instructor = instructorService.getInstructorById(id);
 			course.setInstructorId(instructor);
 			course.setInstructorName(instructor.getInstructorName());
 			return instructorService.publishCourse(course, course.getLessons());
+		} else {
+
+			log.error("User not authenticated");
+			return new ResponseEntity<>("User authentication failed", HttpStatus.BAD_REQUEST);
 		}
+	}
+
+	@DeleteMapping(path = "/instructor/{id}/courses/{courseId}")
+	public ResponseEntity<String> deleteCourse(
+			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
+			@PathVariable("id") int id, @PathVariable("courseId") int courseId) {
+
+		log.info("Deleting course");
+		if (client.authorizeTheRequest(requestTokenHeader, id))
+			return instructorService.deleteCourse(id, courseId);
 		else {
 
 			log.error("User not authenticated");
-			return new ResponseEntity<>("User authentication failed",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("User authentication failed", HttpStatus.BAD_REQUEST);
 		}
 	}
-	@DeleteMapping(path = "/instructor/{id}/courses/{courseId}")
-	public ResponseEntity<String> deleteCourse(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id, @PathVariable("courseId") int courseId) {
-
-		log.info("Deleting course");
-		if(client.authorizeTheRequest(requestTokenHeader,id))	
-			return instructorService.deleteCourse(id, courseId);
-		else
-		{
-
-			log.error("User not authenticated");
-			return new ResponseEntity<>("User authentication failed",HttpStatus.BAD_REQUEST);
-	}
-	}
-
 
 	@PatchMapping(path = "/instructor/{id}/profile")
-	public ResponseEntity<Instructor> updateInstructorProfil(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable int id,@RequestBody Instructor i) {
+	public ResponseEntity<Instructor> updateInstructorProfil(
+			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader, @PathVariable int id,
+			@RequestBody Instructor i) {
 		log.info("updating profile of instructor");
-		if(client.authorizeTheRequest(requestTokenHeader,id))	
+		if (client.authorizeTheRequest(requestTokenHeader, id))
 			return instructorService.updateProfile(i);
 		else {
 
 			log.error("User not authenticated");
-			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
-	}
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@PatchMapping(path = "/instructor/{id}/uploadProfilePic", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-	public ResponseEntity<String> updateInstructorProfilPic(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id, @RequestBody MultipartFile file)
-			throws Exception {
+	public ResponseEntity<String> updateInstructorProfilPic(
+			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
+			@PathVariable("id") int id, @RequestBody MultipartFile file) throws Exception {
 		log.info("updating profile pic");
-		if(client.authorizeTheRequest(requestTokenHeader,id))	
+		if (client.authorizeTheRequest(requestTokenHeader, id))
 			return instructorService.updateProfilePic(id, file);
-		else
-		{
+		else {
 
 			log.error("User not authenticated");
-			return new ResponseEntity<>("User authentication failed",HttpStatus.BAD_REQUEST);
-	}
+			return new ResponseEntity<>("User authentication failed", HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+
+	@PatchMapping(path = "/instructor/{id}/course/{courseId}/uploadCourseImage", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+	public ResponseEntity<String> updateCoursePic(
+			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
+			@PathVariable("id") int id,@PathVariable("id") int cid, @RequestBody MultipartFile file) throws Exception {
+		log.info("updating course profile pic");
+		if (client.authorizeTheRequest(requestTokenHeader, id))
+			return instructorService.updateCoursePic(cid, file);
+		else {
+
+			log.error("User not authenticated");
+			return new ResponseEntity<>("User authentication failed", HttpStatus.BAD_REQUEST);
+		}
+	}
 
 }

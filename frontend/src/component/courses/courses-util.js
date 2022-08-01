@@ -16,7 +16,10 @@ export const getAllPublishedCourse = async (id, page) => {
 export const getCourseDetails = async (courseId, id) => {
   // console.log("Index:"+page)
   return await axios
-    .get(`${BASE_URL}/student/${id}/course/${courseId}/view-course-details`, config)
+    .get(
+      `${BASE_URL}/student/${id}/course/${courseId}/view-course-details`,
+      config
+    )
     .then((response) => response.data)
     .catch((error) => console.log(error));
 };
@@ -29,7 +32,7 @@ export const getStudentEnrolledCourses = async (sid) => {
     .catch((error) => console.log(error));
 };
 
-export const getSearchedCourses = async (sid,serachQuery) => {
+export const getSearchedCourses = async (sid, serachQuery) => {
   // console.log("Index:"+page)
   return await axios
     .get(`${BASE_URL}/student/${sid}/search/${serachQuery}`, config)
@@ -41,4 +44,11 @@ export const enrollStudentInCourse = async (
   courseId,
   studentId,
   paymentResponseBody
-) => {};
+) => {
+  return await axios.post(
+    `${BASE_URL}/student/{id}/course/{courseId}/enroll`,
+    paymentResponseBody,
+    config
+  ).then((response) => response.data)
+  .catch((error) => console.log(error));
+};

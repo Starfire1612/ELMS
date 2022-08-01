@@ -20,10 +20,11 @@ import EditProfilePic from "./component/profile/EditProfilePic";
 import EditAccountSecurity from "./component/profile/EditAccountSecurity";
 import EditBankAccountDetails from "./component/profile/EditBankAccountDetails";
 import Payment from "./component/payment/Payment.js";
-import CourseViewPage from "./component/student/CourseViewPage.js";
+// import CourseViewPage from "./component/student/CourseViewPage.js";
 import StudentExploreCourses from "./component/student/StudentExploreCourses";
 import StudentMyLearning from "./component/student/StudentMyLearning";
 import SearchedCourses from "./component/student/SearchedCourses";
+import CourseDetailsPage from "./component/student/Components/CouseDetails.js"
 
 function App() {
   const [loggedInStatus, setLoggedInStatus] = useState(false);
@@ -108,11 +109,12 @@ function App() {
           />
           <Route path="" element={<Navigate to="/home/explore" />} />
         </Route>
-        <Route
+        {/* <Route
           path="/home/course/:courseId"
           element={<CourseViewPage userData={userData} />}
-        />
-
+        /> */}
+<Route path="/home/course/:courseId"
+element={<CourseDetailsPage userData={userData}/>}/>
         <Route path="/profile" exact element={<Profile userData={userData} />}>
           <Route
             path="edit-profile"

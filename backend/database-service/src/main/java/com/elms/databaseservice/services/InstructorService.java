@@ -191,5 +191,27 @@ public class InstructorService {
 			log.error("Could not update profile");
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 	}}
-
+	
+	@Transactional
+	public ResponseEntity<String> updateCoursePic(int id, MultipartFile file) throws Exception {
+		// Normalize file name
+		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+		try {
+			// Check if the file's name contains invalid characters
+			if (file.getContentType().contains("/png")) {
+				log.info("Uploading profile pic");
+				Course course = courseRepo.findById(id);
+				course.setCourseImage(file.getBytes());
+				courseRepo.save(course);
+				return new ResponseEntity<>(file.getName() + " " + file.getResource().getFilename(),
+						HttpStatus.CREATED);
+			}
+			log.warn("Only upload png images");
+			return new ResponseEntity<>("Only upload png images", HttpStatus.CREATED);
+		} catch (IOException ex) {
+			log.error("Could not store file");
+			return new ResponseEntity<>("Could not store file " + fileName + ". Please try again!",HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 }
