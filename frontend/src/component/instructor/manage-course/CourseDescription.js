@@ -8,7 +8,7 @@ import "../../../styles/manage-course/Filler.css";
 import "../../../styles/manage-course/CourseDescription.css";
 import { ClipLoader } from "react-spinners";
 import { LOADING_COLOR } from "../../../utils/constants";
-import { getCourseDetails } from "../instructor-utils.js";
+import { getCourseDetails, postCoursePic } from "../instructor-utils.js";
 import { updateCourse, createCourse } from "./../instructor-utils";
 
 export default function CourseDescription({ userData }) {
@@ -17,6 +17,7 @@ export default function CourseDescription({ userData }) {
   const [course, setCourse] = useState({});
   const [editMode, setEditMode] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [image, setImage] = useState();
 
   const fetchCourse = async () => {
     setIsLoading(true);
@@ -39,27 +40,27 @@ export default function CourseDescription({ userData }) {
     }));
   };
   const handleImageChange = (event) => {
-    const image = event.target.files[0];
-    console.log(image);
+
+    const _image = event.target.files[0];
+    setImage(_image);
     //convert image to base64 url
     const reader = new FileReader();
     reader.onloadend = () => {
       console.log(reader.result);
-      setCourse((prevCourse) => ({
-        ...prevCourse,
-        [event.target.name]: reader.result,
-      }));
-    };
-    reader.readAsDataURL(image);
+      
+    reader.readAsDataURL(_image);
+    } 
   };
+
+  const handleImageSubmit=async()=>{
+    const updatedCourseImage = await postCoursePic(userData.instructorId,course.courseId, image);
+    console.log(updatedCourseImage);
+  }
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     setIsLoading(true);
     // PATCH request to update course
-    //...
     console.log("From CD", course);
-
     const status = await updateCourse(userData.instructorId, course);
     console.log(status);
     setIsLoading(false);
@@ -97,7 +98,9 @@ export default function CourseDescription({ userData }) {
                 alt=""
               />
             </div>
-            <Form.Group className="mb-3">
+
+            <div className="d-flex align-items-center">
+            <Form.Group className="mb-3 flex-grow-1"> 
               <Form.Label className="fw-500">Course image</Form.Label>
               <p className={!editMode ? "d-none" : "text-sm black mb-0"}>
                 Upload your course image here. Important guidelines: .jpg, .jpeg
@@ -111,6 +114,10 @@ export default function CourseDescription({ userData }) {
                 name="courseImage"
               />
             </Form.Group>
+            <Button className="type-3" onClick={handleImageSubmit} >
+                  Upload Image
+                </Button>
+            </div>
             <Form.Group className="mb-3">
               <Form.Label className="fw-500">Course Name</Form.Label>
               <Form.Control
@@ -161,6 +168,7 @@ export default function CourseDescription({ userData }) {
                   required
                 />
               </Form.Group>
+
             </Row>
             <div className="d-flex justify-content-between align-items-center">
               {editMode ? (

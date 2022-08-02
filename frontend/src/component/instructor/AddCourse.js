@@ -5,26 +5,31 @@ import { Link } from "react-router-dom";
 import { LOADING_COLOR } from "../../utils/constants";
 import { HashLoader } from "react-spinners";
 import "../../styles/AddCourse.css";
+import { createCourse } from './instructor-utils';
 
-function AddCourse() {
+function AddCourse({userData}) {
   const [isCourseNameUnique, setIsCourseNameUnique] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [courseName, setCourseName] = useState("");
-  const [courseId, setCourseId] = useState("1");
+  const [courseId, setCourseId] = useState();
 
   const handleChange = (event) => {
     setCourseName(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
     if (!isCourseNameUnique) {
       //make axios call to verify course name and set course id
     }
-
+    const course={
+      "courseName":courseName
+    }
+    const response=await createCourse(userData.instructorId,course);
+    setCourseId(parseInt(response.data))
     //set isLoading to false
-    // setIsLoading(false);
+    setIsLoading(false);
   };
 
   return (
@@ -45,11 +50,11 @@ function AddCourse() {
         </Form.Group>
         <div className="d-flex align-items-center justify-content-between">
           {isCourseNameUnique ? (
-            <Link to={`../../instructor/course/${courseId}/manage/description`}>
+             <Link to={`../../instructor/course/${courseId}/manage/description`}>
               <Button variant="primary" type="submit">
                 Confirm
               </Button>
-            </Link>
+              </Link>
           ) : (
             <Button variant="primary" type="submit" disabled={isLoading}>
               Check

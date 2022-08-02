@@ -41,7 +41,7 @@ public class Course {
 	private int courseId;
 	@Column(name = "course_name", nullable = false, unique = true)
 	private String courseName;
-	@Column(name = "course_description", nullable = false, unique = true, columnDefinition = " default varchar2(255) 'This is the default generated empty course decsription'")
+	@Column(name = "course_description", nullable = true, unique = true, columnDefinition = " default varchar(255) 'This is the default generated empty course decsription'")
 	private String courseDescription;
 	@Lob
 	@Column(name = "course_image", columnDefinition = "blob default 'https://www.personality-insights.com/wp-content/uploads/2017/12/default-profile-pic-e1513291410505.jpg'")
