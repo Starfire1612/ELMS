@@ -209,7 +209,7 @@ public class InstructorController {
 	@PatchMapping(path = "/instructor/{id}/course/{courseId}/uploadCourseImage", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<String> updateCoursePic(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
-			@PathVariable("id") int id,@PathVariable("id") int cid, @RequestBody MultipartFile file) throws Exception {
+			@PathVariable("id") int id,@PathVariable("courseId") int cid, @RequestBody MultipartFile file) throws Exception {
 		log.info("updating course profile pic");
 		if (client.authorizeTheRequest(requestTokenHeader, id))
 			return instructorService.updateCoursePic(cid, file);

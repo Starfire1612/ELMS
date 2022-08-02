@@ -87,9 +87,10 @@ export default function Curriculum({ userData }) {
             You do not have any lessons yet. Add lessons to publish your course.
           </p>
         ) : (
-          lessons.map((lesson) => (
+          lessons.map((lesson, index) => (
             <Lesson
               key={lesson.lessonId}
+              ind={index}
               lesson={lesson}
               state={"show-lesson"}
               handleUpdateLesson={handleUpdateLesson}
