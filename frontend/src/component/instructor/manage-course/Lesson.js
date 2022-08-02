@@ -11,6 +11,7 @@ export default function Lesson({
   handleDeleteLesson,
   handleUpdateLesson,
   state,
+  ind,
 }) {
   const [isActive, setIsActive] = useState(false);
   const [newLesson, setNewLesson] = useState(lesson);
@@ -72,9 +73,7 @@ export default function Lesson({
     <div className={"lesson mb-2 " + (isActive || deleteMode ? "bg-gray" : "")}>
       <div className="title d-flex">
         <div className="flex-grow-1">
-          <span>
-            {"Lecture " + (lesson.lessonId ? lesson.lessonId : "") + ":"}
-          </span>
+          <span>{"Lecture " + (ind + 1) + ":"}</span>
           <span className="ms-3">{lesson.lessonName}</span>
         </div>
         <div className="edit">

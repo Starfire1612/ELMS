@@ -102,7 +102,7 @@ public class InstructorController {
 		}
 	}
 
-	@PostMapping(path = "/instructor/{id}/create-course")
+	@PostMapping(path = "/instructor/{id}/create-course",consumes = "application/json")
 	public ResponseEntity<String> createCourse(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
 			@PathVariable("id") int id, @RequestBody Course course) {
@@ -112,12 +112,13 @@ public class InstructorController {
 			course.setInstructorId(instructor);
 			course.setDatePublished(new Date());
 			course.setInstructorName(instructorName);
-			course.setLessons(course.getLessons());
+			course.setLessons(Collections.emptyList());
+			course.setLessonsCount(0);
 			log.info(course.toString() + course.getCourseName());
-
-			InstructorCourse responseCourseId = instructorService.addCourse(course).getBody();
-			if (responseCourseId != null)
-				return new ResponseEntity<>("Course Created Successfully" + "", HttpStatus.CREATED);
+			
+			Integer responseCourseId = instructorService.addCourse(course);
+			if (responseCourseId>0)
+				return new ResponseEntity<>(responseCourseId+"", HttpStatus.CREATED);
 			else
 				return new ResponseEntity<>("Error occured while creating the course", HttpStatus.OK);
 		} else {
@@ -208,7 +209,7 @@ public class InstructorController {
 	@PatchMapping(path = "/instructor/{id}/course/{courseId}/uploadCourseImage", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<String> updateCoursePic(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
-			@PathVariable("id") int id,@PathVariable("id") int cid, @RequestBody MultipartFile file) throws Exception {
+			@PathVariable("id") int id,@PathVariable("courseId") int cid, @RequestBody MultipartFile file) throws Exception {
 		log.info("updating course profile pic");
 		if (client.authorizeTheRequest(requestTokenHeader, id))
 			return instructorService.updateCoursePic(cid, file);

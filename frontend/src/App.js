@@ -175,7 +175,7 @@ function App() {
             />
           }
         />
-        <Route path="/instructor/add-course" element={<AddCourse />} />
+        <Route path="/instructor/add-course" element={<AddCourse userData={userData}/>} />
         <Route
           path="/instructor/course/:courseId/manage"
           element={<ManageCourse />}

@@ -24,6 +24,10 @@
   place-items: center;
 }
 
+.upload-course-image-button {
+  margin-bottom: 1rem;
+}
+
 .img-container {
   width: 60%;
   display: block;

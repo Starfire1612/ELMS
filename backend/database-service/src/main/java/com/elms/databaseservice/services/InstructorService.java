@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -53,14 +54,13 @@ public class InstructorService {
 	@Transactional
 	public ResponseEntity<Instructor> viewProfile(int instructorId) {
 		Optional<Instructor> instructorDetails = instructorRepo.findById(instructorId);
-		if(instructorDetails.isPresent())
+		if (instructorDetails.isPresent())
 			return new ResponseEntity<>(instructorDetails.get(), HttpStatus.OK);
-		else
-		{
+		else {
 			log.info("Instructor not found");
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
-		}
+	}
 
 //	@Transactional
 //	public ResponseEntity<Instructor> updateProfile(int id,@RequestBody Instructor instructor) {
@@ -72,67 +72,61 @@ public class InstructorService {
 	public ResponseEntity<Set<Course>> getCreatedCourses(int instructorId) {
 		Optional<Instructor> instructor = instructorRepo.findById(instructorId);
 		Set<Course> courses = new HashSet<Course>();
-		if (instructor.isEmpty())
-		{
+		if (instructor.isEmpty()) {
 
 			log.info("Cannot get created course");
 			return new ResponseEntity<>(courses, HttpStatus.NO_CONTENT);
-		}else
-		{
+		} else {
 			courses = instructor.get().getCourses();
 			return new ResponseEntity<>(courses, HttpStatus.OK);
 		}
 	}
 
 	@Transactional
-	public ResponseEntity<InstructorCourse> addCourse(Course c) {
+	public Integer addCourse(Course c) {
 		try {
 			log.info("Add course");
-		log.info(c.getCourseName()+":"+c.getInstructorName());
-	    
-		int courseId=courseService.addCourse(c);
-		log.info("=========================================================");
-		InstructorCourse instructorCourse = new InstructorCourse(c.getInstructorId().getInstructorId(),
-				courseId);
-		log.info(instructorCourse.getCourseId()+":"+instructorCourse.getInstructorId());
-		c.setDatePublished(new Date());
-		c.setTotalDuration(lessonService.getCourseDuration(c.getCourseId()));
-		c.setLessonsCount(c.getLessonsCount());
-		instructorCourseRepo.save(instructorCourse);
-		return new ResponseEntity<>(instructorCourse,HttpStatus.CREATED);
-		}
-		catch (Exception e) {
-			return new ResponseEntity<>(null,HttpStatus.NOT_IMPLEMENTED);
+			log.info(c.getCourseName() + ":" + c.getInstructorName());
+
+			int courseId = courseService.addCourse(c);
+			log.info("=========================================================");
+			InstructorCourse instructorCourse = new InstructorCourse(c.getInstructorId().getInstructorId(), courseId);
+			log.info(instructorCourse.getCourseId() + ":" + instructorCourse.getInstructorId());
+			c.setDatePublished(new Date());
+//		c.setTotalDuration(lessonService.getCourseDuration(c.getCourseId()));
+//		c.setLessonsCount(c.getLessonsCount());
+			instructorCourseRepo.save(instructorCourse);
+			return (instructorCourse.getCourseId());
+		} catch (Exception e) {
+			return null;
 		}
 	}
 
 	@Transactional
 	public ResponseEntity<String> publishCourse(Course c, List<Lesson> lesson) {
 		try {
-		lessonService.addLessonsInCourse(lesson);
-		log.info("Adding lesson in course");
-		c.setDatePublished(new Date());
-		c.setTotalDuration(lessonService.getCourseDuration(c.getCourseId()));
-		c.setLessonsCount(c.getLessonsCount());
-		log.info("Publishing Course");
-		return courseService.publishCourse(c);
-		
-		}
-		catch (Exception e) {
+			lessonService.addLessonsInCourse(lesson);
+			log.info("Adding lesson in course");
+			c.setDatePublished(new Date());
+			c.setTotalDuration(lessonService.getCourseDuration(c.getCourseId()));
+			c.setLessonsCount(c.getLessonsCount());
+			log.info("Publishing Course");
+			return courseService.publishCourse(c);
+
+		} catch (Exception e) {
 
 			log.error("Error Publishing Course");
-			return new ResponseEntity<>("Error Publishing Course",HttpStatus.NOT_IMPLEMENTED);
+			return new ResponseEntity<>("Error Publishing Course", HttpStatus.NOT_IMPLEMENTED);
 		}
 	}
-
 
 	@Transactional
 	public ResponseEntity<List<Instructor>> getAllInstructors() {
-		return new ResponseEntity<>(instructorRepo.findAll(),HttpStatus.OK);
+		return new ResponseEntity<>(instructorRepo.findAll(), HttpStatus.OK);
 	}
 
 	@Transactional
-	public ResponseEntity<Course> getCreatedCourseDetails(int id,int courseId) {
+	public ResponseEntity<Course> getCreatedCourseDetails(int id, int courseId) {
 		Instructor instructor = instructorRepo.findById(id).get();
 		for (Course c : instructor.getCourses()) {
 			if (c.getCourseId() == courseId)
@@ -147,14 +141,13 @@ public class InstructorService {
 		try {
 
 			log.info("Deleting from instructorcourse,course,lesson table");
-		instructorCourseRepo.deleteById(new InstructorCourseId(instructorId, courseId));
-		courseRepo.deleteById(courseId);
-		lessonService.deleteAllLessonsByCourseId(courseId);
-		return new ResponseEntity<>("Deleted Course Successfully", HttpStatus.ACCEPTED);
-		}
-		catch (Exception e) {
+			instructorCourseRepo.deleteById(new InstructorCourseId(instructorId, courseId));
+			courseRepo.deleteById(courseId);
+			lessonService.deleteAllLessonsByCourseId(courseId);
+			return new ResponseEntity<>("Deleted Course Successfully", HttpStatus.ACCEPTED);
+		} catch (Exception e) {
 			log.error("Course not found");
-			return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);	
+			return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -176,24 +169,23 @@ public class InstructorService {
 			return new ResponseEntity<>("Only upload png images", HttpStatus.CREATED);
 		} catch (IOException ex) {
 			log.error("Could not store file");
-			return new ResponseEntity<>("Could not store file " + fileName + ". Please try again!",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Could not store file " + fileName + ". Please try again!",
+					HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	@Transactional
 	public ResponseEntity<Instructor> updateProfile(@RequestBody Instructor instructor) {
 		Optional<Instructor> instructorDetails = instructorRepo.findById(instructor.getInstructorId());
-		if(instructorDetails.isPresent())
-		{	
+		if (instructorDetails.isPresent()) {
 			instructorRepo.save(instructor);
 			return new ResponseEntity<>(instructorDetails.get(), HttpStatus.OK);
-		}
-		else
-		{
+		} else {
 			log.error("Could not update profile");
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-	}}
-	
+		}
+	}
+
 	@Transactional
 	public ResponseEntity<String> updateCoursePic(int id, MultipartFile file) throws Exception {
 		// Normalize file name
@@ -212,8 +204,9 @@ public class InstructorService {
 			return new ResponseEntity<>("Only upload png images", HttpStatus.CREATED);
 		} catch (IOException ex) {
 			log.error("Could not store file");
-			return new ResponseEntity<>("Could not store file " + fileName + ". Please try again!",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Could not store file " + fileName + ". Please try again!",
+					HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 }

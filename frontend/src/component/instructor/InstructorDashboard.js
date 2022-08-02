@@ -148,7 +148,7 @@ function InstructorDashboard({ handleLogout, userData }) {
         </div>
         {isLoading ? (
           <ClipLoader className="d-block mx-auto mt-5" color={LOADING_COLOR} />
-        ) : tempCourseList.length ? (
+        ) : tempCourseList?.length ? (
           // show courses
           <Courses courses={tempCourseList} />
         ) : courseList ? (

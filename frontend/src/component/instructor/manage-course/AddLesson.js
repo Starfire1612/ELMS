@@ -150,6 +150,7 @@ export default function AddLesson({ handleUploadLessons }) {
         lessonList.map((lesson, index) => (
           <Lesson
             key={index}
+            ind={index}
             lesson={lesson}
             handleDeleteLesson={handleDeleteLesson}
             handleUpdateLesson={handleUpdateLesson}

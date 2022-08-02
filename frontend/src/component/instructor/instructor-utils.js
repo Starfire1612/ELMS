@@ -22,15 +22,22 @@ export const getCourseDetails = async (id, cid) => {
 
 //publish course
 export const createCourse = async (id, course) => {
+  console.log(course);
   return await axios
     .post(`${BASE_URL}${id}/create-course`, course, config)
-    .then((response) => response.status)
+    .then((response) => {
+      console.log("Course Id ", response);
+      return response;
+    })
     .catch((error) => console.log(error));
 };
 
 //post course picture
 export const postCoursePic = async (id, cid, imageFile) => {
   console.log("Instructor Id:", id, "Course Id:", cid, "ImageFile", imageFile);
+  if (!id || !cid || !imageFile) {
+    return;
+  }
   const formData = new FormData();
   formData.append("file", imageFile);
 

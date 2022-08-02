@@ -82,14 +82,15 @@ export default function Curriculum({ userData }) {
             <ClipLoader color={LOADING_COLOR} size="50px" />
           </div>
         )}
-        {lessons ? (
+        {!lessons ? (
           <p className="text-center mb-0">
             You do not have any lessons yet. Add lessons to publish your course.
           </p>
         ) : (
-          lessons.map((lesson) => (
+          lessons.map((lesson, index) => (
             <Lesson
               key={lesson.lessonId}
+              ind={index}
               lesson={lesson}
               state={"show-lesson"}
               handleUpdateLesson={handleUpdateLesson}

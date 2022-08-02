@@ -8,7 +8,7 @@ import "../../../styles/manage-course/Filler.css";
 import "../../../styles/manage-course/CourseDescription.css";
 import { ClipLoader } from "react-spinners";
 import { LOADING_COLOR } from "../../../utils/constants";
-import { getCourseDetails } from "../instructor-utils.js";
+import { getCourseDetails, postCoursePic } from "../instructor-utils.js";
 import { updateCourse, createCourse } from "./../instructor-utils";
 
 export default function CourseDescription({ userData }) {
@@ -17,6 +17,8 @@ export default function CourseDescription({ userData }) {
   const [course, setCourse] = useState({});
   const [editMode, setEditMode] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [courseImage, setCourseImage] = useState();
+  const [image, setImage] = useState();
 
   const fetchCourse = async () => {
     setIsLoading(true);
@@ -25,6 +27,7 @@ export default function CourseDescription({ userData }) {
     const response = await getCourseDetails(userData.instructorId, courseId);
     console.log("Course Details", response);
     setCourse(response);
+    setCourseImage("data:image/png;base64," + response.courseImage);
     setIsLoading(false);
   };
 
@@ -39,27 +42,29 @@ export default function CourseDescription({ userData }) {
     }));
   };
   const handleImageChange = (event) => {
-    const image = event.target.files[0];
-    console.log(image);
+    const _image = event.target.files[0];
+    setImage(_image);
     //convert image to base64 url
     const reader = new FileReader();
     reader.onloadend = () => {
-      console.log(reader.result);
-      setCourse((prevCourse) => ({
-        ...prevCourse,
-        [event.target.name]: reader.result,
-      }));
+      setCourseImage(reader.result);
     };
-    reader.readAsDataURL(image);
+    reader.readAsDataURL(_image);
+  };
+
+  const handleImageSubmit = async () => {
+    const updatedCourseImage = await postCoursePic(
+      userData.instructorId,
+      course.courseId,
+      image
+    );
+    console.log(updatedCourseImage);
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     setIsLoading(true);
     // PATCH request to update course
-    //...
     console.log("From CD", course);
-
     const status = await updateCourse(userData.instructorId, course);
     console.log(status);
     setIsLoading(false);
@@ -91,26 +96,31 @@ export default function CourseDescription({ userData }) {
         <div>
           <Form onSubmit={handleSubmit}>
             <div className="img-container">
-              <img
-                className="course-image mb-3"
-                src={course.courseImage}
-                alt=""
-              />
+              <img className="course-image mb-3" src={courseImage} alt="abc" />
             </div>
-            <Form.Group className="mb-3">
-              <Form.Label className="fw-500">Course image</Form.Label>
-              <p className={!editMode ? "d-none" : "text-sm black mb-0"}>
-                Upload your course image here. Important guidelines: .jpg, .jpeg
-                or .png. no text on the image.
-              </p>
-              <Form.Control
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                disabled={!editMode || isLoading}
-                name="courseImage"
-              />
-            </Form.Group>
+
+            <p className="fw-500 mb-0">Course image</p>
+            <p className={!editMode ? "d-none" : "text-sm black mb-0"}>
+              Upload your course image here. Important guidelines: .png. no text
+              on the image.
+            </p>
+            <div className="d-flex align-items-center">
+              <Form.Group className="mb-3 flex-grow-1">
+                <Form.Control
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  disabled={!editMode || isLoading}
+                  name="courseImage"
+                />
+              </Form.Group>
+              <Button
+                className="type-3 ms-2 upload-course-image-button"
+                onClick={handleImageSubmit}
+              >
+                Upload Image
+              </Button>
+            </div>
             <Form.Group className="mb-3">
               <Form.Label className="fw-500">Course Name</Form.Label>
               <Form.Control
