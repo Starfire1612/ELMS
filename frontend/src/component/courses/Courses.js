@@ -6,14 +6,15 @@ import "../../styles/Courses.css";
 import { thumbnailUrl } from "../dummydata/dummyCourses";
 import CoursesLoadingAnimation from "../Animations/CoursesLoadingAnimation";
 import { useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate, useLocation } from "react-router-dom";
 import { StarFill } from "react-bootstrap-icons";
 import { PAYMENT_KEY, PAYMENT_KEY_SECRET } from "../../utils/constants.js";
-import { getCourseDetails } from "./courses-util.js";
+import { getCourseDetails, getEnrolledStudentCourseDetails } from "./courses-util.js";
 
 function Courses({ courses, userData }) {
+  const location = useLocation();
+  const currentLocationPath = "/home/my-learning";
   const [isLoading, setIsLoading] = useState(true);
-
   const discountedPrice = (course) =>
     calculateDiscountedPrice(course.coursePrice, course.courseDiscount);
 
@@ -40,7 +41,11 @@ function Courses({ courses, userData }) {
         key={course.courseId}
         style={{ width: "18rem" }}
       >
-        <Card.Img className="card-image" variant="top" src={thumbnailUrl} />
+        <Card.Img
+          className="card-image"
+          variant="top"
+          src={"data:image/png;base64," + course.courseImage}
+        />
         <Card.Body>
           <Card.Title className="card-course-title">
             {transformContent(course.courseName, "title")}
@@ -57,15 +62,23 @@ function Courses({ courses, userData }) {
               >
                 <Button className="type-1">Edit course</Button>
               </Link>
+            ) : location.pathname === currentLocationPath ? (
+              <Link to={`../../course-id/${course.courseId}/lesson/`}>
+                <Button className="type-1">Start Lesson</Button>
+              </Link>
             ) : (
               <Link to={`../../home/course/${course.courseId}`}>
                 <Button className="type-1">
                   <span className="fs-5">
                     {"$" + discountedPrice(course) + " "}
                   </span>
-                  {course.courseDiscount?<span className="fs-6 fst-italic text-decoration-line-through">
-                    {"$" + course.coursePrice}
-                  </span>:<span></span>}
+                  {course.courseDiscount ? (
+                    <span className="fs-6 fst-italic text-decoration-line-through">
+                      {"$" + course.coursePrice}
+                    </span>
+                  ) : (
+                    <span></span>
+                  )}
                 </Button>
               </Link>
             )}

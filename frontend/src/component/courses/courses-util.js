@@ -55,3 +55,32 @@ export const enrollStudentInCourse = async (
     .then((response) => response.data)
     .catch((error) => console.log(error));
 };
+export const getEnrolledStudentCourseDetails = async (id, cid) => {
+  return await axios
+    .get(`${BASE_URL}/student/${id}/courses/${cid}/courseDetails`, config)
+    .then((response) => response.data)
+    .catch((error) => console.log(error));
+};
+//this method will generate certificate
+export const updateStudentCourseCurrentLesson = async (id, cid, lid) => {
+  return await axios
+    .patch(`${BASE_URL}/student/${id}/course/${cid}/lesson/${lid}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      },
+    })
+    .then((response) => console.log(response.data))
+    .catch((error) => console.log(error));
+};
+
+//this method will be called for every video watched by the user
+export const addLessonInStudentCourse = async (id, cid, lid) => {
+  return await axios
+    .post(`${BASE_URL}/student/${id}/course/${cid}/lesson/${lid}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      },
+    })
+    .then((response) => console.log(response.data))
+    .catch((error) => console.log(error));
+};

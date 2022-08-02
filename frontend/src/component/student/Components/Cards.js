@@ -12,12 +12,12 @@ import "../Styles/Card.css";
 import download from "../Images/download.jpg";
 
 function Cards(props) {
-  const hours = props.course.totalDuration / 60;
+  const hours = Math.ceil(props.course.totalDuration / 60);
 
   return (
     <div className="enroll-component">
       <Card style={{ width: "24rem" }}>
-        <Card.Img className="card-image" src={download} />
+        <Card.Img className="card-image" src={"data:image/png;base64,"+props.course.courseImage} />
         <div className="courseview-card-body">
         <div className="price-component">
           {props.course.courseDiscount?(<div><span className="fs-3 fw-bold">

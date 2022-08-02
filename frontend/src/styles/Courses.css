@@ -7,10 +7,11 @@
 }
 
 .card-image {
-  height: auto;
+  height: 150px;
   width: 100%;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 0;
+  padding-top:1rem;
 }
 
 .course-card {

@@ -1,5 +1,6 @@
 package com.elms.databaseservice.services;
 
+import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
@@ -31,49 +32,51 @@ public class StudentCourseLessonService {
 
 	@Autowired
 	StudentCourseRepo studentCourseRepo;
-	
+
 	@Autowired
 	StudentCourseLessonRepo studentCourseLessonRepo;
-	
+
 	@Autowired
 	LessonRepo lessonRepo;
+
+	@Autowired
+	EmailService emailService;
 	private static Logger log = LoggerFactory.getLogger(StudentCourseLessonService.class);
-	
 
 	@Transactional
 	public ResponseEntity<String> addLessonInStudentCourseLesson(int sid, int cid, int lid) {
 		// TODO Auto-generated method stub
 		try {
-			Student s=studentRepo.findById(sid);
-			Course c=courseRepo.findById(cid);
-			Lesson l=lessonRepo.findById(lid).get();
+			Student s = studentRepo.findById(sid);
+			Course c = courseRepo.findById(cid);
+			Lesson l = lessonRepo.findById(lid).get();
 			log.info("Getting student,course and lessons");
-			StudentCourseLesson scl=new StudentCourseLesson(s,c,l);
+			StudentCourseLesson scl = new StudentCourseLesson(s, c, l);
 			studentCourseLessonRepo.save(scl);
 			log.info("Student Course lesson repo data added");
-			int completedLesson=studentCourseLessonRepo.getCompletedLessonCount(sid,cid);
-			completePercent(sid,cid,completedLesson);
-			return new ResponseEntity<>("Successully Completed Lesson and added to database",HttpStatus.CREATED);
-		}
-		catch (Exception e) {
+			int completedLesson = studentCourseLessonRepo.getCompletedLessonCount(sid, cid);
+			completePercent(sid, cid, completedLesson);
+
+			return new ResponseEntity<>("Successully Completed Lesson and added to database", HttpStatus.CREATED);
+		} catch (Exception e) {
 			// TODO: handle exception
 			log.error("Cannot add lesson in studentcourselesson table");
-			return new ResponseEntity<>("Lesson not completed",HttpStatus.NOT_IMPLEMENTED);
+			return new ResponseEntity<>("Lesson not completed", HttpStatus.NOT_IMPLEMENTED);
 		}
 	}
-	
+
 	@Transactional
-	public void completePercent(int sid, int cid, int completedLesson)
-	{
-		StudentCourse sc=studentCourseRepo.findById(new StudentCourseId(sid,cid)).get();
-		
-		Course c=courseRepo.findById(cid);
+	public void completePercent(int sid, int cid, int completedLesson) throws MessagingException {
+		StudentCourse sc = studentCourseRepo.findById(new StudentCourseId(sid, cid)).get();
+
+		Course c = courseRepo.findById(cid);
 		log.info("fetched course and student course");
-		int completionPercent=(int)((completedLesson*100)/c.getLessonsCount());
+		int completionPercent = (int) ((completedLesson * 100) / c.getLessonsCount());
 		sc.setCourseCompletionPercent(completionPercent);
 		studentCourseRepo.save(sc);
+		if (completionPercent == 100)
+			emailService.sendMailWithAttachment(sc);
 		log.info("saved all in studentcourse repo");
 	}
-	
 
 }

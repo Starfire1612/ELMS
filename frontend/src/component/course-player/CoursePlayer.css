@@ -1,0 +1,71 @@
+.parent{ 
+    width:auto;
+    height: 100%;
+    position:relative;
+}
+.player{
+    background-color:black;
+    width: 77%;
+    height: 550px;
+}
+.course-description{
+    width:77%
+}
+
+.lesson-change{
+    width: 77%;
+    margin-bottom: 2%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: x-large;
+   border-bottom: 1px solid rgb(190, 190, 190);
+}
+.lesson-change>p:hover{
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+
+
+
+@media(max-width:834px)
+{
+     
+    .player{
+        width:100%;
+    } 
+    .course{
+       display: none;
+    }
+    .course-description{
+       width:100%
+    }
+    .lesson-change{
+        width: 100%;
+    }
+
+}
+.course{
+    border-left: 1px solid rgb(182, 182, 182);
+    border-bottom: 1px solid rgb(182, 182, 182);
+    position: absolute;
+    top:0;
+    right:0;
+    font-size:large;
+    width: 23%;
+    height:100%;
+    overflow-y: auto;
+}
+
+.course>p{ 
+    display: grid;
+    place-items: center;
+    position: sticky;
+    top:0;
+    background-color: white;
+    border-bottom: 2px solid rgb(134, 134, 134);
+    margin-bottom: 0%;
+    height: 65px;
+    box-shadow: 0px 3px 5px 0 rgb(117, 117, 117);
+}

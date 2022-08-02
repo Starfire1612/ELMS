@@ -41,16 +41,16 @@ public class Course {
 	private int courseId;
 	@Column(name = "course_name", nullable = false, unique = true)
 	private String courseName;
-	@Column(name = "course_description", nullable = true, unique = true, columnDefinition = " default varchar(255) 'This is the default generated empty course decsription'")
+	@Column(name = "course_description", nullable = true, unique = true, columnDefinition = "varchar(255) default 'This is the default generated empty course decsription'")
 	private String courseDescription;
 	@Lob
 	@Column(name = "course_image", columnDefinition = "blob default 'https://www.personality-insights.com/wp-content/uploads/2017/12/default-profile-pic-e1513291410505.jpg'")
 	private byte[] courseImage;
-	@Column(name = "course_duration", nullable = true, columnDefinition = "default int 0")
+	@Column(name = "course_duration", nullable = true, columnDefinition = "int default 0")
 	private int totalDuration;
 	
 	// @Currency(value = "INR")
-	@Column(name = "course_price", nullable = true, columnDefinition = "default int 0.0")
+	@Column(name = "course_price", nullable = true, columnDefinition = "int default 0.0")
 	private float coursePrice;
 	
 	// @DecimalMin(value = "10")

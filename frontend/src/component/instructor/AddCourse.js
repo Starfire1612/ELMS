@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LOADING_COLOR } from "../../utils/constants";
 import { HashLoader } from "react-spinners";
 import "../../styles/AddCourse.css";
-import { createCourse } from './instructor-utils';
+import { createCourse } from "./instructor-utils";
 
-function AddCourse({userData}) {
+function AddCourse({ userData }) {
   const [isCourseNameUnique, setIsCourseNameUnique] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [courseName, setCourseName] = useState("");
   const [courseId, setCourseId] = useState();
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     setCourseName(event.target.value);
@@ -23,14 +24,18 @@ function AddCourse({userData}) {
     if (!isCourseNameUnique) {
       //make axios call to verify course name and set course id
     }
-    const course={
-      "courseName":courseName
-    }
-    const response=await createCourse(userData.instructorId,course);
-    setCourseId(parseInt(response.data))
+    const course = {
+      courseName: courseName,
+    };
+    const response = await createCourse(userData.instructorId, course);
+    setCourseId(parseInt(response.data));
     //set isLoading to false
     setIsLoading(false);
   };
+
+  useEffect(() => {
+    if (courseId) navigate(`/instructor/course/${courseId}/manage/description`);
+  }, [courseId]);
 
   return (
     <div className="contain">
@@ -50,11 +55,9 @@ function AddCourse({userData}) {
         </Form.Group>
         <div className="d-flex align-items-center justify-content-between">
           {isCourseNameUnique ? (
-             <Link to={`../../instructor/course/${courseId}/manage/description`}>
-              <Button variant="primary" type="submit">
-                Confirm
-              </Button>
-              </Link>
+            <Button className="type-1" type="submit">
+              Confirm
+            </Button>
           ) : (
             <Button variant="primary" type="submit" disabled={isLoading}>
               Check

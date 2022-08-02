@@ -1,0 +1,32 @@
+.app{
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.size-bar{
+    width: 30px;
+}
+
+.trophy-sie{
+ color: white;
+ height: 15px ;
+ width: 15px;
+ }
+
+
+@media(max-width:575px)
+{
+    .size-bar{
+        display: none;
+    }
+}
+
+@media(max-width:440px)
+{
+    .size-bar{
+        width: 20px;
+    }
+    .trophy-sie{
+        width: 10px;
+    }
+}

@@ -29,6 +29,7 @@ import StudentExploreCourses from "./component/student/StudentExploreCourses";
 import StudentMyLearning from "./component/student/StudentMyLearning";
 import SearchedCourses from "./component/student/SearchedCourses";
 import CourseDetailsPage from "./component/student/Components/CouseDetails.js";
+import CoursePlayer from './component/course-player/CoursePlayer';
 
 function App() {
   const [loggedInStatus, setLoggedInStatus] = useState(false);
@@ -62,6 +63,7 @@ function App() {
     if (localStorage.getItem("userToken") && localStorage.getItem("userType")) {
       greetUser();
       // if (userData) navigate(location.pathname);
+      if (userData) navigate("/");
     }
   }, [fetchUserFlag]);
 
@@ -116,8 +118,12 @@ function App() {
             path="searchedCourses/:search"
             element={<SearchedCourses userData={userData} />}
           />
+
+          
           <Route path="" element={<Navigate to="/home/explore" />} />
         </Route>
+          <Route path="/course-id/:courseId/lesson/" 
+          element={<CoursePlayer userData={userData}/>}/>
         {/* <Route
           path="/home/course/:courseId"
           element={<CourseViewPage userData={userData} />}

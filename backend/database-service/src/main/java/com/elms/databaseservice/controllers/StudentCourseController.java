@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,7 +26,7 @@ public class StudentCourseController {
 
 	private Logger log = LoggerFactory.getLogger(StudentCourseController.class);
 	
-	@PutMapping("/student/{id}/course/{courseId}/lesson/{lid}")
+	@PatchMapping("/student/{id}/course/{courseId}/lesson/{lid}")
 	public ResponseEntity<String> addLessonIdinStudentCourse(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,@PathVariable("courseId") int cid,@PathVariable("lid") int lid)
 	{
 		log.info("Updating current lessons id in student Course table");
@@ -34,8 +34,7 @@ public class StudentCourseController {
 			return studentCourseService.addLessonIdInStudentCourse(id,cid,lid);
 		else
 		{
-			log.error("User not authenticated");
-			
+			log.error("User not authenticated");			
 			return new ResponseEntity<>("User authentication failed",HttpStatus.BAD_REQUEST);
 		}
 	}

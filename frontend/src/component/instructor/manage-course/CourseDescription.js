@@ -10,7 +10,7 @@ import { ClipLoader } from "react-spinners";
 import { LOADING_COLOR } from "../../../utils/constants";
 import { getCourseDetails, postCoursePic } from "../instructor-utils.js";
 import { updateCourse, createCourse } from "./../instructor-utils";
-
+import defaultCourseImage from '../../student/Images/download.jpg'
 export default function CourseDescription({ userData }) {
   const params = useParams();
   const courseId = params.courseId;
@@ -96,7 +96,7 @@ export default function CourseDescription({ userData }) {
         <div>
           <Form onSubmit={handleSubmit}>
             <div className="img-container">
-              <img className="course-image mb-3" src={courseImage} alt="abc" />
+              <img className="course-image mb-3" src={!courseImage?defaultCourseImage:courseImage} alt="abc" />
             </div>
 
             <p className="fw-500 mb-0">Course image</p>

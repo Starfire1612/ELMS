@@ -28,7 +28,7 @@ export const makePayment = (userData, courseId, price) => {
     prefill: {
       name: userData.studentName,
       email: userData.studentEmail,
-      contact: "1234567890",
+      contact: "9106285736",
     },
     notes: {
       address: "Razorpay Corporate office",

@@ -39,7 +39,7 @@ public class StudentCourse {
 	//@Setter(value = AccessLevel.NONE)
 	private Student studentId;
 	
-	@JsonIgnore
+//	@JsonIgnore
 	@Id
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "course_id")
