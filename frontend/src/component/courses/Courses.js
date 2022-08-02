@@ -63,9 +63,9 @@ function Courses({ courses, userData }) {
                   <span className="fs-5">
                     {"$" + discountedPrice(course) + " "}
                   </span>
-                  <span className="fs-6 fst-italic text-decoration-line-through">
+                  {course.courseDiscount?<span className="fs-6 fst-italic text-decoration-line-through">
                     {"$" + course.coursePrice}
-                  </span>
+                  </span>:<span></span>}
                 </Button>
               </Link>
             )}

@@ -1,7 +1,7 @@
 .main-content {
     padding-top: 2rem;
-    margin-left: 4.8rem;
-    max-width: 40rem;
+    margin-left: 8rem;
+    max-width: 45rem;
     margin-right: 4.8rem;
 }
 
@@ -10,7 +10,7 @@
 }
 
 .desc {
-    margin-top: 3rem;
+    margin-top: 2rem;
 
 }
 
@@ -19,7 +19,8 @@
 }
 
 .instructor-head {
-    margin-top: .4rem;
+    margin-top:2rem;
+    padding-top:2rem;
 
     border-top: 1px solid #d1d7dc;
     border-bottom: 1px solid #d1d7dc;
@@ -45,7 +46,7 @@
 
 .requirement {
     margin-top: 4rem;
-
+    padding-top:2rem;
     border-top: 1px solid #d1d7dc;
     border-bottom: 1px solid #d1d7dc;
 }
@@ -53,9 +54,7 @@
 .require {
     padding-top: 1rem;
     padding-bottom: 1rem;
-
-
-    font-size: 1.5rem;
+    font-size: 1.2rem;
 }
 
 .course-content-head {
