@@ -5,6 +5,7 @@ import {
   PhoneFill,
   Trophy,
 } from "react-bootstrap-icons";
+import { calculateDiscountedPrice } from "../../../utils/util.js";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import "../Styles/Card.css";
@@ -18,7 +19,28 @@ function Cards(props) {
       <Card style={{ width: "24rem" }}>
         <Card.Img className="card-image" src={download} />
         <div className="courseview-card-body">
-          <Button
+        <div className="price-component">
+          {props.course.courseDiscount?(<div><span className="fs-3 fw-bold">
+                    {"$" + calculateDiscountedPrice(
+      props.course.coursePrice,
+      props.course.courseDiscount
+    ) + " "}
+                  </span>
+                  &nbsp; 
+                  <span className="fs-6 fst-italic text-decoration-line-through">
+                    {"$" + props.course.coursePrice}
+                  </span>
+                  &nbsp;&nbsp;
+                  <span className="fs-6 fw-semibold">{props.course.courseDiscount}% off</span></div>):(<div><span className="fs-3 fw-bold">
+                    {"$" + calculateDiscountedPrice(
+      props.course.coursePrice,
+      props.course.courseDiscount
+    ) + " "}
+                  </span></div>)
+                    }
+                  </div>
+          
+              <Button
             className="course-enroll type-1 mb-5"
             onClick={props.handleEnrollStudent}
           >

@@ -9,7 +9,14 @@
     border-radius: 0%;
     padding: 0;
 }
-
+.price-component
+{
+    align-items: center;
+    color: #1c1d1f;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
 .enroll-component {
 
     /* position:absolute; */
@@ -17,7 +24,7 @@
     margin-right: 10%;
     position: sticky;
     z-index: 101;
-    top: -30%;
+    top: -32%;
     right: 10%;
     margin-top: 10rem;
 
