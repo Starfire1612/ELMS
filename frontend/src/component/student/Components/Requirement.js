@@ -5,9 +5,9 @@ export default function Requirement() {
     <div className='requirement'>
       <h2 style={{fontWeight:'bold',color:'black'}}>Requirements</h2>
 
-      <ul className='require'>
+      <ul className='require ps-4'>
         <li>Some programming experience</li>
-<li>Admin permissions to download files</li>
+        <li>Admin permissions to download files</li>
       </ul>
     </div>
   )

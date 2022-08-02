@@ -4,7 +4,7 @@ export default function CourseContent(props) {
    
       
   return (
-    <div className='main-head-course-content'>
+    <div className='main-head-course-content mt-4'>
       <h3 style={{ fontWeight:'bold'}}>Course Content</h3>
       <div className='course-content-head '>
         <div>
