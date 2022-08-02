@@ -47,7 +47,10 @@ export default function ManageCourse() {
       />
       <div className="manage-course-container">
         <div className="side-navbar">
-          <SideNavBar manageDeleteCourse={manageDeleteCourse} courseId={courseId} />
+          <SideNavBar
+            manageDeleteCourse={manageDeleteCourse}
+            courseId={courseId}
+          />
         </div>
         {showDelete && (
           <DeleteCourse
@@ -56,7 +59,7 @@ export default function ManageCourse() {
             setShowDelete={setShowDelete}
           />
         )}
-        <div className="content">
+        <div className="manage-course-content">
           <Outlet />
         </div>
       </div>

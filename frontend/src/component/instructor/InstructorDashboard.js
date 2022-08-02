@@ -10,18 +10,19 @@ import { LOADING_COLOR } from "../../utils/constants";
 import Courses from "../courses/Courses.js";
 import { compareObjectsForSorting } from "../../utils/util";
 import { getPublishedCourses } from "./instructor-utils.js";
-import  nodatafound  from '../../static/images/nodatafound.png';
+import nodatafound from "../../static/images/nodatafound.png";
 
 function InstructorDashboard({ handleLogout, userData }) {
   const [isLoading, setIsLoading] = useState(false);
   const [courseList, setCourseList] = useState([]);
+  const [tempCourseList, setTempCourseList] = useState([]);
   const [searchField, setSearchField] = useState("");
-  
+
   const fetchPublishedCourses = async () => {
     setIsLoading(true);
     const courseData = await getPublishedCourses(userData.instructorId);
-    console.log(courseData);
     setCourseList(courseData);
+    setTempCourseList(courseData);
     setIsLoading(false);
   };
   useEffect(() => {
@@ -32,24 +33,28 @@ function InstructorDashboard({ handleLogout, userData }) {
 
   const handleSearchFieldChange = (event) => {
     setSearchField(event.target.value);
+    if (!event.target.value) {
+      setTempCourseList(courseList);
+    }
   };
 
-  const filterCourses=()=>{
-    return courseList.filter(course=>course.courseName.toLowerCase().includes(searchField.trim().toLowerCase()));
-  }
-  const handleSearchCourse =  (event) => {
+  const filterCourses = () => {
+    return tempCourseList.filter((course) =>
+      course.courseName.toLowerCase().includes(searchField.trim().toLowerCase())
+    );
+  };
+  const handleSearchCourse = (event) => {
     event.preventDefault();
     if (!searchField) return;
     setIsLoading(true);
-    //fetch courses using searchField and set appropriate courseList
-    // ...
-    setCourseList(filterCourses())
-    console.log("filtered"+filterCourses())
-    console.log(searchField);
+    setTempCourseList(filterCourses());
+    // console.log("filtered" + filterCourses());
+    // console.log(searchField);
     setSearchField("");
     setIsLoading(false);
   };
 
+  //sort via name
   const handleSortCoursesUsingName = () => {
     setCourseList((prevCourseList) =>
       [...prevCourseList].sort((course1, course2) =>
@@ -57,12 +62,18 @@ function InstructorDashboard({ handleLogout, userData }) {
       )
     );
   };
+  //sort via rating
   const handleSortCoursesUsingRating = () => {
     setCourseList((prevCourseList) =>
       [...prevCourseList].sort(
         (course1, course2) => course2.ratings - course1.ratings
       )
     );
+  };
+  const handleSetOriginalCourseList = () => {
+    setTempCourseList(courseList);
+    setSearchField("");
+    document.getElementById("search-courses-form").reset();
   };
 
   return (
@@ -80,7 +91,11 @@ function InstructorDashboard({ handleLogout, userData }) {
         <div className="search-course-wrapper">
           <div className="search-course-inner">
             {/* search the course */}
-            <Form className="d-flex" onSubmit={handleSearchCourse}>
+            <Form
+              className="d-flex"
+              id="search-courses-form"
+              onSubmit={handleSearchCourse}
+            >
               <FormControl
                 className="instructor-search-course "
                 type="text"
@@ -133,18 +148,28 @@ function InstructorDashboard({ handleLogout, userData }) {
         </div>
         {isLoading ? (
           <ClipLoader className="d-block mx-auto mt-5" color={LOADING_COLOR} />
-        ) : courseList.length ? (
+        ) : tempCourseList.length ? (
           // show courses
-          <Courses courses={courseList} />
+          <Courses courses={tempCourseList} />
+        ) : courseList ? (
+          <div className="courses-list text-center my-5">
+            <p className="text-center mb-0">No such published course</p>
+            <p
+              className="text-center go-back-to-your-courses"
+              onClick={handleSetOriginalCourseList}
+            >
+              Go back to your courses.
+            </p>
+            <img
+              src={nodatafound}
+              className="mx-auto d-block search-course-not-found-image"
+            />
+          </div>
         ) : (
-          <>
-            {/* if no courses available */}
-            <div className="courses-list text-center my-5">
-              <h2 className="text-center">No such published course</h2>
-              <img src={nodatafound} className="mx-auto d-block"/>
-            </div>
-            {/* <StaticDashboardComponents /> */}
-          </>
+          <div className="courses-list text-center my-5">
+            <p className="text-center">You do not have any published course.</p>
+            <StaticDashboardComponents />
+          </div>
         )}
       </div>
     </div>

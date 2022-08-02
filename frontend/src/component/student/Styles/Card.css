@@ -1,54 +1,57 @@
-.card-head
-{
-    text-align:start;
-    margin-bottom:1rem;
-    font-weight:bold;
-    font-size:medium;
+.card-head {
+    text-align: start;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    font-size: medium;
 }
-.enroll-component
-{
+
+.card {
+    border-radius: 0%;
+    padding: 0;
+}
+
+.enroll-component {
 
     /* position:absolute; */
-    float:right;
-    margin-right:10%;
-    position:sticky;
-    z-index:101;
-    top:-30%;
-    right:10%;
-    margin-top:10rem;
-}
-.card-list li
-{
-    list-style-type:none;
-    margin-bottom:0.5rem;
+    float: right;
+    margin-right: 10%;
+    position: sticky;
+    z-index: 101;
+    top: -30%;
+    right: 10%;
+    margin-top: 10rem;
 
 }
-.card-list
-{
-    text-align: start;
-    
+
+.card-list li {
+    list-style-type: none;
+    margin-bottom: 0.5rem;
+
 }
-.courseview-card-body
-{
-    background-color:white;
-    padding:2.4rem 1.6rem;
+
+
+.courseview-card-body {
+    background-color: white;
+    padding: 2.4rem 1.6rem;
     /* position:sticky;
     top:2px; */
-    z-index:101;
+    z-index: 101;
 }
-.course-enroll
-{
-    width:100%;
+
+.course-enroll {
+    width: 100%;
 }
-@media(max-width:1400px)
-{
-    .enroll-component{
-        display:none;
+
+@media(max-width:1400px) {
+    .enroll-component {
+        display: none;
     }
-    .child-div{
-        width:100%;
+
+    .child-div {
+        width: 100%;
     }
-    .enroll{
-        display:block !important;
+
+    .enroll {
+        display: block !important;
     }
 }

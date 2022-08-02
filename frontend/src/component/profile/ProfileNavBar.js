@@ -10,7 +10,7 @@ export default function ProfileNavBar({ userData }) {
   const [userImage, setuserImage] = useState("second");
   useEffect(() => {
     setProfilePicUrl("data:image/png;base64," + userData[`${userType}Image`]);
-  }, []);
+  }, [userData]);
 
   return (
     <div className="navbar-container">

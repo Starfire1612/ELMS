@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import HeaderSection from "./HeaderSection.js";
 import { Form, Button } from "react-bootstrap";
 import { postProfilePic } from "../profile/profile-utils.js";
-export default function EditProfilePic({ userData }) {
+export default function EditProfilePic({ userData, reFetchUser }) {
   const [profilePic, setProfilePic] = useState("");
 
   const userType = localStorage.getItem("userType");
@@ -23,8 +23,9 @@ export default function EditProfilePic({ userData }) {
     // reader.readAsBinaryString(image);
   };
   const updateProfilePic = async () => {
-    if(!image) return;
+    if (!image) return;
     const res = await postProfilePic(userType, userData, image);
+    reFetchUser();
     console.log("From Profile page", res);
   };
   return (

@@ -11,40 +11,8 @@ import { StarFill } from "react-bootstrap-icons";
 import { PAYMENT_KEY, PAYMENT_KEY_SECRET } from "../../utils/constants.js";
 import { getCourseDetails } from "./courses-util.js";
 
-
 function Courses({ courses, userData }) {
   const [isLoading, setIsLoading] = useState(true);
-  const navigate=useNavigate();
-  // const handlePayment = (e) => {
-  //  e.preventDefault();
-  //   let options = {
-  //     key: PAYMENT_KEY,
-  //     key_secret: PAYMENT_KEY_SECRET,
-  //     amount: 1000 * 100,
-  //     currency: "INR",
-  //     name: "ELMS",
-  //     description: "for testing purpose",
-  //     handler: function (response) {
-  //       alert(response);
-  //       console.log(response);
-  //     },
-  //     prefill: {
-  //       name: userData.studentName,
-  //       email: userData.studentEmail,
-  //       contact: "7004581294",
-  //     },
-  //     notes: {
-  //       address: "Razorpay Corporate office",
-  //     },
-  //     theme: {
-  //       color: "#A020F0",
-  //     },
-  //   };
-  //   var pay = new window.Razorpay(options);
-  //   pay.open();
-  // };
- 
-
 
   const discountedPrice = (course) =>
     calculateDiscountedPrice(course.coursePrice, course.courseDiscount);
@@ -67,7 +35,11 @@ function Courses({ courses, userData }) {
 
   const card = (course) => {
     return (
-      <Card className="card" key={course.courseId} style={{ width: "18rem" }}>
+      <Card
+        className="course-card"
+        key={course.courseId}
+        style={{ width: "18rem" }}
+      >
         <Card.Img className="card-image" variant="top" src={thumbnailUrl} />
         <Card.Body>
           <Card.Title className="card-course-title">
@@ -82,13 +54,12 @@ function Courses({ courses, userData }) {
               <Link
                 className="text-white"
                 to={`../instructor/course/${course.courseId}/manage/description`}
-                
               >
                 <Button className="type-1">Edit course</Button>
               </Link>
             ) : (
-              <Link  to={`../../home/course/${course.courseId}`}>
-                <Button className="type-1" >
+              <Link to={`../../home/course/${course.courseId}`}>
+                <Button className="type-1">
                   <span className="fs-5">
                     {"$" + discountedPrice(course) + " "}
                   </span>

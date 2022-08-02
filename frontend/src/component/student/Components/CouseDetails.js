@@ -15,6 +15,7 @@ import { getCourseDetails } from "../../courses/courses-util.js";
 import "../Styles/Course_details.css";
 import { calculateDiscountedPrice } from "../../../utils/util.js";
 import { makePayment } from "../../payment/payment-utils.js";
+import "../Styles/Course_details.css";
 
 export default function CouseDetails({ userData }) {
   const navigate = useNavigate();

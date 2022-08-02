@@ -37,8 +37,9 @@ export default function Lesson({
     if (!url) return;
     console.log(newLesson);
     const duration = await getVideoDuration(url);
-    if (!duration) {
+    if (duration === -1) {
       //send error message to user
+      setIsLoading(false);
       return;
     }
     const durationInMinutes = convertDurationToMinutes(duration);
