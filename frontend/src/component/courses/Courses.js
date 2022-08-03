@@ -53,7 +53,7 @@ function Courses({ courses, userData }) {
           <Card.Text className="lh-sm">
             {transformContent(course.courseDescription, "description")}
           </Card.Text>
-          <div className="d-flex justify-content-between align-items-center mt-5">
+          <div className="d-flex justify-content-between align-items-center">
             {localStorage.getItem("userType") === "instructor" ? (
               <Link
                 className="text-white"
