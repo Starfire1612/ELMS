@@ -156,14 +156,15 @@ export default function CoursePlayer({ userData }) {
               </p>
             </div>
           </div>
+          <div className="course-description">
+           <TabsB desc={courseLessonDetails.courseId.courseDescription} feedbacks={courseDetails.feedbacks}></TabsB>
+        </div>
         </div>
       ) : (
         <ClipLoader color={LOADING_COLOR} size="50px" />
       )}
       
-<div className="course-description">
-           <TabsB desc={courseLessonDetails.courseId.courseDescription} feedbacks={courseDetails.feedbacks}></TabsB>
-        </div>
+
     </>
   );
 }
