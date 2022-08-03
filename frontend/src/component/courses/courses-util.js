@@ -62,13 +62,21 @@ export const getEnrolledStudentCourseDetails = async (id, cid) => {
     .catch((error) => console.log(error));
 };
 //this method will generate certificate
-export const updateStudentCourseCurrentLesson = async (id, cid, lid) => {
+//Must send any object. String is converted into
+//Content type 'application/x-www-form-urlencoded;charset=UTF-8'
+// which is not supported in backend
+export const updateStudentCourseCurrentLesson = async (
+  id,
+  cid,
+  lid,
+  lesson
+) => {
   return await axios
-    .patch(`${BASE_URL}/student/${id}/course/${cid}/lesson/${lid}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-      },
-    })
+    .patch(
+      `${BASE_URL}/student/${id}/course/${cid}/lesson/${lid}`,
+      lesson,
+      config
+    )
     .then((response) => console.log(response.data))
     .catch((error) => console.log(error));
 };
@@ -76,11 +84,11 @@ export const updateStudentCourseCurrentLesson = async (id, cid, lid) => {
 //this method will be called for every video watched by the user
 export const addLessonInStudentCourse = async (id, cid, lid) => {
   return await axios
-    .post(`${BASE_URL}/student/${id}/course/${cid}/lesson/${lid}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-      },
-    })
+    .post(
+      `${BASE_URL}/student/${id}/course/${cid}/lesson/${lid}`,
+      "doesNotMatter",
+      config
+    )
     .then((response) => console.log(response.data))
     .catch((error) => console.log(error));
 };

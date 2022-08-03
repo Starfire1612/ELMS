@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +31,8 @@ public class StudentCourseLessonController {
 	@PostMapping("/student/{id}/course/{courseId}/lesson/{lid}")
 	public ResponseEntity<String> addLessonIdinStudentCourse(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
-			@PathVariable("id") int sid, @PathVariable("courseId") int cid, @PathVariable("lid") int lid) {
+			@PathVariable("id") int sid, @PathVariable("courseId") int cid, @PathVariable("lid") int lid,
+			@RequestBody String somethingThatDoesnotMatter) {
 		log.info("Adding lessons id in student Course table");
 		if (client.authorizeTheRequest(requestTokenHeader, sid))
 			return studentcourselesson.addLessonInStudentCourseLesson(sid, cid, lid);
