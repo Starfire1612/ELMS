@@ -122,7 +122,7 @@ function App() {
           
           <Route path="" element={<Navigate to="/home/explore" />} />
         </Route>
-          <Route path="/course-id/:courseId/lesson/" 
+          <Route path="/student/:studentId/course/:courseId/lesson/" 
           element={<CoursePlayer userData={userData}/>}/>
         {/* <Route
           path="/home/course/:courseId"

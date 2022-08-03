@@ -4,11 +4,11 @@ import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import "./Progressbar.css";
 
-function Progressbar(progress) {
+function Progressbar(props) {
   return (
     <div className="app">
       <div className="size-bar">
-        <CircularProgressbarWithChildren strokeWidth={6} value={progress}>
+        <CircularProgressbarWithChildren strokeWidth={7} value={props.progress}>
           <Trophy className="trophy-sie"></Trophy>
         </CircularProgressbarWithChildren>
       </div>

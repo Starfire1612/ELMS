@@ -116,7 +116,7 @@ function StudentMyLearning({ userData }) {
               color={LOADING_COLOR}
             />
           ) : (
-            <Courses courses={courseList} />
+            <Courses courses={courseList} userData={userData} />
           )}
         </div>
       </div>

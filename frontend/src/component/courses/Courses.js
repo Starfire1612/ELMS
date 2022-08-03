@@ -63,7 +63,7 @@ function Courses({ courses, userData }) {
                 <Button className="type-1">Edit course</Button>
               </Link>
             ) : location.pathname === currentLocationPath ? (
-              <Link to={`../../course-id/${course.courseId}/lesson/`}>
+              <Link to={`../../student/${userData.studentId}/course/${course.courseId}/lesson/`}>
                 <Button className="type-1">Start Lesson</Button>
               </Link>
             ) : (

@@ -110,10 +110,10 @@ public class StudentController {
 
 	@GetMapping(path = "/student/{id}/course/{courseId}/certficate")
 	public ResponseEntity<String> sendCourseCompletionCertificate(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,
-			@PathVariable("courseId") int certId) throws FileNotFoundException, DocumentException, MessagingException {
+			@PathVariable("courseId") int courseId) throws FileNotFoundException, DocumentException, MessagingException {
 		log.info("sending certificate");
 		if(client.authorizeTheRequest(requestTokenHeader,id))
-			return studentService.sendCertificate(id, certId);
+			return studentService.sendCertificate(id, courseId);
 		else
 		{
 			log.error("User not authenticated");

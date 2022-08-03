@@ -1,5 +1,7 @@
 package com.elms.databaseservice.services;
 
+import java.io.FileNotFoundException;
+
 import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 
@@ -21,6 +23,7 @@ import com.elms.databaseservice.repos.LessonRepo;
 import com.elms.databaseservice.repos.StudentCourseLessonRepo;
 import com.elms.databaseservice.repos.StudentCourseRepo;
 import com.elms.databaseservice.repos.StudentRepo;
+import com.itextpdf.text.DocumentException;
 
 @Service
 public class StudentCourseLessonService {
@@ -40,12 +43,14 @@ public class StudentCourseLessonService {
 	LessonRepo lessonRepo;
 
 	@Autowired
-	EmailService emailService;
+	StudentService studentService;
 	private static Logger log = LoggerFactory.getLogger(StudentCourseLessonService.class);
 
 	@Transactional
 	public ResponseEntity<String> addLessonInStudentCourseLesson(int sid, int cid, int lid) {
 		// TODO Auto-generated method stub
+		log.info("Adding lesson in student course lesson table");
+
 		try {
 			Student s = studentRepo.findById(sid);
 			Course c = courseRepo.findById(cid);
@@ -55,8 +60,9 @@ public class StudentCourseLessonService {
 			studentCourseLessonRepo.save(scl);
 			log.info("Student Course lesson repo data added");
 			int completedLesson = studentCourseLessonRepo.getCompletedLessonCount(sid, cid);
+			log.info("Completed Lesson till now:"+completedLesson);
 			int completionPercent= completePercent(sid, cid, completedLesson);
-
+			log.info("Completed Prcent"+completionPercent);
 			return new ResponseEntity<>(""+completionPercent, HttpStatus.CREATED);
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -66,7 +72,7 @@ public class StudentCourseLessonService {
 	}
 
 	@Transactional
-	public int completePercent(int sid, int cid, int completedLesson) throws MessagingException {
+	public int completePercent(int sid, int cid, int completedLesson) throws MessagingException, FileNotFoundException, DocumentException {
 		StudentCourse sc = studentCourseRepo.findById(new StudentCourseId(sid, cid)).get();
 
 		Course c = courseRepo.findById(cid);
@@ -75,9 +81,14 @@ public class StudentCourseLessonService {
 		sc.setCourseCompletionPercent(completionPercent);
 		studentCourseRepo.save(sc);
 		if (completionPercent == 100)
-			emailService.sendMailWithAttachment(sc);
+			{
+			sc.setCourseStatus("Completed");
+//			log.info("send mail process started ...");
+//			ResponseEntity<String>response=studentService.sendCertificate(sid, cid);
+			}
 		log.info("saved all in studentcourse repo");
 		return completionPercent;
 	}
 
+	
 }

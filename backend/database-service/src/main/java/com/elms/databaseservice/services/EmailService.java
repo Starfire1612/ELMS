@@ -31,7 +31,6 @@ public class EmailService {
 		String courseName = studentCourse.getCourseId().getCourseName();
 		String filename = studentName + "." + courseName+".pdf";
 		helper.setSubject("Congratulations !!!");
-		helper.setFrom("rohansohan998@gmail.com");
 		helper.setTo(studentCourse.getStudentId().getStudentEmail());
 
 		helper.setText(

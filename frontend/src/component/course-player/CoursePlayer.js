@@ -25,7 +25,7 @@ export default function CoursePlayer({ userData }) {
   const [isLoading, setIsLoading] = useState(false);
   const [lessonList, setLessonList] = useState();
   const [courseLessonDetails, setCourseLessonDetails] = useState({});
-  const [progressPercent, setProgressPercent] = useState();
+  const [progressPercent, setProgressPercent] = useState(0);
 
   const loadCourseLessons = async () => {
     setIsLoading(true);
@@ -44,20 +44,20 @@ export default function CoursePlayer({ userData }) {
     loadCourseLessons();
   }, []);
 
-  const updateCurrentLessonId = async (index) => {
+  const updateCurrentLessonId = async () => {
     const lessonId = lessonList[currentLessonIndex].lessonId;
     console.log("lessonId ->", lessonId);
     await updateStudentCourseCurrentLesson(
       userData.studentId,
       courseLessonDetails.courseId.courseId,
       lessonId,
-      lessonList[index]
+      lessonList[currentLessonIndex]
     );
   };
 
   const handleLessonChange = (index) => {
     setCurrentLessonIndex(index);
-    updateCurrentLessonId(index);
+    // updateCurrentLessonId(index);
   };
 
   const autoPlayNext = async () => {
@@ -79,7 +79,7 @@ export default function CoursePlayer({ userData }) {
     if (currentLessonIndex === lessonList.length - 1) {
       return;
     } else {
-      await updateCurrentLessonId(currentLessonIndex + 1);
+      // await updateCurrentLessonId(currentLessonIndex + 1);
       console.log(
         "Next Lesson Button",
         currentLessonIndex + 1,
@@ -93,7 +93,7 @@ export default function CoursePlayer({ userData }) {
     if (currentLessonIndex === 0) {
       return;
     } else {
-      await updateCurrentLessonId(currentLessonIndex - 1);
+      // await updateCurrentLessonId(currentLessonIndex - 1);
       console.log(
         "Next Lesson Button",
         currentLessonIndex - 1,
@@ -116,6 +116,7 @@ export default function CoursePlayer({ userData }) {
               <Player
                 videoId={lessonList[currentLessonIndex].lessonLink}
                 playNext={autoPlayNext}
+                updateCurrentLessonId={updateCurrentLessonId}
               ></Player>
             </div>
 

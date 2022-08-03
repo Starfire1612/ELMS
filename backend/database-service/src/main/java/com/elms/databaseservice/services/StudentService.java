@@ -110,10 +110,13 @@ public class StudentService {
 			StudentCourseId studentCourseId = new StudentCourseId(studentId, courseId);
 			StudentCourse studentCourseDetails = studentCourseRepo.findById(studentCourseId).get();
 			log.info("finding student enrolled in course");
+			if(studentCourseDetails.getCourseStatus().equalsIgnoreCase("Completed")) {
 			pdfGenerationService.createPdfViaIText(studentCourseDetails);
 			emailService.sendMailWithAttachment(studentCourseDetails);
 			log.debug("Sending student certificate");
 			return new ResponseEntity<>("Course Completion Certificate Mail Sent Successfully!", HttpStatus.CREATED);
+			}
+			return new ResponseEntity<>("Course Not Completed Yet!",HttpStatus.NOT_IMPLEMENTED);
 		} catch (Exception e) {
 			log.error("Certificate mail cannot be sent");
 			return new ResponseEntity<>("Course Completion Certificate Mail Cannot Be sent due to some error",

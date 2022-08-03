@@ -89,6 +89,14 @@ export const addLessonInStudentCourse = async (id, cid, lid) => {
       "doesNotMatter",
       config
     )
+    .then((response) => response.data)
+    .catch((error) => console.log(error));
+};
+
+
+export const sendCertificateCompletionMail = async (sid, cid) => {
+  return await axios
+    .get(`${BASE_URL}/student/${sid}/course/${cid}/certficate`, config)
     .then((response) => console.log(response.data))
     .catch((error) => console.log(error));
 };
