@@ -14,6 +14,7 @@ export const getPublishedCourses = async (id) => {
 };
 
 export const getCourseDetails = async (id, cid) => {
+  if (!id || !cid) return;
   return await axios
     .get(`${BASE_URL}${id}/courses/${cid}`, config)
     .then((response) => response.data)
@@ -22,6 +23,7 @@ export const getCourseDetails = async (id, cid) => {
 
 //publish course
 export const createCourse = async (id, course) => {
+  if (!id || !course) return;
   console.log(course);
   return await axios
     .post(`${BASE_URL}${id}/create-course`, course, config)
@@ -65,6 +67,7 @@ export const postCoursePic = async (id, cid, imageFile) => {
 
 //updating course with lessons
 export const updateCourse = async (id, course) => {
+  if (!id || !course) return;
   return await axios
     .patch(`${BASE_URL}${id}/create-course`, course, config)
     .then((response) => response.status)
@@ -72,6 +75,7 @@ export const updateCourse = async (id, course) => {
 };
 
 export const getCourseLessons = async (id, cid) => {
+  if (!id || !cid) return;
   return await axios
     .get(`${BASE_URL}${id}/courses/${cid}`, config)
     .then((response) => response.data.lessons)
@@ -79,18 +83,21 @@ export const getCourseLessons = async (id, cid) => {
 };
 
 export const updateLesson = async (id, cid, lessonId, lesson) => {
+  if (!id || !cid || !lessonId || !lesson) return;
   return await axios
     .patch(`${BASE_URL}${id}/course/${cid}/lessons/${lessonId}`, lesson, config)
     .then((response) => response)
     .catch((error) => console.log(error));
 };
 export const deleteLesson = async (id, cid, lessonId) => {
+  if (!id || !cid || !lessonId) return;
   return await axios
     .delete(`${BASE_URL}${id}/course/${cid}/lessons/${lessonId}`, config)
     .then((response) => response)
     .catch((error) => console.log(error));
 };
 export const updateCourseLessons = async (id, cid, lessons) => {
+  if (!id || !cid || !lessons) return;
   return await axios
     .post(`${BASE_URL}${id}/course/${cid}/lessons`, lessons, config)
     .then((response) => response)

@@ -19,7 +19,9 @@ function StudentExploreCourses({ userData }) {
       userData.studentId,
       pageCounter
     );
-    // console.log("Feched Courses" + responseData);
+    if (!responseData) {
+      return;
+    }
     setCourses(responseData.content);
     setTotalPages(responseData.totalPages);
     setIsLoading(false);
@@ -40,41 +42,47 @@ function StudentExploreCourses({ userData }) {
 
   return (
     <div className="student-dashboard-body">
-      <div className="carousel-container mb-5">
-        <DashboardCarousel />
-      </div>
-      <div className="explore-dashboard text-light d-table">
-        <p className="my-auto d-table-cell fs-3 fw-500 font-monospace">
-          Explore...
-        </p>
-      </div>
-      <div className="course-list">
-        {isLoading ? (
-          <div className="loading-courses-list my-5">
-            <ClipLoader color={LOADING_COLOR} size="50px" />
+      {userData ? (
+        <>
+          <div className="carousel-container mb-5">
+            <DashboardCarousel />
           </div>
-        ) : (
-          <Courses courses={courses} userData={userData} />
-        )}
-        <div className="mt-4">
-          <Pagination className="justify-content-center" size="lg">
-            <Button
-              className="me-5 type-3 pagination-button"
-              onClick={handlePrevPage}
-              disabled={pageCounter === 0}
-            >
-              <CaretLeft size={30} />
-            </Button>
-            <Button
-              className="type-3 pagination-button"
-              onClick={handleNextPage}
-              disabled={pageCounter === totalPages - 1}
-            >
-              <CaretRight size={30} />
-            </Button>
-          </Pagination>
-        </div>
-      </div>
+          <div className="explore-dashboard text-light d-table">
+            <p className="my-auto d-table-cell fs-3 fw-500 font-monospace">
+              Explore...
+            </p>
+          </div>
+          <div className="course-list">
+            {isLoading ? (
+              <div className="loading-courses-list my-5">
+                <ClipLoader color={LOADING_COLOR} size="50px" />
+              </div>
+            ) : (
+              <Courses courses={courses} userData={userData} />
+            )}
+            <div className="mt-4">
+              <Pagination className="justify-content-center" size="lg">
+                <Button
+                  className="me-5 type-3 pagination-button"
+                  onClick={handlePrevPage}
+                  disabled={pageCounter === 0}
+                >
+                  <CaretLeft size={30} />
+                </Button>
+                <Button
+                  className="type-3 pagination-button"
+                  onClick={handleNextPage}
+                  disabled={pageCounter === totalPages - 1}
+                >
+                  <CaretRight size={30} />
+                </Button>
+              </Pagination>
+            </div>
+          </div>
+        </>
+      ) : (
+        <div>Hang in there</div>
+      )}
     </div>
   );
 }
