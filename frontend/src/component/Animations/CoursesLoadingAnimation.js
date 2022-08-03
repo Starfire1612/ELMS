@@ -1,13 +1,15 @@
 import React from "react";
 import { Button, Card } from "react-bootstrap";
-import { thumbnailUrl } from "../dummydata/dummyCourses";
 import "../../styles/CoursesLoadingAnimation.css";
 
 function CoursesLoadingAnimation() {
   const card = () => {
     return (
       <Card className="card" style={{ width: "18rem" }}>
-        {/* <Card.Img variant="top" src={thumbnailUrl} /> */}
+        <Card.Img
+          variant="top"
+          src="https://img-c.udemycdn.com/user/200_H/anonymous_3.png"
+        />
         <div className="bgcolor  image"></div>
         <Card.Body>
           <Card.Title className="mb-1 mt-2 bgcolor animated-bg"></Card.Title>

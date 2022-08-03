@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import HeaderSection from "./HeaderSection.js";
 import { Form, Button } from "react-bootstrap";
 import { postProfilePic } from "../profile/profile-utils.js";
+
 export default function EditProfilePic({ userData, reFetchUser }) {
-  const [profilePic, setProfilePic] = useState("");
+  const [profilePic, setProfilePic] = useState(
+    "https://img-c.udemycdn.com/user/200_H/anonymous_3.png"
+  );
 
   const userType = localStorage.getItem("userType");
 
@@ -44,7 +47,7 @@ export default function EditProfilePic({ userData, reFetchUser }) {
                 ? "data:image/png;base64," + userData[`${userType}Image`]
                 : profilePic
             }
-            alt="https://img-c.udemycdn.com/user/200_H/anonymous_3.png"
+            alt=""
           />
         </div>
 
