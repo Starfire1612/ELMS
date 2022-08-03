@@ -76,6 +76,20 @@ public class FeedbackController {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@GetMapping(path = "/student/{studentId}/course/{courseId}/feedback/{rating}")
+	public ResponseEntity<List<Feedback>> filterFeedback(
+			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
+			@PathVariable("studentId") int studentId, @PathVariable("courseId") int courseId, @PathVariable("rating") int rating) {
+		logger.info("Finding feedback by course id for perticular student");
+		if (client.authorizeTheRequest(requestTokenHeader, studentId))
+			return service.filterFeedback(courseId,rating);
+		else
+		{
+			logger.error("User not authenticated");
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+	}
 
 //
 	@PostMapping(path = "/student/{studentId}/course/{courseId}/feedback")

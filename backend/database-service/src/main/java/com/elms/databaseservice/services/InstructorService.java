@@ -30,6 +30,7 @@ import com.elms.databaseservice.models.Student;
 import com.elms.databaseservice.repos.CourseRepo;
 import com.elms.databaseservice.repos.InstructorCourseRepo;
 import com.elms.databaseservice.repos.InstructorRepo;
+import com.elms.databaseservice.repos.StudentCourseRepo;
 
 @Service
 public class InstructorService {
@@ -42,6 +43,9 @@ public class InstructorService {
 	CourseService courseService;
 	@Autowired
 	LessonService lessonService;
+	@Autowired
+	StudentCourseRepo studentCourseRepo;
+	
 	@Autowired
 	InstructorCourseRepo instructorCourseRepo;
 	private Logger log = LoggerFactory.getLogger(InstructorService.class);
@@ -207,6 +211,12 @@ public class InstructorService {
 			return new ResponseEntity<>("Could not store file " + fileName + ". Please try again!",
 					HttpStatus.BAD_REQUEST);
 		}
+	}
+
+	public ResponseEntity<Integer> getRegisteredStudent(int id, int courseId) {
+		log.debug("getting students size from database");
+		int registeredStudent=studentCourseRepo.findByCourseId(courseId);
+		return new ResponseEntity<>(registeredStudent,HttpStatus.OK);
 	}
 
 }
