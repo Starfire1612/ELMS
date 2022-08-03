@@ -57,7 +57,7 @@ function Courses({ courses, userData }) {
             {localStorage.getItem("userType") === "instructor" ? (
               <Link
                 className="text-white"
-                to={`../instructor/course/${course.courseId}/manage/description`}
+                to={`../../instructor/course/${course.courseId}/manage/description`}
               >
                 <Button className="type-1">Edit course</Button>
               </Link>

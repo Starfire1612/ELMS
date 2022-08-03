@@ -104,22 +104,24 @@ export const updateCourseLessons = async (id, cid, lessons) => {
     .catch((error) => console.log(error));
 };
 
-export const getAllCourseFeedbacksByRatings=async(id,cid,rating)=>{
+export const getAllCourseFeedbacksByRatings = async (id, cid, rating) => {
   return await axios
-  .get(`${BASE_URL}${id}/course/${cid}/feedback/${rating}`, config)
-  .then((response) => response.data)
-  .catch((error) => console.log(error));
-}
+    .get(`${BASE_URL}${id}/course/${cid}/feedback/${rating}`, config)
+    .then((response) => response.data)
+    .catch((error) => console.log(error));
+};
 
-export const getAllCourseEnrolledStudents=async(id,cid)=>{
+export const getAllCourseEnrolledStudents = async (id, cid) => {
+  if (!id || !cid) return;
   return await axios
-  .get(`${BASE_URL}${id}/courses/${cid}/registered-students`, config)
-  .then((response) => response.data)
-  .catch((error) => console.log(error));
-}
-export const getMonthlyCourseReveneue=async(id,cid)=>{
+    .get(`${BASE_URL}${id}/courses/${cid}/registered-students`, config)
+    .then((response) => response.data)
+    .catch((error) => console.log(error));
+};
+export const getMonthlyCourseReveneue = async (id, cid) => {
+  console.log(id, cid, "-----------id,cid");
   return await axios
-  .get(`${BASE_URL}${id}/course/${cid}/monthly-earnings`, config)
-  .then((response) => response.data)
-  .catch((error) => console.log(error));
-}
+    .get(`${BASE_URL}${id}/course/${cid}/monthly-earnings`, config)
+    .then((response) => response.data)
+    .catch((error) => console.log(error));
+};
