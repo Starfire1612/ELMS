@@ -46,17 +46,15 @@ function InstructorDashboard({ handleLogout, userData }) {
   const handleSearchCourse = (event) => {
     event.preventDefault();
     if (!searchField) return;
-    setIsLoading(true);
     setTempCourseList(filterCourses());
     // console.log("filtered" + filterCourses());
     // console.log(searchField);
     setSearchField("");
-    setIsLoading(false);
   };
 
   //sort via name
   const handleSortCoursesUsingName = () => {
-    setCourseList((prevCourseList) =>
+    setTempCourseList((prevCourseList) =>
       [...prevCourseList].sort((course1, course2) =>
         compareObjectsForSorting(course1, course2, "courseName")
       )
@@ -64,7 +62,7 @@ function InstructorDashboard({ handleLogout, userData }) {
   };
   //sort via rating
   const handleSortCoursesUsingRating = () => {
-    setCourseList((prevCourseList) =>
+    setTempCourseList((prevCourseList) =>
       [...prevCourseList].sort(
         (course1, course2) => course2.ratings - course1.ratings
       )

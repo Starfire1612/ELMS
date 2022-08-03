@@ -7,15 +7,32 @@ import { compareObjectsForSorting } from "../../utils/util";
 import "../../styles/StudentMyLearning.css";
 import Courses from "../courses/Courses";
 import { getStudentEnrolledCourses } from "./../courses/courses-util";
+import nodatafound from "../../static/images/nodatafound.png";
 
 //if time permits add pagination in this page as well
 
 function StudentMyLearning({ userData }) {
   const [isLoading, setIsLoading] = useState(false);
   const [courseList, setCourseList] = useState([]);
+  const [tempCourseList, setTempCourseList] = useState([]);
   const [searchField, setSearchField] = useState("");
+
+  const filterCourses = () => {
+    return tempCourseList.filter((course) =>
+      course.courseName.toLowerCase().includes(searchField.trim().toLowerCase())
+    );
+  };
+
   const handleSearchFieldChange = (event) => {
     setSearchField(event.target.value);
+    if (!event.target.value) {
+      setTempCourseList(courseList);
+    }
+  };
+  const handleSetOriginalCourseList = () => {
+    setTempCourseList(courseList);
+    setSearchField("");
+    document.getElementById("search-courses-mylearning-form").reset();
   };
 
   const fetchEnrolledCourses = async () => {
@@ -24,6 +41,7 @@ function StudentMyLearning({ userData }) {
     if (!courseData) return;
     console.log(courseData);
     setCourseList(courseData);
+    setTempCourseList(courseData);
     setIsLoading(false);
   };
 
@@ -34,22 +52,20 @@ function StudentMyLearning({ userData }) {
   const handleSearchCourse = async (event) => {
     event.preventDefault();
     if (!searchField) return;
-    setIsLoading(true);
+    setTempCourseList(filterCourses());
     //fetch courses using searchField and set appropriate courseList
     // ...
-    console.log(searchField);
     setSearchField("");
-    setIsLoading(false);
   };
   const handleSortCoursesUsingName = () => {
-    setCourseList((prevCourseList) =>
+    setTempCourseList((prevCourseList) =>
       [...prevCourseList].sort((course1, course2) =>
         compareObjectsForSorting(course1, course2, "courseName")
       )
     );
   };
   const handleSortCoursesUsingRating = () => {
-    setCourseList((prevCourseList) =>
+    setTempCourseList((prevCourseList) =>
       [...prevCourseList].sort(
         (course1, course2) => course2.ratings - course1.ratings
       )
@@ -67,7 +83,11 @@ function StudentMyLearning({ userData }) {
               <div className="search-course-wrapper">
                 <div className="search-course-inner">
                   {/* search the course */}
-                  <Form className="d-flex" onSubmit={handleSearchCourse}>
+                  <Form
+                    className="d-flex"
+                    id="search-courses-mylearning-form"
+                    onSubmit={handleSearchCourse}
+                  >
                     <FormControl
                       className="instructor-search-course "
                       type="text"
@@ -118,8 +138,22 @@ function StudentMyLearning({ userData }) {
                   className="d-block mx-auto mt-5"
                   color={LOADING_COLOR}
                 />
+              ) : tempCourseList.length ? (
+                <Courses courses={tempCourseList} userData={userData} />
               ) : (
-                <Courses courses={courseList} userData={userData} />
+                <div className="courses-list text-center my-5">
+                  <p className="text-center mb-0">No such published course</p>
+                  <p
+                    className="text-center go-back-to-your-courses"
+                    onClick={handleSetOriginalCourseList}
+                  >
+                    Go back to your courses.
+                  </p>
+                  <img
+                    src={nodatafound}
+                    className="mx-auto d-block search-course-not-found-image"
+                  />
+                </div>
               )}
             </div>
           </div>
