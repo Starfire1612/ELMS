@@ -18,6 +18,7 @@ import {
   updateStudentCourseCurrentLesson,
 } from "./../courses/courses-util";
 
+import { getCourseDetails } from "../courses/courses-util.js";
 export default function CoursePlayer({ userData }) {
   const params = useParams();
   const courseId = params.courseId;
@@ -26,7 +27,8 @@ export default function CoursePlayer({ userData }) {
   const [lessonList, setLessonList] = useState();
   const [courseLessonDetails, setCourseLessonDetails] = useState({});
   const [progressPercent, setProgressPercent] = useState(0);
-
+  const [courseDetails, setCourseDetails] = useState({});
+  
   const loadCourseLessons = async () => {
     setIsLoading(true);
     const response = await getEnrolledStudentCourseDetails(
@@ -39,10 +41,23 @@ export default function CoursePlayer({ userData }) {
     setProgressPercent(response.courseCompletionPercent);
     setIsLoading(false);
   };
+  const fetchCourseDetails = async () => {
+    setIsLoading(true);
+    console.log("Course id:", courseId, "Stu Id:", userData.studentId);
+    const courseData = await getCourseDetails(courseId, userData.studentId);
+    console.log(courseData.course.courseDescription);
+    setCourseDetails(courseData);
+    setIsLoading(false);
+  };
+  
+  useEffect(() => {
+    fetchCourseDetails();
+  }, [userData]);
 
   useEffect(() => {
     loadCourseLessons();
   }, []);
+
 
   const updateCurrentLessonId = async () => {
     const lessonId = lessonList[currentLessonIndex].lessonId;
@@ -145,11 +160,10 @@ export default function CoursePlayer({ userData }) {
       ) : (
         <ClipLoader color={LOADING_COLOR} size="50px" />
       )}
+      
+<div className="course-description">
+           <TabsB desc={courseLessonDetails.courseId.courseDescription} feedbacks={courseDetails.feedbacks}></TabsB>
+        </div>
     </>
   );
 }
-
-// <div className="course-description">
-//             feedback={props.feedback}
-//            <TabsB desc={courseLessonDetails.courseId.courseDescription}></TabsB>
-//         </div>

@@ -12,12 +12,6 @@
  height: 15px ;
  width: 15px;
  }
- .CircularProgressbar-path {
-    stroke: white!important;
-  }
-  .CircularProgressbar-trail {
-    stroke: black!important;
-  }
 
 
 @media(max-width:575px)
