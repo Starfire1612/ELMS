@@ -62,7 +62,7 @@ public class InstructorController {
 	public ResponseEntity<Set<Course>> getAllCreatedCourses(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
 			@PathVariable("id") int id) {
-		log.info("inside course fetch");
+		log.info("inside instructor course fetch");
 		if (client.authorizeTheRequest(requestTokenHeader, id)) {
 			log.info("Getting courses by instructor");
 			return instructorService.getCreatedCourses(id);
