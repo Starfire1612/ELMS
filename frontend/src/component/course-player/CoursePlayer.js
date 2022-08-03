@@ -12,7 +12,11 @@ import {
   ArrowRightCircleFill,
 } from "react-bootstrap-icons";
 import { LOADING_COLOR } from "../../utils/constants.js";
-import { addLessonInStudentCourse,getEnrolledStudentCourseDetails,updateStudentCourseCurrentLesson} from './../courses/courses-util';
+import {
+  addLessonInStudentCourse,
+  getEnrolledStudentCourseDetails,
+  updateStudentCourseCurrentLesson,
+} from "./../courses/courses-util";
 
 export default function CoursePlayer({ userData }) {
   const params = useParams();
@@ -21,6 +25,8 @@ export default function CoursePlayer({ userData }) {
   const [isLoading, setIsLoading] = useState(false);
   const [lessonList, setLessonList] = useState();
   const [courseLessonDetails, setCourseLessonDetails] = useState({});
+  const [progressPercent, setProgressPercent] = useState();
+
   const loadCourseLessons = async () => {
     setIsLoading(true);
     const response = await getEnrolledStudentCourseDetails(
@@ -30,7 +36,7 @@ export default function CoursePlayer({ userData }) {
     console.log(response);
     setCourseLessonDetails(response);
     setLessonList(response.courseId.lessons);
-    // setCurrentLesson(courseLessonDetails.currentLessonId);
+    setProgressPercent(response.courseCompletionPercent);
     setIsLoading(false);
   };
 
@@ -38,90 +44,102 @@ export default function CoursePlayer({ userData }) {
     loadCourseLessons();
   }, []);
 
-  const updateCurrentLessonId=async()=>{
-    
-    const lessonId=lessonList[currentLessonIndex].lessonId;
-    await updateStudentCourseCurrentLesson(userData.studentId,courseLessonDetails.courseId.courseId,lessonId);
-  }
+  const updateCurrentLessonId = async (index) => {
+    const lessonId = lessonList[currentLessonIndex].lessonId;
+    console.log("lessonId ->", lessonId);
+    await updateStudentCourseCurrentLesson(
+      userData.studentId,
+      courseLessonDetails.courseId.courseId,
+      lessonId,
+      lessonList[index]
+    );
+  };
 
   const handleLessonChange = (index) => {
     setCurrentLessonIndex(index);
+    updateCurrentLessonId(index);
   };
 
   const autoPlayNext = async () => {
-
     if (currentLessonIndex === lessonList.length - 1) {
       //generate certificate and take feedback
     } else {
-      const lessonId=lessonList[currentLessonIndex].lessonId;
-      await addLessonInStudentCourse(userData.studentId,courseLessonDetails.courseId.courseId,lessonId);
       setCurrentLessonIndex(currentLessonIndex + 1);
-
     }
-
+    const lessonId = lessonList[currentLessonIndex].lessonId;
+    const _progressPercent = await addLessonInStudentCourse(
+      userData.studentId,
+      courseLessonDetails.courseId.courseId,
+      lessonId
+    );
+    setProgressPercent(_progressPercent);
   };
 
   const nextLessonButton = async () => {
     if (currentLessonIndex === lessonList.length - 1) {
       return;
     } else {
-      await updateCurrentLessonId();
-      console.log("Next Lesson Button",currentLessonIndex + 1)
+      await updateCurrentLessonId(currentLessonIndex + 1);
+      console.log(
+        "Next Lesson Button",
+        currentLessonIndex + 1,
+        "- lessonId " + lessonList[currentLessonIndex + 1]
+      );
       setCurrentLessonIndex(currentLessonIndex + 1);
     }
   };
 
-  const previousLessonButton = async() => {
+  const previousLessonButton = async () => {
     if (currentLessonIndex === 0) {
       return;
     } else {
-      await updateCurrentLessonId();
-      console.log("Next Lesson Button",currentLessonIndex - 1)
+      await updateCurrentLessonId(currentLessonIndex - 1);
+      console.log(
+        "Next Lesson Button",
+        currentLessonIndex - 1,
+        "- lessonId " + lessonList[currentLessonIndex - 1]
+      );
       setCurrentLessonIndex(currentLessonIndex - 1);
     }
   };
 
   return (
     <>
-      {!isLoading && courseLessonDetails && lessonList? (
+      {!isLoading && courseLessonDetails && lessonList ? (
         <div>
           <PlayerNavBar
             courseName={courseLessonDetails.courseId.courseName}
+            progress={progressPercent}
           ></PlayerNavBar>
           <div className="parent">
-          <div className="player">
-            <Player
-               videoId={lessonList[currentLessonIndex].lessonLink}
-               playNext={autoPlayNext}
-            ></Player>
-          </div>
+            <div className="player">
+              <Player
+                videoId={lessonList[currentLessonIndex].lessonLink}
+                playNext={autoPlayNext}
+              ></Player>
+            </div>
 
-          <div className="course">
-            <p className="fs-3 fw-bolder text-center">Course Content</p>
-            <LessonList
-              className="lesson-list"
-              handleLessonChange={handleLessonChange}
-              lessonList={lessonList}
-              current={currentLessonIndex}
-            ></LessonList>
-          </div>
+            <div className="course">
+              <p className="fs-3 fw-bolder text-center">Course Content</p>
+              <LessonList
+                className="lesson-list"
+                handleLessonChange={handleLessonChange}
+                lessonList={lessonList}
+                current={currentLessonIndex}
+              ></LessonList>
+            </div>
 
-          <div className="lesson-change">
-            <p className="mb-0" onClick={previousLessonButton}>
-              <ArrowLeftCircleFill
-                className="m-3"
-              ></ArrowLeftCircleFill>{" "}
-              Previous
-            </p>
-            <p className="mb-0" 
-                onClick={nextLessonButton}>
-              Next
-              <ArrowRightCircleFill
-                className="m-3"
-              ></ArrowRightCircleFill>
-            </p>
-          </div> 
-  </div>
+            <div className="lesson-change">
+              <p className="mb-0" onClick={previousLessonButton}>
+                <ArrowLeftCircleFill className="m-3"></ArrowLeftCircleFill>{" "}
+                Previous
+              </p>
+              <p className="mb-0" onClick={nextLessonButton}>
+                Next
+                <ArrowRightCircleFill className="m-3"></ArrowRightCircleFill>
+              </p>
+            </div>
+          </div>
         </div>
       ) : (
         <ClipLoader color={LOADING_COLOR} size="50px" />

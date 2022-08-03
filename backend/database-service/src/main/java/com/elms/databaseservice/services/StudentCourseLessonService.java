@@ -55,9 +55,9 @@ public class StudentCourseLessonService {
 			studentCourseLessonRepo.save(scl);
 			log.info("Student Course lesson repo data added");
 			int completedLesson = studentCourseLessonRepo.getCompletedLessonCount(sid, cid);
-			completePercent(sid, cid, completedLesson);
+			int completionPercent= completePercent(sid, cid, completedLesson);
 
-			return new ResponseEntity<>("Successully Completed Lesson and added to database", HttpStatus.CREATED);
+			return new ResponseEntity<>(""+completionPercent, HttpStatus.CREATED);
 		} catch (Exception e) {
 			// TODO: handle exception
 			log.error("Cannot add lesson in studentcourselesson table");
@@ -66,7 +66,7 @@ public class StudentCourseLessonService {
 	}
 
 	@Transactional
-	public void completePercent(int sid, int cid, int completedLesson) throws MessagingException {
+	public int completePercent(int sid, int cid, int completedLesson) throws MessagingException {
 		StudentCourse sc = studentCourseRepo.findById(new StudentCourseId(sid, cid)).get();
 
 		Course c = courseRepo.findById(cid);
@@ -77,6 +77,7 @@ public class StudentCourseLessonService {
 		if (completionPercent == 100)
 			emailService.sendMailWithAttachment(sc);
 		log.info("saved all in studentcourse repo");
+		return completionPercent;
 	}
 
 }
