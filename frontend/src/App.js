@@ -30,6 +30,7 @@ import StudentMyLearning from "./component/student/StudentMyLearning";
 import SearchedCourses from "./component/student/SearchedCourses";
 import CourseDetailsPage from "./component/student/Components/CouseDetails.js";
 import CoursePlayer from "./component/course-player/CoursePlayer";
+import Reports from './component/instructor/Reports';
 
 function App() {
   const [loggedInStatus, setLoggedInStatus] = useState(false);
@@ -182,6 +183,8 @@ function App() {
             />
           }
         />
+        <Route path="/instructor/reports"
+        element={<Reports userData={userData}/>}/>
         <Route
           path="/instructor/add-course"
           element={<AddCourse userData={userData} />}

@@ -53,11 +53,10 @@ public class FeedbackController {
 //	}
 
 	@GetMapping(path = "/course/{courseId}/feedback")
-	public ResponseEntity<List<Feedback>> fetchAllFeedbackByCourseId(
-			@PathVariable("courseId") int courseId) {
+	public ResponseEntity<List<Feedback>> fetchAllFeedbackByCourseId(@PathVariable("courseId") int courseId) {
 //		if(client.authorizeTheRequest(requestTokenHeader))
 
-		logger.info("Fetching all feedbacks by course Id : "+courseId);
+		logger.info("Fetching all feedbacks by course Id : " + courseId);
 		return service.getAllFeedbacksByCourseId(courseId);
 //		else
 //			return new ResponseEntity<List<Feedback>>(Collections.EMPTY_LIST,HttpStatus.BAD_REQUEST);
@@ -70,22 +69,35 @@ public class FeedbackController {
 		logger.info("Finding feedback by course id for perticular student");
 		if (client.authorizeTheRequest(requestTokenHeader, studentId))
 			return service.existFeedbackById(studentId, courseId);
-		else
-		{
+		else {
+			logger.error("User not authenticated");
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@GetMapping(path = "/student/{studentId}/course/{courseId}/feedback/{rating}")
+	public ResponseEntity<List<Feedback>> filterFeedbackForStudent(
+			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
+			@PathVariable("studentId") int studentId, @PathVariable("courseId") int courseId,
+			@PathVariable("rating") int rating) {
+		logger.info("Finding feedback by course id for perticular student");
+		if (client.authorizeTheRequest(requestTokenHeader, studentId))
+			return service.filterFeedback(courseId, rating);
+		else {
 			logger.error("User not authenticated");
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 	}
 	
-	@GetMapping(path = "/student/{studentId}/course/{courseId}/feedback/{rating}")
-	public ResponseEntity<List<Feedback>> filterFeedback(
+	@GetMapping(path = "/instructor/{instructorId}/course/{courseId}/feedback/{rating}")
+	public ResponseEntity<List<Feedback>> filterFeedbackForInstructor(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
-			@PathVariable("studentId") int studentId, @PathVariable("courseId") int courseId, @PathVariable("rating") int rating) {
-		logger.info("Finding feedback by course id for perticular student");
-		if (client.authorizeTheRequest(requestTokenHeader, studentId))
-			return service.filterFeedback(courseId,rating);
-		else
-		{
+			@PathVariable("instructorId") int instructorId, @PathVariable("courseId") int courseId,
+			@PathVariable("rating") int rating) {
+		logger.info("Finding feedback by course id for instructor");
+		if (client.authorizeTheRequest(requestTokenHeader, instructorId))
+			return service.filterFeedback(courseId, rating);
+		else {
 			logger.error("User not authenticated");
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
@@ -93,8 +105,9 @@ public class FeedbackController {
 
 //
 	@PostMapping(path = "/student/{studentId}/course/{courseId}/feedback")
-	public ResponseEntity<String> storeFeedback(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
-			@PathVariable("studentId") int studentId,@PathVariable("courseId") int courseId,
+	public ResponseEntity<String> storeFeedback(
+			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
+			@PathVariable("studentId") int studentId, @PathVariable("courseId") int courseId,
 			@RequestBody Feedback feedback) {
 		if (client.authorizeTheRequest(requestTokenHeader, studentId)) {
 			logger.info("Storing Feedback of Student in course");
@@ -102,9 +115,7 @@ public class FeedbackController {
 			feedback.setStudentName(feedback.getStudentCourseId().getStudentId().getStudentName());
 			return service.storeFeedback(feedback, studentId, courseId);
 
-		} 
-		else
-		{
+		} else {
 			logger.error("User not authenticated");
 			return new ResponseEntity<>("User not authenticated", HttpStatus.BAD_REQUEST);
 		}
@@ -117,8 +128,7 @@ public class FeedbackController {
 		logger.info("feedback savings");
 		if (client.authorizeTheRequest(requestTokenHeader, studentId))
 			return service.deleteFeedback(studentId, courseId);
-		else
-		{
+		else {
 			logger.error("User not authenticated");
 			return new ResponseEntity<>("User not authenticated", HttpStatus.BAD_REQUEST);
 		}

@@ -42,6 +42,7 @@ export default function CoursePlayer({ userData }) {
     setProgressPercent(response.courseCompletionPercent);
     setIsLoading(false);
   };
+
   const fetchCourseDetails = async () => {
     setIsLoading(true);
     console.log("Course id:", courseId, "Stu Id:", userData.studentId);

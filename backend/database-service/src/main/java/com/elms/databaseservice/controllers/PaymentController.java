@@ -29,7 +29,7 @@ public class PaymentController {
 	private Logger log = LoggerFactory.getLogger(PaymentController.class);
 
 	
-	@GetMapping("/instructor/{id}/course/{courseId}/reports")
+	@GetMapping("/instructor/{id}/course/{courseId}/monthly-earnings")
 	public ResponseEntity<Float> getCourseMonthlyReveneue(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,@PathVariable("courseId") int courseId) {
 		log.info("Getting monthly Revenue");
 		if(client.authorizeTheRequest(requestTokenHeader,id))

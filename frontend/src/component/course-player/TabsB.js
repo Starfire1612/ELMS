@@ -5,6 +5,7 @@ import ShowFeedback from "../student/Components/ShowFeedback.js";
 import './TabB.css';
 
 // import Sonnet from '../../components/Sonnet';
+import Feedback from './../feedback/feedback';
 
 function TabsB(props) {
   return (
@@ -19,7 +20,8 @@ function TabsB(props) {
       <Description desc={props.desc}/>
       </Tab>
    
-      <Tab  eventKey="Feedback" title="Feedback">
+      <Tab eventKey="Feedback" title="Feedback" >
+        <Feedback/>
         <ShowFeedback feedbacks={props.feedbacks}/>
       </Tab>
     </Tabs>

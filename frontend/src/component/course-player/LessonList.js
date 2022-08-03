@@ -11,7 +11,7 @@ export default function LessonList({
     <div>
       {lessonList.map((lesson, index) => {
         return (
-          <li
+          <li key={index}
             className={
               current === index ? "list-items lesson-active" : "list-items"
             }

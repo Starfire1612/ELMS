@@ -16,7 +16,8 @@ export default function InstructorNavbar({ handleLogout, userData }) {
         </Link>
       </div>
       <div className="d-flex align-items-center navbar-right-div">
-        <Link className="mx-2" to="../instructor/reports">
+        <Link className="mx-2" to="/instructor/reports"> 
+         {/* //../instructor/reports */}
           <span className="me-2">
             <ClipboardData />
           </span>

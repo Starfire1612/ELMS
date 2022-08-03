@@ -109,3 +109,25 @@ export const sendCertificateCompletionMail = async (sid, cid) => {
     .then((response) => console.log(response.data))
     .catch((error) => console.log(error));
 };
+
+
+export const postEditFeedback=async(sid,cid,feedback)=>{
+  return await axios
+  .post(`${BASE_URL}/student/${sid}/course/${cid}/feedback`,feedback, config)
+  .then((response) => console.log(response.data))
+  .catch((error) => console.log(error));
+}
+
+export const deleteFeedback=async(sid,cid)=>{
+  return await axios
+  .delete(`${BASE_URL}/student/${sid}/course/${cid}/feedback`, config)
+  .then((response) => console.log(response.data))
+  .catch((error) => console.log(error));
+}
+
+export const isFeedbackPresent=async(sid,cid)=>{
+  return await axios
+  .get(`${BASE_URL}/student/${sid}/course/${cid}/feedback`, config)
+  .then((response) => response.data)
+  .catch((error) => console.log(error));
+}
