@@ -87,6 +87,20 @@ public class InstructorController {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 	}
+	@GetMapping(path = "/instructor/{id}/courses/{courseId}/registered-students")
+	public ResponseEntity<Integer> getRegisteredStudents(
+			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
+			@PathVariable("id") int id, @PathVariable("courseId") int courseId) {
+		log.info("getting registered students");
+		if (client.authorizeTheRequest(requestTokenHeader, id)) {
+			log.info("Getting Student Details");
+			return instructorService.getRegisteredStudent(id, courseId);
+		} else {
+
+			log.error("User not authenticated");
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+	}
 
 	@GetMapping(path = "/instructor/{id}/profile")
 	public ResponseEntity<Instructor> viewInstructorProfile(
