@@ -28,7 +28,7 @@ export default function CoursePlayer({ userData }) {
   const [courseLessonDetails, setCourseLessonDetails] = useState({});
   const [progressPercent, setProgressPercent] = useState(0);
   const [courseDetails, setCourseDetails] = useState({});
-  
+
   const loadCourseLessons = async () => {
     setIsLoading(true);
     const response = await getEnrolledStudentCourseDetails(
@@ -36,6 +36,7 @@ export default function CoursePlayer({ userData }) {
       courseId
     );
     console.log(response);
+    if (!response) return;
     setCourseLessonDetails(response);
     setLessonList(response.courseId.lessons);
     setProgressPercent(response.courseCompletionPercent);
@@ -45,19 +46,19 @@ export default function CoursePlayer({ userData }) {
     setIsLoading(true);
     console.log("Course id:", courseId, "Stu Id:", userData.studentId);
     const courseData = await getCourseDetails(courseId, userData.studentId);
+    if (!courseData) return;
     console.log(courseData.course.courseDescription);
     setCourseDetails(courseData);
     setIsLoading(false);
   };
-  
+
   useEffect(() => {
     fetchCourseDetails();
   }, [userData]);
 
   useEffect(() => {
     loadCourseLessons();
-  }, []);
-
+  }, [userData]);
 
   const updateCurrentLessonId = async () => {
     const lessonId = lessonList[currentLessonIndex].lessonId;
@@ -157,14 +158,15 @@ export default function CoursePlayer({ userData }) {
             </div>
           </div>
           <div className="course-description">
-           <TabsB desc={courseLessonDetails.courseId.courseDescription} feedbacks={courseDetails.feedbacks}></TabsB>
-        </div>
+            <TabsB
+              desc={courseLessonDetails.courseId.courseDescription}
+              feedbacks={courseDetails.feedbacks}
+            ></TabsB>
+          </div>
         </div>
       ) : (
         <ClipLoader color={LOADING_COLOR} size="50px" />
       )}
-      
-
     </>
   );
 }

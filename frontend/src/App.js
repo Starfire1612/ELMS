@@ -62,8 +62,7 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem("userToken") && localStorage.getItem("userType")) {
       greetUser();
-      // if (userData) navigate(location.pathname);
-      if (userData) navigate("/");
+      if (userData) navigate(location.pathname);
     }
   }, [fetchUserFlag]);
 
@@ -98,6 +97,7 @@ function App() {
           }
         />
         {/* <Route path="/payment" element={<Payment userData={userData}/>} /> */}
+        <Route path="/sign-in" element={<SignIn handleLogin={handleLogin} />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route

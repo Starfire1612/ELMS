@@ -1,20 +1,19 @@
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import React from "react";
 import { calculateDiscountedPrice, ratingsColor } from "../../utils/util";
 import "../../styles/Courses.css";
-import { thumbnailUrl } from "../dummydata/dummyCourses";
-import CoursesLoadingAnimation from "../Animations/CoursesLoadingAnimation";
 import { useState } from "react";
 import { Link, Navigate, useNavigate, useLocation } from "react-router-dom";
 import { StarFill } from "react-bootstrap-icons";
 import { PAYMENT_KEY, PAYMENT_KEY_SECRET } from "../../utils/constants.js";
-import { getCourseDetails, getEnrolledStudentCourseDetails } from "./courses-util.js";
+import {
+  getCourseDetails,
+  getEnrolledStudentCourseDetails,
+} from "./courses-util.js";
 
 function Courses({ courses, userData }) {
   const location = useLocation();
   const currentLocationPath = "/home/my-learning";
-  const [isLoading, setIsLoading] = useState(true);
   const discountedPrice = (course) =>
     calculateDiscountedPrice(course.coursePrice, course.courseDiscount);
 
@@ -63,7 +62,9 @@ function Courses({ courses, userData }) {
                 <Button className="type-1">Edit course</Button>
               </Link>
             ) : location.pathname === currentLocationPath ? (
-              <Link to={`../../student/${userData.studentId}/course/${course.courseId}/lesson/`}>
+              <Link
+                to={`../../student/${userData.studentId}/course/${course.courseId}/lesson/`}
+              >
                 <Button className="type-1">Start Lesson</Button>
               </Link>
             ) : (
@@ -96,13 +97,7 @@ function Courses({ courses, userData }) {
   return (
     <div>
       <div className="courses p-3 mt-5">
-        {
-          /* {isLoading ? (
-          <CoursesLoadingAnimation />
-        ) : ( */
-          courses && courses?.map((course) => card(course))
-          /* )} */
-        }
+        {courses && courses?.map((course) => card(course))}
       </div>
     </div>
   );
