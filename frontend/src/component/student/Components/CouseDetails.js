@@ -28,6 +28,7 @@ export default function CouseDetails({ userData }) {
     console.log("Course id:", courseId, "Stu Id:", userData.studentId);
     const courseData = await getCourseDetails(courseId, userData.studentId);
     console.log(courseData);
+
     setCourseDetails(courseData);
     setIsLoading(false);
   };
@@ -48,27 +49,27 @@ export default function CouseDetails({ userData }) {
 
   return (
     <div className="course-view-container">
-      {isLoading ? (
+      {isLoading && courseDetails ? (
         <ClipLoader color={LOADING_COLOR} size="50px" />
       ) : (
         <>
           <CourseNavBar
-            course={courseDetails.course}
+            course={courseDetails?.course}
             handleEnrollStudent={handleEnrollStudent}
           />
           <Cards
-            course={courseDetails.course}
+            course={courseDetails?.course}
             userData={userData}
             handleEnrollStudent={handleEnrollStudent}
           />
-          <CourseHeading course={courseDetails.course} />
+          <CourseHeading course={courseDetails?.course} />
           <div className="main-content">
             <WhatLearn></WhatLearn>
-            <CourseContent course={courseDetails.course} />
+            <CourseContent course={courseDetails?.course} />
             <Requirement />
-            <Description desc={courseDetails.course.courseDescription} />
-            <Instructor instructorName={courseDetails.course.instructorName} />
-            <ShowFeedback feedbacks={courseDetails.feedbacks} />
+            <Description desc={courseDetails?.course.courseDescription} />
+            <Instructor instructorName={courseDetails?.course.instructorName} />
+            <ShowFeedback feedbacks={courseDetails?.feedbacks} />
           </div>
         </>
       )}
