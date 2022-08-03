@@ -7,7 +7,10 @@ const config = {
   },
 };
 export const getAllPublishedCourse = async (id, page) => {
-  if (!id) return;
+  if (!id) {
+    console.log(id, page);
+    return;
+  }
   return await axios
     .get(`${BASE_URL}/student/${id}/published-courses/${page}`, config)
     .then((response) => response.data)
@@ -16,6 +19,7 @@ export const getAllPublishedCourse = async (id, page) => {
 
 export const getCourseDetails = async (courseId, id) => {
   // console.log("Index:"+page)
+  if (!id || !courseId) return;
   return await axios
     .get(
       `${BASE_URL}/student/${id}/course/${courseId}/view-course-details`,
@@ -27,16 +31,18 @@ export const getCourseDetails = async (courseId, id) => {
 
 export const getStudentEnrolledCourses = async (sid) => {
   // console.log("Index:"+page)
+  if (!sid) return;
   return await axios
     .get(`${BASE_URL}/student/${sid}/enrolled-courses`, config)
     .then((response) => response.data)
     .catch((error) => console.log(error));
 };
 
-export const getSearchedCourses = async (sid, serachQuery) => {
+export const getSearchedCourses = async (sid, searchQuery) => {
   // console.log("Index:"+page)
+  if (!sid || !searchQuery) return;
   return await axios
-    .get(`${BASE_URL}/student/${sid}/search/${serachQuery}`, config)
+    .get(`${BASE_URL}/student/${sid}/search/${searchQuery}`, config)
     .then((response) => response.data)
     .catch((error) => console.log(error));
 };
@@ -46,6 +52,7 @@ export const enrollStudentInCourse = async (
   courseId,
   paymentResponseBody
 ) => {
+  if (!id || !courseId || !paymentResponseBody) return;
   return await axios
     .post(
       `${BASE_URL}/student/${id}/course/${courseId}/enroll`,
@@ -56,6 +63,7 @@ export const enrollStudentInCourse = async (
     .catch((error) => console.log(error));
 };
 export const getEnrolledStudentCourseDetails = async (id, cid) => {
+  if (!id || !cid) return;
   return await axios
     .get(`${BASE_URL}/student/${id}/courses/${cid}/courseDetails`, config)
     .then((response) => response.data)
@@ -71,6 +79,7 @@ export const updateStudentCourseCurrentLesson = async (
   lid,
   lesson
 ) => {
+  if (!id || !cid || !lid || !lesson) return;
   return await axios
     .patch(
       `${BASE_URL}/student/${id}/course/${cid}/lesson/${lid}`,
@@ -83,6 +92,7 @@ export const updateStudentCourseCurrentLesson = async (
 
 //this method will be called for every video watched by the user
 export const addLessonInStudentCourse = async (id, cid, lid) => {
+  if (!id || !cid || !lid) return;
   return await axios
     .post(
       `${BASE_URL}/student/${id}/course/${cid}/lesson/${lid}`,
@@ -92,7 +102,6 @@ export const addLessonInStudentCourse = async (id, cid, lid) => {
     .then((response) => response.data)
     .catch((error) => console.log(error));
 };
-
 
 export const sendCertificateCompletionMail = async (sid, cid) => {
   return await axios
