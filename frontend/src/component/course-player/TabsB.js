@@ -1,5 +1,6 @@
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
+import Description from "../student/Components/Description.js";
 import ShowFeedback from "../student/Components/ShowFeedback.js";
 import './TabB.css';
 
@@ -15,12 +16,12 @@ function TabsB(props) {
     >
 
       <Tab className="tab-desc"  eventKey="Description" title="Overview">
-        <div className="tab-desc text-sm"><h2>{props.desc}</h2></div>
+      <Description desc={props.desc}/>
       </Tab>
-{/*    
-      <Tab  eventKey="Feedback" title="Feedback" >
+   
+      <Tab  eventKey="Feedback" title="Feedback">
         <ShowFeedback feedbacks={props.feedbacks}/>
-      </Tab> */}
+      </Tab>
     </Tabs>
     </div>
   );
