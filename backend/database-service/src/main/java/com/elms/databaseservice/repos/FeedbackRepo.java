@@ -15,6 +15,9 @@ public interface FeedbackRepo extends JpaRepository<Feedback, StudentCourseId> {
 
 	@Query(nativeQuery = true,value = "select * from feedback where course_id=:courseId")
 	List<Feedback> findByCourseId(int courseId);
-//
-//	Feedback findByStudentIdAndCourseId(int studentId, int courseId);
+
+	List<Feedback> findByRatings(int rating);
+
+
+	
 }
