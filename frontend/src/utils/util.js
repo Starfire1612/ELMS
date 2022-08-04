@@ -75,10 +75,21 @@ const compareObjectsForSorting = (object1, object2, key) => {
   return 0;
 };
 
+// Create our number formatter.
+const formatter = (val) => {
+  const numberFormatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
+  return numberFormatter.format(val);
+};
+/* $2,500.00 */
+
 export {
   calculateDiscountedPrice,
   ratingsColor,
   youtubeParser,
   convertDurationToMinutes,
   compareObjectsForSorting,
+  formatter,
 };

@@ -162,7 +162,7 @@ public class StudentController {
 	
 	@GetMapping(path = "/student/{id}/published-courses/{page}")
 	public ResponseEntity<Page<Course>> getAllPublishedCourses(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,@PathVariable("page") int page) {
-		log.info("Getting all course ");
+		log.info("Getting all course "+requestTokenHeader);
 		if(client.authorizeTheRequest(requestTokenHeader,id))
 			return courseService.getAllCourses(page,3);
 		else

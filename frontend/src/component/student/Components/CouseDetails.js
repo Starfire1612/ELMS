@@ -49,7 +49,7 @@ export default function CouseDetails({ userData }) {
 
   return (
     <div className="course-view-container">
-      {isLoading && courseDetails ? (
+      {isLoading || !courseDetails ? (
         <ClipLoader color={LOADING_COLOR} size="50px" />
       ) : (
         <>

@@ -6,6 +6,11 @@ const config = {
   },
 };
 export const getPublishedCourses = async (id) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+    },
+  };
   if (!id) return;
   return await axios
     .get(`${BASE_URL}${id}/courses`, config)

@@ -82,5 +82,6 @@
 }
 
 .reports-course-card-big-number {
-  font-size: clamp(3rem, 5rem, 8rem);
+  font-size: clamp(1rem, 5rem, 5rem);
+  word-wrap: break-word;
 }

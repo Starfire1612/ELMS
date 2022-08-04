@@ -40,7 +40,7 @@ function App() {
   const [fetchUserFlag, setFetchUserFlag] = useState(true);
   const [userData, setUserData] = useState({});
   const navigate = useNavigate();
-  const location = useLocation();
+  //const location = useLocation();
 
   const reFetchUser = () => {
     setFetchUserFlag(!fetchUserFlag);
@@ -70,8 +70,10 @@ function App() {
   }, [fetchUserFlag]);
 
   const handleLogin = async () => {
+    console.log("Calling handleLogin from APP.js")
     await greetUser();
-    if (userData) navigate("/");
+    if (userData) 
+    navigate("/");
   };
 
   const handleLogout = () => {

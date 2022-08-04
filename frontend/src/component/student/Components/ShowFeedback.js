@@ -10,7 +10,7 @@ export default function ShowFeedback(props) {
         {
         props.feedbacks?.map((feedback) => {
           return (
-            <div className="rating-content">
+            <div className="rating-content" key={feedback.feedbackId}>
               <div className="circular me-4 fw-bold fs-5">{feedback.studentName[0]}</div>
               <div>
                 <div>
