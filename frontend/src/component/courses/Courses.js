@@ -45,11 +45,14 @@ function Courses({ courses, userData }) {
           variant="top"
           src={"data:image/png;base64," + course.courseImage}
         />
-        <Card.Body>
-          <Card.Title className="card-course-title">
-            {transformContent(course.courseName, "title")}
-          </Card.Title>
-          <p className="fs-6 fw-light mb-0">{course.instructorName}</p>
+        <Card.Body className="card-course-desc">
+          <div>
+            <div className="card-course-title h5 mb-0">
+              {transformContent(course.courseName, "title")}
+            </div>
+            <p className="fs-6 fw-light my-0">{course.instructorName}</p>
+          </div>
+
           <Card.Text className="lh-sm">
             {transformContent(course.courseDescription, "description")}
           </Card.Text>
