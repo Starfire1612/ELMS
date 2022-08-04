@@ -15,9 +15,9 @@ export default function WhatLearn() {
                 <h1 className='lesson-head'>What you'll learn?</h1>           
                 <ul  className='lesson-items'>
                 {
-                learn.map((a)=>{
+                learn.map((a,index)=>{
                     return(
-                      <li>
+                      <li key={index}>
                         {a}
                       </li>
                     )

@@ -207,8 +207,8 @@ public class StudentService {
 	}
 
 	@Transactional
-	public ResponseEntity<List<Course>> getSearchCourses(String search) {
-		List<Course> courses = courseRepo.searchCourse(search);
+	public ResponseEntity<List<Course>> getSearchCourses(int studentId,String search) {
+		List<Course> courses = courseRepo.searchCourse(studentId,search);
 		if (courses == null) {
 			log.error("Cannot fetch search course");
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

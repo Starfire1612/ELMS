@@ -39,17 +39,20 @@ export default function CouseDetails({ userData }) {
       courseDetails.course.coursePrice,
       courseDetails.course.courseDiscount
     );
-    const response = makePayment(userData, courseId, discountAmount);
+    const response = makePayment(userData, courseId, discountAmount,navigateToCoursePlayer);
     console.log(response);
   };
 
+  const navigateToCoursePlayer=()=>{
+    navigate(`/student/${userData.studentId}/course/${courseId}/lesson`);
+  }
   useEffect(() => {
     fetchCourseDetails();
   }, [userData]);
 
   return (
     <div className="course-view-container">
-      {isLoading && courseDetails ? (
+      {isLoading || !courseDetails ? (
         <ClipLoader color={LOADING_COLOR} size="50px" />
       ) : (
         <>

@@ -15,7 +15,7 @@ export default function CourseContent(props) {
         <div className="lesson-desc">
           {props.course.lessons.map((lesson, index) => {
             return (
-              <div className="lesson-content d-flex justify-content-between align-items-center px-5">
+              <div className="lesson-content d-flex justify-content-between align-items-center px-5" key={index}>
                 <div>
                   <span className="me-3">{index + 1}</span>
                   <span className="fw-semibold">{lesson.lessonName}</span>

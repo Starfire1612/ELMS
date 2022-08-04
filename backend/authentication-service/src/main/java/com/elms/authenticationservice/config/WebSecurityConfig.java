@@ -67,7 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			config.setAllowedMethods(Collections.singletonList("*"));
 			config.setAllowCredentials(true);
 			config.setAllowedHeaders(Collections.singletonList("*"));
-			config.setMaxAge(3600L);
+			config.setMaxAge(3600L);   //for how long the pre-cache client requests will stay in the host
 			return config;}}).and().csrf().disable()
 				// dont authenticate this particular request
 				.authorizeRequests().antMatchers("/authenticate", "/forgot-password/**").permitAll().

@@ -125,7 +125,7 @@ public class StudentController {
 	public ResponseEntity<List<Course>> getSearchCourses(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,@PathVariable("search") String search) {
 		log.info("getting searched course");
 		if(client.authorizeTheRequest(requestTokenHeader,id))
-			return studentService.getSearchCourses(search);
+			return studentService.getSearchCourses(id,search);
 		else
 		{
 			log.error("User not authenticated");
@@ -160,11 +160,12 @@ public class StudentController {
 		}
 	}
 	
+	//fetch all publish course except the enrolled ones
 	@GetMapping(path = "/student/{id}/published-courses/{page}")
 	public ResponseEntity<Page<Course>> getAllPublishedCourses(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,@PathVariable("page") int page) {
-		log.info("Getting all course ");
+		log.info("Getting all course "+requestTokenHeader);
 		if(client.authorizeTheRequest(requestTokenHeader,id))
-			return courseService.getAllCourses(page,3);
+			return courseService.getAllCourses(page,3,id);
 		else
 		{
 			log.error("User not authenticated");

@@ -11,6 +11,32 @@
   .reports-main-container {
     flex-direction: column;
   }
+
+  .course-reports-cards-card {
+    min-height: 1px !important;
+    min-width: 1px !important;
+  }
+
+  .reports-course-list-btn {
+    display: block !important;
+    color: var(--primary-color)
+  }
+
+  .reports-course-list {
+    padding: 2.4rem 0.8rem !important;
+    width: 100% !important;
+  }
+
+  .reports-course-container {
+    border-left: 0 !important;
+  }
+
+}
+
+@media(max-width:450px) {
+  .reports-main-container {
+    padding: 1.6rem 0.8rem 3.2rem 0.8rem;
+  }
 }
 
 .reports-course-list {
@@ -29,7 +55,7 @@
 }
 
 .reports-courselist {
-  min-height: 50vh;
+  min-height: 1vh;
 }
 
 .reports-loader {
@@ -62,14 +88,16 @@
 .course-report-heading {
   padding: 0.8rem 1.6rem;
   min-height: 4.8rem;
+  border-top: 1px solid rgb(198, 198, 198);
 }
 
 .course-reports-cards {
-  padding: 0.8rem 1.6rem;
+  padding: 1.6rem 1.6rem;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
   gap: 1.6rem;
+  border-top: 1px solid rgb(198, 198, 198);
 }
 
 .course-reports-cards-card {
@@ -82,5 +110,37 @@
 }
 
 .reports-course-card-big-number {
-  font-size: clamp(3rem, 5rem, 8rem);
+  font-size: clamp(3rem, 1vw+5rem, 8rem);
+}
+
+.reports-feedback-container {
+  width: 100%;
+  min-height: 4rem;
+  padding: 0.8rem 1.6rem;
+  border-top: 1px solid rgb(198, 198, 198);
+}
+
+.search-via-ratings {
+  max-width: 10rem;
+}
+
+.reports-feedback {
+  padding: 0.8rem;
+  border-bottom: 1px solid rgb(198, 198, 198);
+}
+
+.reports-course-list-btn {
+  display: none;
+}
+
+.reports-img {
+  height: auto;
+  max-width: 350px;
+  object-fit: contain;
+}
+
+.no-report {
+  min-height: 30rem;
+  display: grid;
+  place-items: center;
 }

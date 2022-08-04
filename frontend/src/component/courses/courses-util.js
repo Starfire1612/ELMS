@@ -7,10 +7,18 @@ const config = {
   },
 };
 export const getAllPublishedCourse = async (id, page) => {
+  
+  console.log("Calling get allcourse from course util for student");
+
   if (!id) {
     console.log(id, page);
     return;
   }
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+    },
+  };
   return await axios
     .get(`${BASE_URL}/student/${id}/published-courses/${page}`, config)
     .then((response) => response.data)

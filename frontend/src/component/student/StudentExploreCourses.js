@@ -14,16 +14,21 @@ function StudentExploreCourses({ userData }) {
   const [totalPages, setTotalPages] = useState(1);
   //fetch all the courses
   const fetchAllCourses = async () => {
+    console.log(localStorage.getItem("userToken"));
     setIsLoading(true);
+ 
     const responseData = await getAllPublishedCourse(
       userData.studentId,
       pageCounter
     );
     if (!responseData) {
+      setIsLoading(false);
       return;
+    } else {
+      setCourses(responseData.content);
+      setTotalPages(responseData.totalPages);
     }
-    setCourses(responseData.content);
-    setTotalPages(responseData.totalPages);
+
     setIsLoading(false);
   };
   const handlePrevPage = async () => {
@@ -53,7 +58,7 @@ function StudentExploreCourses({ userData }) {
             </p>
           </div>
           <div className="course-list">
-            {isLoading ? (
+            {isLoading && !courses? (
               <div className="loading-courses-list my-5">
                 <ClipLoader color={LOADING_COLOR} size="50px" />
               </div>

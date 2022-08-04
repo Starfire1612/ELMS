@@ -105,9 +105,11 @@ public class JwtAuthenticationController {
 		token=token.substring(7);
 		String userType=jwtTokenUtil.getUserTypeFromToken(token);
 		String userEmail=jwtTokenUtil.getUsernameFromToken(token);
-		if(userType.equalsIgnoreCase("student"))
+		if(userType.equalsIgnoreCase("student")) {
 			return (Student) databaseService.findStudentByEmail(userEmail);
-		else
+		}
+		else {
 			return (Instructor) databaseService.findInstructorByEmail(userEmail);
+		}
 	}
 }
