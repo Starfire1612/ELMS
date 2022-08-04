@@ -9,7 +9,6 @@ import { calculateDiscountedPrice } from "../../../utils/util.js";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import "../Styles/Card.css";
-import download from "../Images/download.jpg";
 
 function Cards(props) {
   const hours = Math.ceil(props.course.totalDuration / 60);

@@ -25,6 +25,7 @@ import com.elms.authenticationservice.service.EmailService;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
+
 public class ForgotPasswordController {
 	
 	private Logger logger=LoggerFactory.getLogger(ForgotPasswordController.class);
