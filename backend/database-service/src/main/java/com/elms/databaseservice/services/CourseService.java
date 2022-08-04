@@ -47,8 +47,9 @@ public class CourseService {
 	}
 	
 	@Transactional
-	public ResponseEntity<Page<Course>> getAllCourses(int page,int size) {
-			Page<Course> coursePage=courseRepo.findAll(PageRequest.of(page,size));
+	public ResponseEntity<Page<Course>> getAllCourses(int page,int size,int studentId) {
+//			Page<Course> coursePage=courseRepo.findAll(PageRequest.of(page,size));
+		    Page<Course> coursePage=courseRepo.findallCoursesExceptEnrolled(PageRequest.of(page,size),studentId);
 			log.info("Searched course");
 			return new ResponseEntity<>(coursePage,HttpStatus.OK);
 	}
