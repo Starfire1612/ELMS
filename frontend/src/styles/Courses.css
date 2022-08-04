@@ -29,3 +29,9 @@
   font-size: 1.1rem;
   display: inline;
 }
+
+.card-course-desc {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

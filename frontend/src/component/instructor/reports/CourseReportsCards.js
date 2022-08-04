@@ -57,11 +57,12 @@ export default function CourseReportsCards({ course, userData }) {
             <div className="d-table-row">
               <div className="d-table-cell">Current Price:</div>
               <div className="d-table-cell">
-                {formatter
-                (calculateDiscountedPrice(
-                  course?.coursePrice,
-                  course?.courseDiscount
-                ))}
+                {formatter(
+                  calculateDiscountedPrice(
+                    course?.coursePrice,
+                    course?.courseDiscount
+                  )
+                )}
               </div>
             </div>
             <div className="d-table-row">
@@ -92,7 +93,7 @@ export default function CourseReportsCards({ course, userData }) {
               <div className="text-center">
                 <h1 className="reports-course-card-big-number">
                   <span className="text-secondary">$</span>
-                  {monthlyRevenue ? formatter(monthlyRevenue) : 0}
+                  {monthlyRevenue ? formatter(monthlyRevenue).slice(1, -3) : 0}
                 </h1>
                 <p className="mb-0 dark-gray ">Revenue this month</p>
               </div>
