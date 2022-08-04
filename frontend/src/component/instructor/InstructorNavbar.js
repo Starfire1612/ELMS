@@ -5,9 +5,11 @@ import {
   ClipboardData,
   PersonCircle,
 } from "react-bootstrap-icons";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function InstructorNavbar({ handleLogout, userData }) {
+  const location = useLocation();
+  const shouldReportsLinkRender = location.pathname === "/instructor/reports";
   return (
     <div className="nav-bar nav-bar-dark justify-content-between instructor-navbar">
       <div>
@@ -16,14 +18,14 @@ export default function InstructorNavbar({ handleLogout, userData }) {
         </Link>
       </div>
       <div className="d-flex align-items-center navbar-right-div">
-        <Link className="mx-2" to="/instructor/reports"> 
-         {/* //../instructor/reports */}
-          <span className="me-2">
-            <ClipboardData />
-          </span>
-          Reports
-        </Link>
-
+        {!shouldReportsLinkRender && (
+          <Link className="mx-2" to="/instructor/reports">
+            <span className="me-2">
+              <ClipboardData />
+            </span>
+            Reports
+          </Link>
+        )}
         <NavDropdown
           className="navbar-user-name"
           title={userData ? userData.instructorName : "Instructor's name"}

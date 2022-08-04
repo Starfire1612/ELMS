@@ -30,7 +30,10 @@ import StudentMyLearning from "./component/student/StudentMyLearning";
 import SearchedCourses from "./component/student/SearchedCourses";
 import CourseDetailsPage from "./component/student/Components/CouseDetails.js";
 import CoursePlayer from "./component/course-player/CoursePlayer";
-import Reports from './component/instructor/Reports';
+import Reports from "./component/instructor/Reports";
+import InstructorLanding from "./component/instructor/InstructorLanding";
+import CourseReports from "./component/instructor/reports/CourseReports";
+import NoCourseReports from "./component/instructor/reports/NoCourseReports";
 
 function App() {
   const [loggedInStatus, setLoggedInStatus] = useState(false);
@@ -63,7 +66,6 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem("userToken") && localStorage.getItem("userType")) {
       greetUser();
-      if (userData) navigate(location.pathname);
     }
   }, [fetchUserFlag]);
 
@@ -177,14 +179,28 @@ function App() {
         <Route
           path="/instructor"
           element={
-            <InstructorDashboard
+            <InstructorLanding
               handleLogout={handleLogout}
               userData={userData}
             />
           }
-        />
-        <Route path="/instructor/reports"
-        element={<Reports userData={userData}/>}/>
+        >
+          <Route
+            path="dashboard"
+            element={<InstructorDashboard userData={userData} />}
+          />
+          <Route path="reports" element={<Reports userData={userData} />}>
+            <Route path="" exact element={<NoCourseReports />} />
+            <Route
+              path=":courseId"
+              element={<CourseReports userData={userData} />}
+            />
+            <Route path="*" element={<Navigate to="/instructor/reports" />} />
+          </Route>
+          <Route path="" element={<Navigate to="/instructor/dashboard" />} />
+          <Route path="*" element={<Navigate to="/instructor/dashboard" />} />
+        </Route>
+
         <Route
           path="/instructor/add-course"
           element={<AddCourse userData={userData} />}
