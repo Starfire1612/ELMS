@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_URL = "http://localhost:8100/instructor/";
+const BASE_URL = "http://localhost:8765/instructor/";
 const config = {
   headers: {
     Authorization: `Bearer ${localStorage.getItem("userToken")}`,
@@ -49,7 +49,7 @@ export const postCoursePic = async (id, cid, imageFile) => {
   formData.append("file", imageFile);
 
   const result = await fetch(
-    `http://localhost:8100/instructor/${id}/course/${cid}/uploadCourseImage`,
+    `http://localhost:8765/instructor/${id}/course/${cid}/uploadCourseImage`,
     {
       method: "PATCH",
       body: formData,

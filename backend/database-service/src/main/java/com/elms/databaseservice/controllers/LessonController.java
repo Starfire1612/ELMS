@@ -23,7 +23,7 @@ import com.elms.databaseservice.repos.LessonRepo;
 import com.elms.databaseservice.services.LessonService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
 public class LessonController {
 
 	private Logger log = LoggerFactory.getLogger(LessonController.class);

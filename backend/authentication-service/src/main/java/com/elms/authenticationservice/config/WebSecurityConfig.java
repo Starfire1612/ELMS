@@ -59,16 +59,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		// We don't need CSRF for this example
-		httpSecurity.cors().configurationSource(new CorsConfigurationSource() {
-			@Override
-			public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
-			CorsConfiguration config = new CorsConfiguration();
-			config.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
-			config.setAllowedMethods(Collections.singletonList("*"));
-			config.setAllowCredentials(true);
-			config.setAllowedHeaders(Collections.singletonList("*"));
-			config.setMaxAge(3600L);   //for how long the pre-cache client requests will stay in the host
-			return config;}}).and().csrf().disable()
+		httpSecurity.cors()
+//		.cors().configurationSource(new CorsConfigurationSource() {
+//			@Override
+//			public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+//			CorsConfiguration config = new CorsConfiguration();
+//			config.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+//			config.setAllowedMethods(Collections.singletonList("*"));
+//			config.setAllowCredentials(true);
+//			config.setAllowedHeaders(Collections.singletonList("*"));
+//			config.setMaxAge(3600L);   //for how long the pre-cache client requests will stay in the host
+//			return config;}})
+		.and()
+		.csrf().disable()
 				// dont authenticate this particular request
 				.authorizeRequests().antMatchers("/authenticate", "/forgot-password/**").permitAll().
 				// all other requests need to be authenticated

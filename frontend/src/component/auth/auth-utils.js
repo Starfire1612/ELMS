@@ -1,8 +1,8 @@
 import axios from "axios";
 import bcryptjs from "bcryptjs";
 
-const REGISTRATION_URL = "http://localhost:8000";
-const AUTHENTICATION_URL = "http://localhost:8080";
+const REGISTRATION_URL = "http://localhost:8765";
+const AUTHENTICATION_URL = "http://localhost:8765";
 
 export const postRegisteredUser = async (userType, userData) => {
   userData.password = bcryptjs.hashSync(userData.password, 10);

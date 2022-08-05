@@ -3,7 +3,7 @@ export const postProfileDetails = async (userType, userData) => {
   switch (userType) {
     case "student": {
       await fetch(
-        `http://localhost:8100/student/${userData.studentId}/profile`,
+        `http://localhost:8765/student/${userData.studentId}/profile`,
         {
           method: "PATCH",
           body: JSON.stringify(userData),
@@ -24,7 +24,7 @@ export const postProfileDetails = async (userType, userData) => {
     }
     case "instructor": {
       await fetch(
-        `http://localhost:8100/instructor/${userData.instructorId}/profile`,
+        `http://localhost:8765/instructor/${userData.instructorId}/profile`,
         {
           method: "PATCH",
           body: JSON.stringify(userData),
@@ -56,7 +56,7 @@ export const postProfilePic = async (userType, userData, imageFile) => {
   switch (userType) {
     case "student": {
       const result = await fetch(
-        `http://localhost:8100/student/${userData.studentId}/uploadProfilePic`,
+        `http://localhost:8765/student/${userData.studentId}/uploadProfilePic`,
         {
           method: "PATCH",
           body: formData,
@@ -79,7 +79,7 @@ export const postProfilePic = async (userType, userData, imageFile) => {
     }
     case "instructor": {
       const result = await fetch(
-        `http://localhost:8100/instructor/${userData.instructorId}/uploadProfilePic`,
+        `http://localhost:8765/instructor/${userData.instructorId}/uploadProfilePic`,
         {
           method: "PATCH",
           body: formData,

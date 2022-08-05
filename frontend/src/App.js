@@ -48,7 +48,7 @@ function App() {
 
   const greetUser = async () => {
     await axios
-      .get("http://localhost:8080/greetings", {
+      .get("http://localhost:8765/greetings", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("userToken")}`,
         },

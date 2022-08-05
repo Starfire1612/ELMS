@@ -27,7 +27,7 @@ import com.elms.databaseservice.services.StudentCourseService;
 import com.elms.databaseservice.services.StudentService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
 public class FeedbackController {
 
 	private Logger logger = org.slf4j.LoggerFactory.getLogger(FeedbackController.class);
