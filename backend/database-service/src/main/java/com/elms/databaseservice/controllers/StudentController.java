@@ -32,7 +32,7 @@ import com.elms.databaseservice.proxy.AuthClient;
 import com.elms.databaseservice.services.CourseService;
 import com.elms.databaseservice.services.StudentService;
 import com.itextpdf.text.DocumentException;
-@CrossOrigin(origins="http://localhost:3000")
+//@CrossOrigin(origins="http://localhost:3000")
 @RestController
 public class StudentController {
 

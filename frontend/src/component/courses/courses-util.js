@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8100";
+const BASE_URL = "http://localhost:8765";
 const config = {
   headers: {
     Authorization: `Bearer ${localStorage.getItem("userToken")}`,

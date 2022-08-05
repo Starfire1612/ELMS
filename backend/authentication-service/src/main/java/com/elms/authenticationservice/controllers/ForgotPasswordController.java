@@ -24,7 +24,7 @@ import com.elms.authenticationservice.service.AuthDatabaseService;
 import com.elms.authenticationservice.service.EmailService;
 
 @RestController
-@CrossOrigin("http://localhost:3000")
+//@CrossOrigin("http://localhost:3000")
 
 public class ForgotPasswordController {
 	

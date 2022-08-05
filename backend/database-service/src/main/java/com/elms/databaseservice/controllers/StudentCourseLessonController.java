@@ -16,7 +16,7 @@ import com.elms.databaseservice.proxy.AuthClient;
 import com.elms.databaseservice.services.StudentCourseLessonService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
 public class StudentCourseLessonController {
 
 	@Autowired

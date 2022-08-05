@@ -24,7 +24,7 @@ import com.elms.registrationservice.services.AuthDatabaseService;
 import com.elms.registrationservice.services.EmailService;
 import com.elms.registrationservice.services.RegisterService;
 
-@CrossOrigin("http://localhost:3000")
+//@CrossOrigin("http://localhost:3000")
 @RestController
 public class RegistrationController {
 
