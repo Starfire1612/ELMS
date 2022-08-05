@@ -27,6 +27,7 @@ export default function CourseDescription({ userData }) {
     //....
     const response = await getCourseDetails(userData.instructorId, courseId);
     console.log("Course Details", response);
+    if (!response) return;
     setCourse(response);
     setCourseImage("data:image/png;base64," + response.courseImage);
     setIsLoading(false);
