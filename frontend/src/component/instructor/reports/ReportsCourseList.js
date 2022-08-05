@@ -70,8 +70,9 @@ function ReportsCourseList({ userData }) {
           <ClipLoader className="" color={LOADING_COLOR} size="40px" />
         </div>
       ) : (
+        tempCourseList &&
         (shouldSideNavRender || isActive) &&
-        tempCourseList.map((course) => (
+        tempCourseList?.map((course) => (
           <NavLink
             key={course.courseId}
             className={({ isActive }) =>
