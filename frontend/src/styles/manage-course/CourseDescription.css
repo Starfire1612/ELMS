@@ -29,7 +29,7 @@
 }
 
 .img-container {
-  width: 60%;
+  width: min(100%, 14rem);
   display: block;
   margin-left: auto;
   margin-right: auto;

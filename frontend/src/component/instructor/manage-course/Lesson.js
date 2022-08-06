@@ -16,7 +16,6 @@ export default function Lesson({
   const [isActive, setIsActive] = useState(false);
   const [newLesson, setNewLesson] = useState(lesson);
   const [urlChanged, setUrlChanged] = useState(false);
-  const [nameChanged, setNameChanged] = useState(false);
   const [deleteMode, setDeleteMode] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -26,10 +25,8 @@ export default function Lesson({
       ...prevLesson,
       [eventName]: event.target.value,
     }));
-    if (eventName === "lessonLink") {
+    if (event.target.name === "lessonLink") {
       setUrlChanged(true);
-    } else {
-      setNameChanged(true);
     }
   };
   const handleUrlCheck = async () => {
@@ -54,7 +51,6 @@ export default function Lesson({
   };
   const cancelStates = () => {
     setIsActive(false);
-    setNameChanged(false);
     setUrlChanged(false);
     setDeleteMode(false);
     setNewLesson(lesson);
@@ -138,8 +134,11 @@ export default function Lesson({
                 ) : (
                   <Button
                     className="type-3"
-                    onClick={() => handleUpdateLesson(newLesson)}
-                    disabled={!nameChanged || isLoading}
+                    onClick={() => {
+                      handleUpdateLesson(newLesson);
+                      cancelStates();
+                    }}
+                    disabled={isLoading}
                   >
                     Update
                     {isLoading && (

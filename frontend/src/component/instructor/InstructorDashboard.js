@@ -13,7 +13,7 @@ import { getPublishedCourses } from "./instructor-utils.js";
 import nodatafound from "../../static/images/nodatafound.png";
 
 function InstructorDashboard({ userData }) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [courseList, setCourseList] = useState([]);
   const [tempCourseList, setTempCourseList] = useState([]);
   const [searchField, setSearchField] = useState("");
@@ -26,9 +26,7 @@ function InstructorDashboard({ userData }) {
     setIsLoading(false);
   };
   useEffect(() => {
-    setIsLoading(true);
     fetchPublishedCourses();
-    setIsLoading(false);
   }, [userData]);
 
   const handleSearchFieldChange = (event) => {

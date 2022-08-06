@@ -10,7 +10,7 @@ import { ClipLoader } from "react-spinners";
 import { LOADING_COLOR } from "../../../utils/constants";
 import { getCourseDetails, postCoursePic } from "../instructor-utils.js";
 import { updateCourse, createCourse } from "./../instructor-utils";
-import defaultCourseImage from '../../student/Images/download.jpg'
+import defaultCourseImage from "../../student/Images/download.jpg";
 export default function CourseDescription({ userData }) {
   const params = useParams();
   const courseId = params.courseId;
@@ -18,6 +18,7 @@ export default function CourseDescription({ userData }) {
   const [editMode, setEditMode] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [courseImage, setCourseImage] = useState();
+  const [courseUpdated, setCourseUpdated] = useState(false);
   const [image, setImage] = useState();
 
   const fetchCourse = async () => {
@@ -26,6 +27,7 @@ export default function CourseDescription({ userData }) {
     //....
     const response = await getCourseDetails(userData.instructorId, courseId);
     console.log("Course Details", response);
+    if (!response) return;
     setCourse(response);
     setCourseImage("data:image/png;base64," + response.courseImage);
     setIsLoading(false);
@@ -66,6 +68,12 @@ export default function CourseDescription({ userData }) {
     // PATCH request to update course
     console.log("From CD", course);
     const status = await updateCourse(userData.instructorId, course);
+    if (status === 201) {
+      setCourseUpdated(true);
+      setTimeout(() => {
+        setCourseUpdated(false);
+      }, 5000);
+    }
     console.log(status);
     setIsLoading(false);
   };
@@ -74,6 +82,7 @@ export default function CourseDescription({ userData }) {
     console.log(course);
     setCourse(course);
     setEditMode(!editMode);
+    setImage("");
     //implementation of reset form to its default state
   };
   const handleModify = () => {
@@ -96,7 +105,11 @@ export default function CourseDescription({ userData }) {
         <div>
           <Form onSubmit={handleSubmit}>
             <div className="img-container">
-              <img className="course-image mb-3" src={!courseImage?defaultCourseImage:courseImage} alt="abc" />
+              <img
+                className="course-image mb-3"
+                src={!courseImage ? defaultCourseImage : courseImage}
+                alt={defaultCourseImage}
+              />
             </div>
 
             <p className="fw-500 mb-0">Course image</p>
@@ -117,6 +130,7 @@ export default function CourseDescription({ userData }) {
               <Button
                 className="type-3 ms-2 upload-course-image-button"
                 onClick={handleImageSubmit}
+                disabled={!editMode || isLoading || !image}
               >
                 Upload Image
               </Button>
@@ -125,7 +139,7 @@ export default function CourseDescription({ userData }) {
               <Form.Label className="fw-500">Course Name</Form.Label>
               <Form.Control
                 type="text"
-                value={course.courseName}
+                value={course?.courseName}
                 name="courseName"
                 readOnly
               />
@@ -137,7 +151,7 @@ export default function CourseDescription({ userData }) {
                 name="courseDescription"
                 rows={"5"}
                 placeholder="Insert your course description"
-                defaultValue={course.courseDescription}
+                defaultValue={course?.courseDescription}
                 onChange={handleChange}
                 disabled={!editMode || isLoading}
                 required
@@ -151,7 +165,7 @@ export default function CourseDescription({ userData }) {
                   type="number"
                   name="coursePrice"
                   placeholder="Enter price"
-                  defaultValue={course.coursePrice}
+                  defaultValue={course?.coursePrice}
                   min={"0"}
                   onChange={handleChange}
                   disabled={!editMode || isLoading}
@@ -165,7 +179,7 @@ export default function CourseDescription({ userData }) {
                   name="courseDiscountPercent"
                   placeholder="Enter discount in percentage"
                   min={"0"}
-                  defaultValue={course.courseDiscountPercent}
+                  defaultValue={course?.courseDiscountPercent}
                   onChange={handleChange}
                   disabled={!editMode || isLoading}
                   required
@@ -189,9 +203,19 @@ export default function CourseDescription({ userData }) {
                 style={!editMode ? { display: "none" } : {}}
               >
                 Submit
+                {isLoading && (
+                  <span className="ms-2">
+                    <ClipLoader color="white" size={15} />
+                  </span>
+                )}
               </Button>
             </div>
           </Form>
+          {courseUpdated && (
+            <p className="text-center font-monospace text-success">
+              Course updated successfully
+            </p>
+          )}
         </div>
       </div>
     </div>

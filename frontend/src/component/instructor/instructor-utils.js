@@ -83,8 +83,11 @@ export const getCourseLessons = async (id, cid) => {
   if (!id || !cid) return;
   return await axios
     .get(`${BASE_URL}${id}/courses/${cid}`, config)
-    .then((response) => response.data.lessons)
-    .catch((error) => console.log(error));
+    .then((response) => response)
+    .catch((error) => {
+      console.log(error);
+      return error;
+    });
 };
 
 export const updateLesson = async (id, cid, lessonId, lesson) => {
@@ -92,21 +95,30 @@ export const updateLesson = async (id, cid, lessonId, lesson) => {
   return await axios
     .patch(`${BASE_URL}${id}/course/${cid}/lessons/${lessonId}`, lesson, config)
     .then((response) => response)
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      console.log(error);
+      return error;
+    });
 };
 export const deleteLesson = async (id, cid, lessonId) => {
   if (!id || !cid || !lessonId) return;
   return await axios
     .delete(`${BASE_URL}${id}/course/${cid}/lessons/${lessonId}`, config)
     .then((response) => response)
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      console.log(error);
+      return error;
+    });
 };
 export const updateCourseLessons = async (id, cid, lessons) => {
   if (!id || !cid || !lessons) return;
   return await axios
     .post(`${BASE_URL}${id}/course/${cid}/lessons`, lessons, config)
     .then((response) => response)
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      console.log(error);
+      return error;
+    });
 };
 
 export const getAllCourseFeedbacksByRatings = async (id, cid, rating) => {
