@@ -52,6 +52,7 @@ public class FeedbackController {
 //
 //	}
 
+	//fetching feedbacks of the respective course
 	@GetMapping(path = "/course/{courseId}/feedback")
 	public ResponseEntity<List<Feedback>> fetchAllFeedbackByCourseId(@PathVariable("courseId") int courseId) {
 //		if(client.authorizeTheRequest(requestTokenHeader))
@@ -62,6 +63,8 @@ public class FeedbackController {
 //			return new ResponseEntity<List<Feedback>>(Collections.EMPTY_LIST,HttpStatus.BAD_REQUEST);
 	}
 
+	
+	//fetching the feedback given to the respective course by the student via student ID.
 	@GetMapping(path = "/student/{studentId}/course/{courseId}/feedback")
 	public ResponseEntity<Feedback> isFeedbackPresent(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
@@ -75,6 +78,7 @@ public class FeedbackController {
 		}
 	}
 
+	//fetching the ratings given to the respective course by the student via student ID.
 	@GetMapping(path = "/student/{studentId}/course/{courseId}/feedback/{rating}")
 	public ResponseEntity<List<Feedback>> filterFeedbackForStudent(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
@@ -89,6 +93,7 @@ public class FeedbackController {
 		}
 	}
 	
+	//fetching the feedbacks given to the respective course sorted via ratings.
 	@GetMapping(path = "/instructor/{instructorId}/course/{courseId}/feedback/{rating}")
 	public ResponseEntity<List<Feedback>> filterFeedbackForInstructor(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
@@ -104,6 +109,7 @@ public class FeedbackController {
 	}
 
 //
+	//posting the feedback given by the student to the course
 	@PostMapping(path = "/student/{studentId}/course/{courseId}/feedback")
 	public ResponseEntity<String> storeFeedback(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
@@ -121,6 +127,7 @@ public class FeedbackController {
 		}
 	}
 
+	//deleting the feedback given by the student to the course
 	@DeleteMapping(path = "/student/{studentId}/course/{courseId}/feedback")
 	public ResponseEntity<String> deleteFeedback(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,

@@ -27,7 +27,7 @@ public class StudentCourseLessonController {
 
 	private Logger log = LoggerFactory.getLogger(StudentCourseLessonController.class);
 
-//1.create
+// add every record of the lesson that the student watches in the course to keep the track of their progress and lesson count
 	@PostMapping("/student/{id}/course/{courseId}/lesson/{lid}")
 	public ResponseEntity<String> addLessonIdinStudentCourse(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,

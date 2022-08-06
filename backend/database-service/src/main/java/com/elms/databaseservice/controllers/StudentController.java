@@ -52,6 +52,7 @@ public class StudentController {
 	@Autowired
 	CourseService courseService;
 
+//	fetching all the courses in which the student is enrolled
 	@GetMapping(path = "/student/{id}/enrolled-courses")
 	public ResponseEntity<List<Course>> getAllEnrolledCourses(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id) {
 		log.info("Getting student enrolled course");
@@ -64,6 +65,7 @@ public class StudentController {
 		}
 	}
 
+// fetching the student profile details
 	@GetMapping(path = "/student/{id}/profile")
 	public ResponseEntity<Student> getStudentProfile(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id) {
 		log.info("Getting Student Profile");
@@ -77,6 +79,7 @@ public class StudentController {
 		}
 	}
 
+//modifying the student profile details
 	@PatchMapping(path = "/student/{id}/profile")
 	public ResponseEntity<Student> updateStudentProfil(@RequestHeader(value = "Authorization", required = true) 
 	String requestTokenHeader,@PathVariable("id") int id,@RequestBody Student s) {
@@ -90,6 +93,8 @@ public class StudentController {
 		}
 	}
 
+
+//	modifying the student profile picture
 	@PatchMapping(path = "/student/{id}/uploadProfilePic", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<Student> updateStudentProfilPic(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
 			@PathVariable("id") int id,
@@ -108,6 +113,7 @@ public class StudentController {
 		}
 	}
 
+//generating and sending the course completion certificate for the student
 	@GetMapping(path = "/student/{id}/course/{courseId}/certficate")
 	public ResponseEntity<String> sendCourseCompletionCertificate(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,
 			@PathVariable("courseId") int courseId) throws FileNotFoundException, DocumentException, MessagingException {
@@ -121,6 +127,8 @@ public class StudentController {
 			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+//	searching the courses in which the student is not enrolled
 	@GetMapping(path = "/student/{id}/search/{search}")
 	public ResponseEntity<List<Course>> getSearchCourses(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,@PathVariable("search") String search) {
 		log.info("getting searched course");
@@ -135,6 +143,7 @@ public class StudentController {
 	}
 
 
+//	fetching the respective course details
 	@GetMapping(path = "/student/{id}/courses/{courseId}/courseDetails")
 	public ResponseEntity<StudentCourse> getCreatedCourseDetails(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,
 			@PathVariable("courseId") int courseId) {
@@ -148,6 +157,7 @@ public class StudentController {
 		}
 	}
 
+//fetching all the course details including the feedbacks as well for the respective course	
 	@GetMapping(path = "/student/{id}/course/{cid}/view-course-details")
 	public ResponseEntity<CourseFeedbackDetails> getCourseRelateDetails(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,@PathVariable("cid") int cid) {
 		log.info("Getting all course related details ");
@@ -173,7 +183,7 @@ public class StudentController {
 		}
 	}
 	
-	
+//	enrolling a student in the course 
 	@PostMapping(path = "/student/{id}/course/{courseId}/enroll")
 	public ResponseEntity<String> enrollInCourse(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id, @PathVariable("courseId") int courseId,
 			@RequestBody Payment paymentRequest) {

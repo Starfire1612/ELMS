@@ -58,6 +58,7 @@ public class InstructorController {
 //			return new ResponseEntity<List<Instructor>>(Collections.EMPTY_LIST,HttpStatus.BAD_REQUEST);
 //	}
 
+	//fetching all the courses published by the instructor
 	@GetMapping(path = "/instructor/{id}/courses")
 	public ResponseEntity<Set<Course>> getAllCreatedCourses(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
@@ -73,6 +74,7 @@ public class InstructorController {
 		}
 	}
 
+	//fetching all the the course details
 	@GetMapping(path = "/instructor/{id}/courses/{courseId}")
 	public ResponseEntity<Course> getCreatedCourseDetails(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
@@ -87,6 +89,8 @@ public class InstructorController {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 	}
+
+	//fetching the total number of students enrolled in the course
 	@GetMapping(path = "/instructor/{id}/courses/{courseId}/registered-students")
 	public ResponseEntity<Integer> getRegisteredStudents(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
@@ -102,6 +106,7 @@ public class InstructorController {
 		}
 	}
 
+	//fetching the instructor profile detais
 	@GetMapping(path = "/instructor/{id}/profile")
 	public ResponseEntity<Instructor> viewInstructorProfile(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
@@ -116,6 +121,7 @@ public class InstructorController {
 		}
 	}
 
+	//creating a new course
 	@PostMapping(path = "/instructor/{id}/create-course",consumes = "application/json")
 	public ResponseEntity<String> createCourse(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
@@ -156,6 +162,7 @@ public class InstructorController {
 //		}
 //	}
 
+	//modifying the course
 	@PatchMapping(path = "/instructor/{id}/create-course")
 	public ResponseEntity<String> publishCourse(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
@@ -176,6 +183,7 @@ public class InstructorController {
 		}
 	}
 
+	//deleting the course
 	@DeleteMapping(path = "/instructor/{id}/courses/{courseId}")
 	public ResponseEntity<String> deleteCourse(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
@@ -191,6 +199,7 @@ public class InstructorController {
 		}
 	}
 
+	//modifying the insrtuctor profile details 
 	@PatchMapping(path = "/instructor/{id}/profile")
 	public ResponseEntity<Instructor> updateInstructorProfil(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader, @PathVariable int id,
@@ -205,6 +214,7 @@ public class InstructorController {
 		}
 	}
 
+	//uploading instructor profile pic
 	@PatchMapping(path = "/instructor/{id}/uploadProfilePic", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<String> updateInstructorProfilPic(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
@@ -220,6 +230,7 @@ public class InstructorController {
 	}
 	
 
+//	uploading course profile pic
 	@PatchMapping(path = "/instructor/{id}/course/{courseId}/uploadCourseImage", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<String> updateCoursePic(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,

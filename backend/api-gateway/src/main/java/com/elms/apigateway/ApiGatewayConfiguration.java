@@ -16,8 +16,7 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 public class ApiGatewayConfiguration {
 	@Bean
 	public RouteLocator gatewayRouter(RouteLocatorBuilder builder) {
-		return builder.routes()
-				.route(p -> p.path("/authenticate/**").uri("lb://authentication-service"))
+		return builder.routes().route(p -> p.path("/authenticate/**").uri("lb://authentication-service"))
 				.route(p -> p.path("/greetings/**").uri("lb://authentication-service"))
 				.route(p -> p.path("/authorize/**").uri("lb://authentication-service"))
 				.route(p -> p.path("/forgot-password/**").uri("lb://authentication-service"))
@@ -26,25 +25,25 @@ public class ApiGatewayConfiguration {
 				.route(p -> p.path("/instructor/**").uri("lb://database-service"))
 				.route(p -> p.path("/all-payments/**").uri("lb://database-service"))
 				.route(p -> p.path("/register-user/**").uri("lb://registration-service"))
-				.route(p -> p.path("/registration/**").uri("lb://registration-service"))
-				.build();
+				.route(p -> p.path("/registration/**").uri("lb://registration-service")).build();
 	}
-	  @Bean
-	    public CorsWebFilter corsWebFilter() {
 
-	       
-	        final CorsConfiguration config = new CorsConfiguration();
-			config.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
-			config.setAllowedMethods(Collections.singletonList("*"));
-			config.setAllowCredentials(true);
-			config.setAllowedHeaders(Collections.singletonList("*"));
-			config.setMaxAge(3600L);
-			config.setAllowedHeaders(Collections.singletonList("*"));
-	       
+	@Bean
+	public CorsWebFilter corsWebFilter() {
 
-	        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-	        source.registerCorsConfiguration("/**", config);
+		final CorsConfiguration config = new CorsConfiguration();
+		config.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+		config.setAllowedMethods(Collections.singletonList("*"));
+		config.setAllowCredentials(true);
+		config.setAllowedHeaders(Collections.singletonList("*"));
+		config.setMaxAge(3600L);
+		config.setAllowedHeaders(Collections.singletonList("*"));
+		config.addExposedHeader("Otp");
+//		config.setExposedHeaders(Arrays.asList("Otp"));
 
-	        return new CorsWebFilter(source);
-	    }  
+		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", config);
+
+		return new CorsWebFilter(source);
+	}
 }

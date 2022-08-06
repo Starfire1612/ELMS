@@ -28,6 +28,8 @@ public class StudentCourseController {
 
 	private Logger log = LoggerFactory.getLogger(StudentCourseController.class);
 
+	// updating the current lesson id for the student in a particular lesson as
+//	he/she completes one video and move on the next one
 	@PatchMapping("/student/{id}/course/{courseId}/lesson/{lid}")
 	public ResponseEntity<String> addLessonIdinStudentCourse(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,

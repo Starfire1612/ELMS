@@ -35,6 +35,7 @@ public class LessonController {
 	@Autowired
 	LessonRepo lessonRepo;
 
+	//adding lessons to the course
 	@PostMapping(path = "/instructor/{id}/course/{cid}/lessons")
 	public ResponseEntity<String> addAllLessonInCourse(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
@@ -56,6 +57,7 @@ public class LessonController {
 //
 //	@DeleteMapping()
 
+	//fetching all the lessons of the given course
 	@GetMapping(path = "/instructor/{id}/course/{cid}/lessons")
 	public ResponseEntity<List<Lesson>> getAllLessonByCourseId(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
@@ -70,7 +72,7 @@ public class LessonController {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 
 		}	}
-
+// deleting all the lessons of the course
 	@DeleteMapping(path = "/instructor/{id}/course/{cid}/lessons")
 	public ResponseEntity<String> deleteAllLessons(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
@@ -86,6 +88,7 @@ public class LessonController {
 		}
 	}
 
+	//deleting a particular lesson of the course
 	@DeleteMapping(path = "/instructor/{id}/course/{cid}/lessons/{lessonId}")
 	public ResponseEntity<String> deleteLesson(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
@@ -102,6 +105,7 @@ public class LessonController {
 		}
 	}
 
+	//updating a particular lesson of the course
 	@PatchMapping(path = "/instructor/{id}/course/{cid}/lessons/{lessonId}")
 	public ResponseEntity<String> updateLessons(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,

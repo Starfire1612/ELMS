@@ -29,6 +29,7 @@ public class PaymentController {
 	private Logger log = LoggerFactory.getLogger(PaymentController.class);
 
 	
+//	fetching the monthly revenue of the respective course
 	@GetMapping("/instructor/{id}/course/{courseId}/monthly-earnings")
 	public ResponseEntity<Float> getCourseMonthlyReveneue(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,@PathVariable("courseId") int courseId) {
 		log.info("Getting monthly Revenue");
@@ -41,6 +42,7 @@ public class PaymentController {
 		}
 	}
 	
+//	fetching all the payments
 	@GetMapping("/all-payments")
 	public ResponseEntity<List<Payment>> getAllPayments() {
 		log.info("Getting all payment details");

@@ -40,6 +40,9 @@ public class JwtAuthenticationController {
 //	@Autowired
 //	private JwtUserDetailsService userDetailsService;
 
+	// authenticating the user whether they are registered in the database or not
+	// and if yes
+//	then genrate a new jwt token for them and set the user as authenticated user and authorize them to use the app
 	@PostMapping(value = "/authenticate")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
@@ -55,9 +58,12 @@ public class JwtAuthenticationController {
 		return ResponseEntity.ok(new JwtResponse(token));
 	}
 
+	// authorizing the user according to their id and user type retriev from the token that what urls they can access
+//	from their token 	
+//	ex.the same jwt token of the one user can't be used to acccess the resources of other user
 	@PostMapping(value = "/authorize/{id}")
 	public boolean authorizeTheRequest(
-			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable int id) {
+			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader, @PathVariable int id) {
 		System.out.println("Inside authorize ==============" + requestTokenHeader);
 		String jwtToken = null;
 		String userName = null, userType = null;
@@ -71,11 +77,11 @@ public class JwtAuthenticationController {
 				if (userType.equalsIgnoreCase("student")) {
 					Student s = databaseService.findStudentByEmail(userName);
 					log.info("Token Usename" + userName + " :  \t" + "UserName from Db" + s.getStudentEmail());
-					return (s.getStudentId()==id);
+					return (s.getStudentId() == id);
 				} else {
 					Instructor i = databaseService.findInstructorByEmail(userName);
 					log.info("Token Usename" + userName + " :  \t" + "UserName from Db" + i.getInstructorEmail());
-					return (i.getInstructorId()==id);
+					return (i.getInstructorId() == id);
 				}
 			} catch (IllegalArgumentException | ExpiredJwtException e) {
 				log.error("Error validating JWT Token");
@@ -86,6 +92,8 @@ public class JwtAuthenticationController {
 
 	}
 
+//	when the user logins for the firs time the authentication provider will be called by the auth mgr 
+//	to authenticate the user and setting them in the security context
 	private Authentication authenticate(String username, String password) throws Exception {
 		try {
 			log.info("Authenticating User");
@@ -99,16 +107,15 @@ public class JwtAuthenticationController {
 		}
 	}
 
-	@GetMapping(value="/greetings")
+	@GetMapping(value = "/greetings")
 	public Object getUser(@RequestHeader("Authorization") String token) {
-		log.info("Greeetings method called with token "+token);
-		token=token.substring(7);
-		String userType=jwtTokenUtil.getUserTypeFromToken(token);
-		String userEmail=jwtTokenUtil.getUsernameFromToken(token);
-		if(userType.equalsIgnoreCase("student")) {
+		log.info("Greeetings method called with token " + token);
+		token = token.substring(7);
+		String userType = jwtTokenUtil.getUserTypeFromToken(token);
+		String userEmail = jwtTokenUtil.getUsernameFromToken(token);
+		if (userType.equalsIgnoreCase("student")) {
 			return (Student) databaseService.findStudentByEmail(userEmail);
-		}
-		else {
+		} else {
 			return (Instructor) databaseService.findInstructorByEmail(userEmail);
 		}
 	}

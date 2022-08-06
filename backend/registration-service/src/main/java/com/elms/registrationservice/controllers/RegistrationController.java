@@ -49,6 +49,7 @@ public class RegistrationController {
 		return service.getAllStudents();
 	}
 
+//	rehistering a new user based on the user type
 	@PostMapping(path = "/register-user/type/{type}")
 	public ResponseEntity<String> registerUser(@PathVariable("type") String type, @RequestBody RegisterUser user) {
 		try {
@@ -72,6 +73,7 @@ public class RegistrationController {
 		}
 	}
 
+// sending an email verification mail to the user before registering them in the databse
 	@GetMapping("/registration/email/{email}/type/{type}")
 	public ResponseEntity<String> verifyUserMail(@PathVariable("type") String usertype,
 			@PathVariable("email") String usermail) {
@@ -79,11 +81,10 @@ public class RegistrationController {
 		logger.info("Verifying Email");
 		if (usertype.equalsIgnoreCase("student")) {
 			Optional<Student> registeredStudent = Optional.ofNullable(databaseService.findStudentByEmail(usermail));
-			if (!registeredStudent.isEmpty())
-			{
+			if (!registeredStudent.isEmpty()) {
 				logger.error("User already exists");
 				return new ResponseEntity<>("Email already registered!", HttpStatus.BAD_REQUEST);
-			}else {
+			} else {
 				emailService.sendVerificationMail(usermail, otp);
 				HttpHeaders headers = new HttpHeaders();
 				headers.add("Otp", bCryptPasswordEncoder.encode(otp + ""));
@@ -94,12 +95,11 @@ public class RegistrationController {
 		} else {
 			Optional<Instructor> registeredInstructor = Optional
 					.ofNullable(databaseService.findInstructorByEmail(usermail));
-			if (!registeredInstructor.isEmpty())
-			{
+			if (!registeredInstructor.isEmpty()) {
 
 				logger.error("User already exists");
 				return new ResponseEntity<>("Email already registered!", HttpStatus.BAD_REQUEST);
-			}else {
+			} else {
 				emailService.sendVerificationMail(usermail, otp);
 				HttpHeaders headers = new HttpHeaders();
 				headers.add("Otp", otp + "");
