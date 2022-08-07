@@ -79,6 +79,10 @@ public class RegistrationController {
 			@PathVariable("email") String usermail) {
 		int otp = emailService.generateOtp();
 		logger.info("Verifying Email");
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Otp", bCryptPasswordEncoder.encode(otp + ""));
+		headers.setAccessControlExposeHeaders(List.of("Otp"));
+		logger.info("Otp Sent");
 		if (usertype.equalsIgnoreCase("student")) {
 			Optional<Student> registeredStudent = Optional.ofNullable(databaseService.findStudentByEmail(usermail));
 			if (!registeredStudent.isEmpty()) {
@@ -86,10 +90,6 @@ public class RegistrationController {
 				return new ResponseEntity<>("Email already registered!", HttpStatus.BAD_REQUEST);
 			} else {
 				emailService.sendVerificationMail(usermail, otp);
-				HttpHeaders headers = new HttpHeaders();
-				headers.add("Otp", bCryptPasswordEncoder.encode(otp + ""));
-				headers.setAccessControlExposeHeaders(List.of("Otp"));
-				logger.info("Otp Sent");
 				return new ResponseEntity<>("Sent OTP mail to the registered email", headers, HttpStatus.OK);
 			}
 		} else {
@@ -101,10 +101,7 @@ public class RegistrationController {
 				return new ResponseEntity<>("Email already registered!", HttpStatus.BAD_REQUEST);
 			} else {
 				emailService.sendVerificationMail(usermail, otp);
-				HttpHeaders headers = new HttpHeaders();
-				headers.add("Otp", otp + "");
-				logger.info("OTP Send");
-				return new ResponseEntity<>("Sent OTP mail to the registered email.", HttpStatus.FOUND);
+				return new ResponseEntity<>("Sent OTP mail to the registered email.", headers, HttpStatus.OK);
 			}
 		}
 	}

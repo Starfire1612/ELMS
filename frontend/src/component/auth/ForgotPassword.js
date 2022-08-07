@@ -91,6 +91,7 @@ function ForgotPassword() {
       password: user.password,
     };
     setIsLoading(true);
+    console.log("Inside handle change password",requestBody)
     const response = await postNewPassword(requestBody);
     if (response === 200) {
       setPasswordChanged(1);

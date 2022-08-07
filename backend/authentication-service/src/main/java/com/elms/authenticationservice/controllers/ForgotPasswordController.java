@@ -49,17 +49,16 @@ public class ForgotPasswordController {
 	public ResponseEntity<String> getUserEmail(@PathVariable("type") String usertype,
 			@PathVariable("email") String usermail) throws MalformedURLException, URISyntaxException {
 		int otp = emailService.generateOtp();
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Otp",bCryptPasswordEncoder.encode(otp+""));
+		headers.setAccessControlExposeHeaders(List.of("Otp"));
+		
 		if (usertype.equalsIgnoreCase("student")) {
 			Optional<Student> registeredStudent = Optional.ofNullable(databaseService.findStudentByEmail(usermail));
 			if (registeredStudent.isEmpty())
 				return new ResponseEntity<>("No such user email registered!", HttpStatus.NOT_FOUND);
 			else {
 				emailService.sendForgotPasswordOTPEmail(usermail, otp);
-				HttpHeaders headers = new HttpHeaders();
-				URL uri=new URL("http://localhost:8765/forgot-password");
-				headers.setLocation(uri.toURI());
-				headers.add("Otp",bCryptPasswordEncoder.encode(otp+""));
-				headers.setAccessControlExposeHeaders(List.of("Otp"));
 				logger.info(headers.getAccessControlExposeHeaders().toArray().toString());
 
 				return new ResponseEntity<>("Sent OTP mail to the registered email",headers, HttpStatus.OK);
@@ -71,9 +70,8 @@ public class ForgotPasswordController {
 				return new ResponseEntity<>("No such user email registered!", HttpStatus.NOT_FOUND);
 			else {
 				emailService.sendForgotPasswordOTPEmail(usermail, otp);
-				HttpHeaders headers = new HttpHeaders();
-				headers.add("Otp", otp + "");
-				return new ResponseEntity<>("Sent OTP mail to the registered email.", HttpStatus.FOUND);
+				logger.info(headers.getAccessControlExposeHeaders().toArray().toString());
+				return new ResponseEntity<>("Sent OTP mail to the registered email",headers, HttpStatus.OK);
 			}
 		}
 	}

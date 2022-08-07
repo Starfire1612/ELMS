@@ -21,7 +21,7 @@ function PlayerNavBar(props) {
 
   console.log("Progress in navbar:",props.progress)
   return (
-    <Navbar expand="xl" className="nav-bg justify-content-between px-2">
+    <Navbar expand="xl" className="nav-bg justify-content-between px-5 ">
       <Link to="../../home" className="return-home">
         <CaretLeft></CaretLeft>
         <span className="back-to-path"> Back to Learning path</span>

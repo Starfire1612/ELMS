@@ -74,34 +74,50 @@ export default function Feedback() {
       {!isLoading && feedback ? (
         <>
           <div>
-            <Rating
-              onClick={handleRating}
-              initialValue={existingFeedback ? feedback.ratings : 1}
-              ratingValue={rating}
-            />
-          </div>
-          <textarea
-            name="content"
-            onChange={handleChange}
-            placeholder="What's your experience?"
-            defaultValue={existingFeedback ? feedback.content : "Informative"}
-            style={styles.textarea}
-          />
-          <div>
-            {existingFeedback ? (
-              <div>
-                <Button onClick={handleSubmit} style={styles.button}>
-                  Edit{" "}
-                </Button>
-                <Button onClick={handleDelete} style={styles.button}>
-                  Delete{" "}
-                </Button>
+            <div className="rating-content" key={feedback.feedbackId}>
+              <div className="circular me-4 fw-bold fs-5">
+               {feedback.studentName?feedback.studentName[0]:"A"}
               </div>
-            ) : (
-              <Button onClick={handleSubmit} style={styles.button}>
-                Submit{" "}
-              </Button>
-            )}
+              <div>
+                <div>
+                  <span className="fw-semibold fs-5">
+                    {feedback.studentName}
+                  </span>
+                </div>
+                <div>
+                  <Rating
+                    onClick={handleRating}
+                    initialValue={existingFeedback ? feedback.ratings : 1}
+                    ratingValue={rating}
+                  />
+                </div>
+                <textarea
+                  name="content"
+                  onChange={handleChange}
+                  placeholder="What's your experience?"
+                  defaultValue={
+                    existingFeedback ? feedback.content : "Informative"
+                  }
+                  style={styles.textarea}
+                />
+                <div style={styles.buttonsContainer}>
+                  {existingFeedback ? (
+                    <div>
+                      <Button onClick={handleSubmit} style={styles.button}>
+                        Edit{" "}
+                      </Button>
+                      <Button onClick={handleDelete} style={styles.button}>
+                        Delete{" "}
+                      </Button>
+                    </div>
+                  ) : (
+                    <Button onClick={handleSubmit} style={styles.button}>
+                      Submit{" "}
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         </>
       ) : (
@@ -117,20 +133,28 @@ const styles = {
   container: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
+    align: "left",
   },
   textarea: {
     border: "1px solid #a9a9a9",
     borderRadius: 5,
     padding: 10,
-    margin: "20px 0",
+    marginBlock:"10px",
     minHeight: "150px",
-    width: "80%",
+    width: "100%",
   },
+
   button: {
     border: "1px solid #a9a9a9",
     borderRadius: 5,
-    width: 300,
+    width: 150,
+    maxWidth: 200,
     padding: 10,
+    backgroundColor:"purple",
+  },
+  buttonsContainer: {
+    display: "flex",
+    flexDirection:"row",
+    align: "left"
   },
 };

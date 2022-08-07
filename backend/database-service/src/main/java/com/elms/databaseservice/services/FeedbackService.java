@@ -120,7 +120,7 @@ public class FeedbackService {
 		Feedback feedback = repo.findByStudentCourseId(studentId, courseId);
 		if (feedback == null) {
 			logger.info("Feedback does not exist");
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(null, HttpStatus.OK);
 		} else
 			return new ResponseEntity<>(feedback, HttpStatus.OK);
 	}

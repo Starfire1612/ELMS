@@ -17,10 +17,10 @@ export default function Player({ videoId, playNext, updateCurrentLessonId }) {
         url={videoId}
         width="100%"
         height="550px"
-        controls="true"
+        controls={true}
         onEnded={playNext}
         onPlay={updateCurrentLessonId}
-        playing="true"
+        playing={true}
       />
       ;
     </div>
