@@ -85,7 +85,6 @@ function ForgotPassword() {
     if (user.password !== user.confirmPassword || user.password.length < 8) {
       return;
     }
-    console.log(user);
     const requestBody = {
       type: user.type,
       useremail: user.email,
@@ -95,7 +94,7 @@ function ForgotPassword() {
     const response = await postNewPassword(requestBody);
     if (response === 200) {
       setPasswordChanged(1);
-      isLoading(true);
+      setIsLoading(true);
       setTimeout(() => {
         navigate("/");
       }, 3000);
@@ -172,7 +171,7 @@ function ForgotPassword() {
                     type="password"
                     name="otp"
                     onChange={handleChange}
-                    placeholder="otp"
+                    placeholder="OTP"
                     disabled={!isOtpSent || isLoading}
                     required
                   />
@@ -223,7 +222,9 @@ function ForgotPassword() {
             </>
           ) : (
             <div className="password-changed border border-secondary text-center mb-2 mx-auto">
-              <p className="fs-3 mb-0">Password Changed Successfully</p>
+              <p className="font-monospace text-success mb-0">
+                Password Changed Successfully
+              </p>
             </div>
           )}
 
