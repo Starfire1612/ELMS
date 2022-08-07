@@ -14,13 +14,14 @@ function TabsB(props) {
       defaultActiveKey="Description"
       id="uncontrolled-tab-example"
       className="mb-3"
+      justify
     >
 
-      <Tab className="tab-desc"  eventKey="Description" title="Overview">
+      <Tab tabClassName="tab-text-color" eventKey="Description" title="Overview">
       <Description desc={props.desc}/>
       </Tab>
    
-      <Tab eventKey="Feedback" title="Feedback" >
+      <Tab tabClassName="tab-text-color" eventKey="Feedback" title="Feedback" >
         <Feedback/>
         <ShowFeedback feedbacks={props.feedbacks}/>
       </Tab>

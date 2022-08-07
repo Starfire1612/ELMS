@@ -15,7 +15,7 @@ export const postRegisteredUser = async (userType, userData) => {
 export const getEmailVerificationMail = async (userEmail, userType) => {
   return await axios
     .get(`${REGISTRATION_URL}/registration/email/${userEmail}/type/${userType}`)
-    .then((response) => response.headers["Otp"])
+    .then((response) => response.headers.otp)
     .catch((error) => error.response.status);
 };
 
