@@ -14,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,9 +59,7 @@ public class ForgotPasswordController {
 				URL uri=new URL("http://localhost:8765/forgot-password");
 				headers.setLocation(uri.toURI());
 				headers.add("Otp",bCryptPasswordEncoder.encode(otp+""));
-//				headers.set("Otp",bCryptPasswordEncoder.encode(otp+""));
-//				headers.setAccessControlExposeHeaders(List.of("Otp"));
-//				response.setHeader("Otp",bCryptPasswordEncoder.encode(otp+""));
+				headers.setAccessControlExposeHeaders(List.of("Otp"));
 				logger.info(headers.getAccessControlExposeHeaders().toArray().toString());
 
 				return new ResponseEntity<>("Sent OTP mail to the registered email",headers, HttpStatus.OK);
