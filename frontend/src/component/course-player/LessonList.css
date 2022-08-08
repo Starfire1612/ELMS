@@ -1,9 +1,9 @@
 .list-items{
     list-style: decimal;
-    height: 60px;
+    min-height: 60px;
     font-size:auto;
     width: 100%;
-    border-top: 1px solid rgb(105, 103, 103);
+    border-top: 1px solid rgb(219, 207, 207);
     background-color: white;
     display: flex;
     justify-content: space-between;

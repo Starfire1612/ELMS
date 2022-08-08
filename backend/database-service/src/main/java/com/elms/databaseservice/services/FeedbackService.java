@@ -120,13 +120,13 @@ public class FeedbackService {
 		Feedback feedback = repo.findByStudentCourseId(studentId, courseId);
 		if (feedback == null) {
 			logger.info("Feedback does not exist");
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(null, HttpStatus.OK);
 		} else
 			return new ResponseEntity<>(feedback, HttpStatus.OK);
 	}
 
 	public ResponseEntity<List<Feedback>> filterFeedback(int courseId, int rating) {
-		List<Feedback> feedbacks = repo.findByRatings(rating);
+		List<Feedback> feedbacks = repo.findByRatings(courseId,rating);
 		return new ResponseEntity<List<Feedback>>(feedbacks, HttpStatus.OK);
 	}
 }

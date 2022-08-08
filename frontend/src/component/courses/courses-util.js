@@ -1,26 +1,28 @@
 import axios from "axios";
 
 const BASE_URL = "http://localhost:8765";
-const config = {
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-  },
+const config = () => {
+  return {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+    },
+  };
 };
+
 export const getAllPublishedCourse = async (id, page) => {
-  
   console.log("Calling get allcourse from course util for student");
 
   if (!id) {
     console.log(id, page);
     return;
   }
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-    },
-  };
+  // const config = {
+  //   headers: {
+  //     Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+  //   },
+  // };
   return await axios
-    .get(`${BASE_URL}/student/${id}/published-courses/${page}`, config)
+    .get(`${BASE_URL}/student/${id}/published-courses/${page}`, config())
     .then((response) => response.data)
     .catch((error) => error);
 };
@@ -31,7 +33,7 @@ export const getCourseDetails = async (courseId, id) => {
   return await axios
     .get(
       `${BASE_URL}/student/${id}/course/${courseId}/view-course-details`,
-      config
+      config()
     )
     .then((response) => response.data)
     .catch((error) => console.log(error));
@@ -41,7 +43,7 @@ export const getStudentEnrolledCourses = async (sid) => {
   // console.log("Index:"+page)
   if (!sid) return;
   return await axios
-    .get(`${BASE_URL}/student/${sid}/enrolled-courses`, config)
+    .get(`${BASE_URL}/student/${sid}/enrolled-courses`, config())
     .then((response) => response.data)
     .catch((error) => console.log(error));
 };
@@ -50,7 +52,7 @@ export const getSearchedCourses = async (sid, searchQuery) => {
   // console.log("Index:"+page)
   if (!sid || !searchQuery) return;
   return await axios
-    .get(`${BASE_URL}/student/${sid}/search/${searchQuery}`, config)
+    .get(`${BASE_URL}/student/${sid}/search/${searchQuery}`, config())
     .then((response) => response.data)
     .catch((error) => console.log(error));
 };
@@ -65,7 +67,7 @@ export const enrollStudentInCourse = async (
     .post(
       `${BASE_URL}/student/${id}/course/${courseId}/enroll`,
       paymentResponseBody,
-      config
+      config()
     )
     .then((response) => response.data)
     .catch((error) => console.log(error));
@@ -73,7 +75,7 @@ export const enrollStudentInCourse = async (
 export const getEnrolledStudentCourseDetails = async (id, cid) => {
   if (!id || !cid) return;
   return await axios
-    .get(`${BASE_URL}/student/${id}/courses/${cid}/courseDetails`, config)
+    .get(`${BASE_URL}/student/${id}/courses/${cid}/courseDetails`, config())
     .then((response) => response.data)
     .catch((error) => console.log(error));
 };
@@ -92,7 +94,7 @@ export const updateStudentCourseCurrentLesson = async (
     .patch(
       `${BASE_URL}/student/${id}/course/${cid}/lesson/${lid}`,
       lesson,
-      config
+      config()
     )
     .then((response) => console.log(response.data))
     .catch((error) => console.log(error));
@@ -105,7 +107,7 @@ export const addLessonInStudentCourse = async (id, cid, lid) => {
     .post(
       `${BASE_URL}/student/${id}/course/${cid}/lesson/${lid}`,
       "doesNotMatter",
-      config
+      config()
     )
     .then((response) => response.data)
     .catch((error) => console.log(error));
@@ -113,29 +115,32 @@ export const addLessonInStudentCourse = async (id, cid, lid) => {
 
 export const sendCertificateCompletionMail = async (sid, cid) => {
   return await axios
-    .get(`${BASE_URL}/student/${sid}/course/${cid}/certficate`, config)
+    .get(`${BASE_URL}/student/${sid}/course/${cid}/certficate`, config())
     .then((response) => console.log(response.data))
     .catch((error) => console.log(error));
 };
 
-
-export const postEditFeedback=async(sid,cid,feedback)=>{
+export const postEditFeedback = async (sid, cid, feedback) => {
   return await axios
-  .post(`${BASE_URL}/student/${sid}/course/${cid}/feedback`,feedback, config)
-  .then((response) => console.log(response.data))
-  .catch((error) => console.log(error));
-}
+    .post(
+      `${BASE_URL}/student/${sid}/course/${cid}/feedback`,
+      feedback,
+      config()
+    )
+    .then((response) => console.log(response.data))
+    .catch((error) => console.log(error));
+};
 
-export const deleteFeedback=async(sid,cid)=>{
+export const deleteFeedback = async (sid, cid) => {
   return await axios
-  .delete(`${BASE_URL}/student/${sid}/course/${cid}/feedback`, config)
-  .then((response) => console.log(response.data))
-  .catch((error) => console.log(error));
-}
+    .delete(`${BASE_URL}/student/${sid}/course/${cid}/feedback`, config())
+    .then((response) => console.log(response.data))
+    .catch((error) => console.log(error));
+};
 
-export const isFeedbackPresent=async(sid,cid)=>{
+export const isFeedbackPresent = async (sid, cid) => {
   return await axios
-  .get(`${BASE_URL}/student/${sid}/course/${cid}/feedback`, config)
-  .then((response) => response.data)
-  .catch((error) => console.log(error));
-}
+    .get(`${BASE_URL}/student/${sid}/course/${cid}/feedback`, config())
+    .then((response) => response.data)
+    .catch((error) => console.log(error));
+};

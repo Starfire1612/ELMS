@@ -5,7 +5,7 @@ import { ClipLoader } from "react-spinners";
 import "../../styles/Register.css";
 import { LOADING_COLOR } from "../../utils/constants";
 import { postAuthenticatedUser } from "./auth-utils";
-import { toast,ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -34,11 +34,10 @@ function SignIn({ handleLogin }) {
     if (_userToken) {
       localStorage.setItem("userToken", _userToken);
       localStorage.setItem("userType", user.type);
-      // console.log(typeof localStorage.getItem("userToken"));
-      toast.success("🦄 Loading Homepage", {
+      toast.success("Loading Homepage", {
         position: "top-right",
         autoClose: 5000,
-        onClose:handleLogin
+        onClose: handleLogin,
       });
 
       setIsLoading(false);
@@ -46,9 +45,8 @@ function SignIn({ handleLogin }) {
   };
 
   return (
-
     <div className="contain">
-    <ToastContainer/>
+      <ToastContainer />
       <Form onSubmit={handleSubmit}>
         <div className="form p-3">
           <h3 className="mb-3"> Sign-In</h3>

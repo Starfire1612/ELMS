@@ -10,7 +10,7 @@ import { deleteFeedback } from "./../courses/courses-util";
 import { ClipLoader } from "react-spinners";
 import { LOADING_COLOR } from "../../utils/constants.js";
 
-export default function Feedback() {
+export default function Feedback(props) {
   const params = useParams();
   const studentId = params.studentId;
   const courseId = params.courseId;
@@ -67,46 +67,63 @@ export default function Feedback() {
   useEffect(() => {
     checkFeedbackExists();
   }, []);
+  
 
   return (
     <div style={styles.container}>
       {/* <h2> Feedback </h2> */}
       {!isLoading && feedback ? (
         <>
-          <div>
-            <Rating
-              onClick={handleRating}
-              initialValue={existingFeedback ? feedback.ratings : 1}
-              ratingValue={rating}
-            />
-          </div>
-          <textarea
-            name="content"
-            onChange={handleChange}
-            placeholder="What's your experience?"
-            defaultValue={existingFeedback ? feedback.content : "Informative"}
-            style={styles.textarea}
-          />
-          <div>
-            {existingFeedback ? (
-              <div>
-                <Button onClick={handleSubmit} style={styles.button}>
-                  Edit{" "}
-                </Button>
-                <Button onClick={handleDelete} style={styles.button}>
-                  Delete{" "}
-                </Button>
+          <div className="text-align-center" >
+            <div className="rating-content" key={feedback.feedbackId}>
+              <div className="circular me-4 fw-bold fs-5">
+               {props.userName[0]}
               </div>
-            ) : (
-              <Button onClick={handleSubmit} style={styles.button}>
-                Submit{" "}
-              </Button>
-            )}
+              <div style={{'width':'100%'}}>
+                <div>
+                  <span className="fw-semibold fs-5 ms-1 mb-5">
+                    {props.userName}
+                  </span>
+                </div>
+                <div>
+                  <Rating
+                    onClick={handleRating}
+                    initialValue={existingFeedback ? feedback.ratings : 1}
+                    ratingValue={rating}
+                  />
+                </div>
+                <textarea
+                  name="content"
+                  onChange={handleChange}
+                  placeholder="What's your experience?"
+                  defaultValue={
+                    existingFeedback ? feedback.content : "Informative"
+                  }
+                  style={styles.textarea}
+                />
+                <div style={styles.buttonsContainer}>
+                  {existingFeedback ? (
+                    <div>
+                      <Button onClick={handleSubmit} style={styles.button}>
+                        Edit{" "}
+                      </Button>
+                      <Button onClick={handleDelete} style={styles.button}>
+                        Delete{" "}
+                      </Button>
+                    </div>
+                  ) : (
+                    <Button onClick={handleSubmit} style={styles.button}>
+                      Submit{" "}
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         </>
       ) : (
         <>
-          <ClipLoader color={LOADING_COLOR} size="50px" />
+          <ClipLoader className="d-block mx-auto my-auto align-items-center justify-content-center" color={LOADING_COLOR} size="50px" />
         </>
       )}
     </div>
@@ -117,20 +134,28 @@ const styles = {
   container: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
+    align: "left",
   },
   textarea: {
     border: "1px solid #a9a9a9",
     borderRadius: 5,
     padding: 10,
-    margin: "20px 0",
+    marginBlock:"10px",
     minHeight: "150px",
-    width: "80%",
+    width: "100%",
   },
+
   button: {
     border: "1px solid #a9a9a9",
     borderRadius: 5,
-    width: 300,
+    width: 150,
+    maxWidth: 200,
     padding: 10,
+    backgroundColor:"purple",
+  },
+  buttonsContainer: {
+    display: "flex",
+    flexDirection:"row",
+    align: "left"
   },
 };
