@@ -14,16 +14,8 @@
     color: rgb(209, 214, 214);
 }
 
-.course-topic {
-    font-size: xx-large;
-    color: white;
-}
 
 @media(max-width:903px) {
-    .course-topic {
-        font-size: large;
-        color: white;
-    }
 
     .generate-certificate {
         font-size: large;
@@ -36,7 +28,18 @@
     }
 }
 
-
+.tool-tip {
+    position: absolute;
+    z-index: 101;
+    min-height: 3rem;
+    min-width: 5rem;
+    background: white;
+    border-radius: 0;
+    display: grid;
+    place-items: center;
+    border: 1px solid gray;
+    padding: 0.8rem
+}
 
 .generate-certificate {
     color: white;
@@ -44,11 +47,12 @@
     margin-left: 2%;
     text-decoration: none;
     font-size: larger;
-
+    cursor: pointer;
 }
 
 .generate-certificate:hover {
     color: rgb(209, 214, 214);
+
 }
 
 .progress-bar {
@@ -60,6 +64,7 @@
     background-color: #1c1d1f;
 }
 
+
 @media(max-width:1205px) {
     .nav-bg {
         justify-content: center;
@@ -70,11 +75,7 @@
         margin-right: 12%;
     }
 
-    .course-topic {
-        justify-content: center;
-    }
 }
-
 
 @media(max-width:1199px) {
     .generate-certificate {
@@ -104,11 +105,6 @@
 
     .return-home {
         margin-left: 0%;
-    }
-
-    .course-topic {
-        margin-left: 0%;
-
     }
 
     .progress-bar {
