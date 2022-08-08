@@ -34,6 +34,7 @@ export default function CoursePlayer({ userData }) {
 
 
 
+
   useEffect(() => {
     window.onpopstate = e => {
       if(location.pathname==='/student/${userData.studentId}/course/${courseId}/lesson/')
@@ -54,6 +55,13 @@ export default function CoursePlayer({ userData }) {
     setCourseLessonDetails(response);
     setLessonList(response.courseId.lessons);
     setProgressPercent(response.courseCompletionPercent);
+    var pos = response.courseId.lessons.map((e) =>{
+      return e.lessonId;
+  }).indexOf(response.currentLessonId);
+  console.log(pos);
+  if(pos==-1)
+  pos=0;
+  setCurrentLessonIndex(pos);
     setIsLoading(false);
   };
 
