@@ -22,7 +22,7 @@ function TabsB(props) {
       </Tab>
    
       <Tab tabClassName="tab-text-color" eventKey="Feedback" title="Feedback" >
-        <Feedback/>
+        <Feedback userName={props.userData.studentName}/>
         <ShowFeedback feedbacks={props.feedbacks}/>
       </Tab>
     </Tabs>

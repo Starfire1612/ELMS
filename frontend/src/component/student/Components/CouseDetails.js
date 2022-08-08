@@ -53,7 +53,7 @@ export default function CouseDetails({ userData }) {
   return (
     <div className="course-view-container">
       {isLoading || !courseDetails ? (
-        <ClipLoader color={LOADING_COLOR} size="50px" />
+        <ClipLoader className="d-block mx-auto my-auto align-items-center justify-content-center" color={LOADING_COLOR} size="50px" />
       ) : (
         <>
           <CourseNavBar

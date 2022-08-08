@@ -136,7 +136,7 @@ export default function Curriculum({ userData }) {
         <hr className="mb-5 hr" />
         {isLoading && (
           <div className="loading-courses-list my-5">
-            <ClipLoader color={LOADING_COLOR} size="50px" />
+            <ClipLoader className="d-block mx-auto my-auto align-items-center justify-content-center" color={LOADING_COLOR} size="50px" />
           </div>
         )}
         {!lessons?.length && !isLoading ? (

@@ -10,7 +10,7 @@ import { deleteFeedback } from "./../courses/courses-util";
 import { ClipLoader } from "react-spinners";
 import { LOADING_COLOR } from "../../utils/constants.js";
 
-export default function Feedback() {
+export default function Feedback(props) {
   const params = useParams();
   const studentId = params.studentId;
   const courseId = params.courseId;
@@ -67,21 +67,22 @@ export default function Feedback() {
   useEffect(() => {
     checkFeedbackExists();
   }, []);
+  
 
   return (
     <div style={styles.container}>
       {/* <h2> Feedback </h2> */}
       {!isLoading && feedback ? (
         <>
-          <div>
+          <div className="text-align-center" >
             <div className="rating-content" key={feedback.feedbackId}>
               <div className="circular me-4 fw-bold fs-5">
-               {feedback.studentName?feedback.studentName[0]:"A"}
+               {props.userName[0]}
               </div>
-              <div>
+              <div style={{'width':'100%'}}>
                 <div>
-                  <span className="fw-semibold fs-5">
-                    {feedback.studentName}
+                  <span className="fw-semibold fs-5 ms-1 mb-5">
+                    {props.userName}
                   </span>
                 </div>
                 <div>
@@ -122,7 +123,7 @@ export default function Feedback() {
         </>
       ) : (
         <>
-          <ClipLoader color={LOADING_COLOR} size="50px" />
+          <ClipLoader className="d-block mx-auto my-auto align-items-center justify-content-center" color={LOADING_COLOR} size="50px" />
         </>
       )}
     </div>

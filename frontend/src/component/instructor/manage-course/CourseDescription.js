@@ -98,7 +98,7 @@ export default function CourseDescription({ userData }) {
         <div className={isLoading ? "layer" : ""}>
           {isLoading && (
             <div className="abc">
-              <ClipLoader color={LOADING_COLOR} />
+              <ClipLoader className="d-block mx-auto my-auto align-items-center justify-content-center" color={LOADING_COLOR} />
             </div>
           )}
         </div>
@@ -205,7 +205,7 @@ export default function CourseDescription({ userData }) {
                 Submit
                 {isLoading && (
                   <span className="ms-2">
-                    <ClipLoader color="white" size={15} />
+                    <ClipLoader className="d-block mx-auto my-auto align-items-center justify-content-center" color="white" size={15} />
                   </span>
                 )}
               </Button>
