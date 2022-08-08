@@ -175,7 +175,7 @@ public class StudentController {
 	public ResponseEntity<Page<Course>> getAllPublishedCourses(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,@PathVariable("id") int id,@PathVariable("page") int page) {
 		log.info("Getting all course "+requestTokenHeader);
 		if(client.authorizeTheRequest(requestTokenHeader,id))
-			return courseService.getAllCourses(page,3,id);
+			return courseService.getAllCourses(page,4,id);
 		else
 		{
 			log.error("User not authenticated");

@@ -6,7 +6,7 @@ import TabsB from "./TabsB";
 import PlayerNavBar from "./PlayerNavbar";
 import { ClipLoader } from "react-spinners";
 
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate,useLocation } from "react-router-dom";
 import {
   ArrowLeftCircleFill,
   ArrowRightCircleFill,
@@ -28,6 +28,20 @@ export default function CoursePlayer({ userData }) {
   const [courseLessonDetails, setCourseLessonDetails] = useState({});
   const [progressPercent, setProgressPercent] = useState(0);
   const [courseDetails, setCourseDetails] = useState({});
+  const navigate = useNavigate();
+  const location = useLocation();
+
+
+
+
+  useEffect(() => {
+    window.onpopstate = e => {
+      if(location.pathname==='/student/${userData.studentId}/course/${courseId}/lesson/')
+      {
+        navigate("/home/my-learning", { replace: true });
+      }
+  };
+  },[location]);
 
   const loadCourseLessons = async () => {
     setIsLoading(true);
@@ -162,11 +176,12 @@ export default function CoursePlayer({ userData }) {
             <TabsB
               desc={courseLessonDetails.courseId.courseDescription}
               feedbacks={courseDetails.feedbacks}
+              userData={userData}
             ></TabsB>
           </div>
         </div>
       ) : (
-        <ClipLoader color={LOADING_COLOR} size="50px" />
+        <ClipLoader className="d-block mx-auto mt-5 align-items-center justify-content-center" color={LOADING_COLOR} size="50px" />
       )}
     </>
   );

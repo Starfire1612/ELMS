@@ -52,7 +52,7 @@ function StudentNavigationbar({ handleLogout, userName }) {
         >
           <div className="p-1">
             <div className="text-center dark-gray mt-0 dropdown-menu-link">
-              <Link to="/profile">
+              <Link to="/profile/edit-profile">
                 <PersonCircle className="me-2" />
                 Profile
               </Link>

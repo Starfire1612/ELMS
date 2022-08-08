@@ -47,7 +47,7 @@ function StudentExploreCourses({ userData }) {
 
   return (
     <div className="student-dashboard-body">
-      {userData ? (
+      {!isLoading&&userData ? (
         <>
           <div className="carousel-container mb-5">
             <DashboardCarousel />
@@ -60,7 +60,7 @@ function StudentExploreCourses({ userData }) {
           <div className="course-list">
             {isLoading && !courses? (
               <div className="loading-courses-list my-5">
-                <ClipLoader color={LOADING_COLOR} size="50px" />
+                <ClipLoader className="d-block mx-auto my-auto align-items-center justify-content-center" color={LOADING_COLOR} size="50px" />
               </div>
             ) : (
               <Courses courses={courses} userData={userData} />
@@ -86,7 +86,7 @@ function StudentExploreCourses({ userData }) {
           </div>
         </>
       ) : (
-        <div>Hang in there</div>
+        <ClipLoader className="d-block mx-auto my-auto align-items-center justify-content-center" color={LOADING_COLOR} size="50px" />
       )}
     </div>
   );
