@@ -125,6 +125,7 @@ public class FeedbackService {
 			return new ResponseEntity<>(feedback, HttpStatus.OK);
 	}
 
+	@Transactional
 	public ResponseEntity<List<Feedback>> filterFeedback(int courseId, int rating) {
 		List<Feedback> feedbacks = repo.findByRatings(courseId,rating);
 		return new ResponseEntity<List<Feedback>>(feedbacks, HttpStatus.OK);

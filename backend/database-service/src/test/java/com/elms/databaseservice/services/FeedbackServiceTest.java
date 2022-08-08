@@ -222,5 +222,17 @@ class FeedbackServiceTest {
 		ResponseEntity<Feedback> expected = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		assertEquals(expected,actual);
 	}
+	
+	@Test
+	void testFilterFeedback()
+	{
+		Feedback feedback = new Feedback();
+		feedback.setRatings(3);
+		feedback.setStudentName("Prateek");
+		when(mockFeedbackRepo.findByRatings(1, 3)).thenReturn(List.of(feedback));
+		ResponseEntity<List<Feedback>> actual = service.filterFeedback(1, 3);
+		ResponseEntity<List<Feedback>> expected=new ResponseEntity<List<Feedback>>(List.of(feedback), HttpStatus.OK);
+		assertEquals(expected,actual);
+	}
 
 }
