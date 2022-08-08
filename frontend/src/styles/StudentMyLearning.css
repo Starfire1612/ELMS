@@ -3,6 +3,10 @@
   background-color: #1e1d1e;
 }
 
+.courses-list {
+  display: grid;
+  place-items: center;
+}
 
 .my-learning {
   background-color: white;
