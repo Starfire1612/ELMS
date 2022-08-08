@@ -1,8 +1,8 @@
-.content-wrap
-{
-    justify-content:space-between;
+.content-wrap {
+    justify-content: space-between;
 
 }
+
 .stars {
     justify-content: flex-start;
     vertical-align: -0.3rem;
@@ -13,19 +13,3 @@
     font-size: medium;
     background-color: #1c1d1f;
 }
-.nav-bar {
-    box-shadow: 0 4px 8px rgb(0 0 0 / 8%), 0 4px 12px rgb(0 0 0 / 24%);
-    min-height: 4rem;
-    padding: 1.1rem 1.6rem;
-    position: sticky;
-    top: 0;
-    display: flex;
-    align-items: center;
-    z-index: 100;
-  }
-  
-  .nav-bar-dark {
-    background: #1c1d1f;
-    color: #fff;
-  }
-  

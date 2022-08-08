@@ -6,7 +6,7 @@ import TabsB from "./TabsB";
 import PlayerNavBar from "./PlayerNavbar";
 import { ClipLoader } from "react-spinners";
 
-import { useParams,useNavigate,useLocation } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import {
   ArrowLeftCircleFill,
   ArrowRightCircleFill,
@@ -31,17 +31,16 @@ export default function CoursePlayer({ userData }) {
   const navigate = useNavigate();
   const location = useLocation();
 
-
-
-
   useEffect(() => {
-    window.onpopstate = e => {
-      if(location.pathname==='/student/${userData.studentId}/course/${courseId}/lesson/')
-      {
+    window.onpopstate = (e) => {
+      if (
+        location.pathname ===
+        `/student/${userData.studentId}/course/${courseId}/lesson/`
+      ) {
         navigate("/home/my-learning", { replace: true });
       }
-  };
-  },[location]);
+    };
+  }, [location]);
 
   const loadCourseLessons = async () => {
     setIsLoading(true);
@@ -181,7 +180,11 @@ export default function CoursePlayer({ userData }) {
           </div>
         </div>
       ) : (
-        <ClipLoader className="d-block mx-auto mt-5 align-items-center justify-content-center" color={LOADING_COLOR} size="50px" />
+        <ClipLoader
+          className="d-block mx-auto mt-5 align-items-center justify-content-center"
+          color={LOADING_COLOR}
+          size="50px"
+        />
       )}
     </>
   );

@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Trophy } from "react-bootstrap-icons";
-import { CircularProgressbarWithChildren, buildStyles } from "react-circular-progressbar";
+import {
+  CircularProgressbarWithChildren,
+  buildStyles,
+} from "react-circular-progressbar";
 import "./Progressbar.css";
 
 function Progressbar(props) {
@@ -8,12 +11,11 @@ function Progressbar(props) {
     <div className="app">
       <div className="size-bar">
         <CircularProgressbarWithChildren
-          strokeWidth={10}
+          strokeWidth={6}
           value={props.progress}
           styles={buildStyles({
-            
-            pathColor: "turquoise",
-            trailColor: "white",
+            pathColor: "white",
+            trailColor: "gray",
           })}
         >
           <Trophy className="trophy-sie"></Trophy>
