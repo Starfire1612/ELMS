@@ -34,7 +34,7 @@ function SearchedCourses({ userData }) {
       <div className="course-list">
         {isLoading ? (
           <div className="loading-courses-list my-5">
-            <ClipLoader color={LOADING_COLOR} size="50px" />
+            <ClipLoader  className="d-block mx-auto my-auto align-items-center justify-content-center"  color={LOADING_COLOR} size="50px" />
           </div>
         ) : courses.length > 0 ? (
           <Courses courses={courses} userData={userData} />
