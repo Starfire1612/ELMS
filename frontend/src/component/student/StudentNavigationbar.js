@@ -6,22 +6,22 @@ import { Link, useNavigate } from "react-router-dom";
 import "../../styles/Navigationbar.css";
 
 function StudentNavigationbar({ handleLogout, userName }) {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
-  const [searchQuery, setSearchQuery] = useState("")
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const handleOnChange=(event)=>{
+  const handleOnChange = (event) => {
     setSearchQuery(event.target.value);
-  }
+  };
   const handleSearchCourse = (event) => {
     event.preventDefault();
-    navigate(`/home/searchedCourses/${searchQuery}`)
+    navigate(`/home/searchedCourses/${searchQuery}`);
   };
 
   return (
     <div className="nav-bar nav-bar-light student-navbar">
       <div>
-        <Link to="../instructor">
+        <Link to="../home">
           <span className="navbar-brand">ELMS LOGO</span>
         </Link>
       </div>
@@ -34,7 +34,7 @@ function StudentNavigationbar({ handleLogout, userName }) {
           name="searchQuery"
           onChange={handleOnChange}
         />
-        <Button className="type-1 navbar-search-course-button" type="submit" >
+        <Button className="type-1 navbar-search-course-button" type="submit">
           Search
         </Button>
       </Form>
