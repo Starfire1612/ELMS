@@ -53,7 +53,6 @@ class InstructorServiceTest {
 		service.instructorRepo = mockInstructorRepo;
 		service.lessonService = mockLessonService;
 		service.studentCourseRepo=mockStudentCourseRepo;
-
 	}
 
 	@Test
