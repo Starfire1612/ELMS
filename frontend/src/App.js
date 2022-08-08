@@ -1,10 +1,4 @@
-import {
-  Route,
-  Routes,
-  Navigate,
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
+import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import "./App.css";
 import ForgotPassword from "./component/auth/ForgotPassword";
 import SignIn from "./component/auth/SignIn";
@@ -34,13 +28,13 @@ import Reports from "./component/instructor/Reports";
 import InstructorLanding from "./component/instructor/InstructorLanding";
 import CourseReports from "./component/instructor/reports/CourseReports";
 import NoCourseReports from "./component/instructor/reports/NoCourseReports";
+import DummyComponent from "./DummyComponent";
 
 function App() {
   const [loggedInStatus, setLoggedInStatus] = useState(false);
   const [fetchUserFlag, setFetchUserFlag] = useState(true);
   const [userData, setUserData] = useState({});
   const navigate = useNavigate();
-  //const location = useLocation();
 
   const reFetchUser = () => {
     setFetchUserFlag(!fetchUserFlag);
@@ -66,14 +60,15 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem("userToken") && localStorage.getItem("userType")) {
       greetUser();
+    } else {
+      localStorage.clear();
     }
   }, [fetchUserFlag]);
 
   const handleLogin = async () => {
-    console.log("Calling handleLogin from APP.js")
+    console.log("Calling handleLogin from APP.js");
     await greetUser();
-    if (userData) 
-    navigate("/");
+    if (userData) navigate("/");
   };
 
   const handleLogout = () => {
@@ -96,8 +91,10 @@ function App() {
               ) : (
                 <Navigate replace to="/instructor" />
               )
+            ) : localStorage.getItem("userType") ? (
+              <DummyComponent />
             ) : (
-              <SignIn handleLogin={handleLogin} />
+              <Navigate replace to="/sign-in" />
             )
           }
         />

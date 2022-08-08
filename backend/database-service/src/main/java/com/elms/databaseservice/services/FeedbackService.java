@@ -126,7 +126,7 @@ public class FeedbackService {
 	}
 
 	public ResponseEntity<List<Feedback>> filterFeedback(int courseId, int rating) {
-		List<Feedback> feedbacks = repo.findByRatings(rating);
+		List<Feedback> feedbacks = repo.findByRatings(courseId,rating);
 		return new ResponseEntity<List<Feedback>>(feedbacks, HttpStatus.OK);
 	}
 }

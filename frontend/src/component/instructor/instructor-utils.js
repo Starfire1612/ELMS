@@ -122,6 +122,7 @@ export const updateCourseLessons = async (id, cid, lessons) => {
 };
 
 export const getAllCourseFeedbacksByRatings = async (id, cid, rating) => {
+  if (!id || !cid || !rating) return;
   return await axios
     .get(`${BASE_URL}${id}/course/${cid}/feedback/${rating}`, config)
     .then((response) => response.data)
@@ -136,7 +137,7 @@ export const getAllCourseEnrolledStudents = async (id, cid) => {
     .catch((error) => console.log(error));
 };
 export const getMonthlyCourseReveneue = async (id, cid) => {
-  console.log(id, cid, "-----------id,cid");
+  if (!id || !cid) return;
   return await axios
     .get(`${BASE_URL}${id}/course/${cid}/monthly-earnings`, config)
     .then((response) => response.data)

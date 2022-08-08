@@ -3,12 +3,13 @@ import { getSearchedCourses } from "./../courses/courses-util";
 import { ClipLoader } from "react-spinners";
 import { LOADING_COLOR } from "../../utils/constants.js";
 import Courses from "./../courses/Courses";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import nodatafound from "../../static/images/nodatafound.png";
 
 function SearchedCourses({ userData }) {
   const [courses, setCourses] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   const params = useParams();
   //fetch all the courses
@@ -38,13 +39,15 @@ function SearchedCourses({ userData }) {
         ) : courses.length > 0 ? (
           <Courses courses={courses} userData={userData} />
         ) : (
-          <div className="mt-4 ">
-            <h2 className="text-center">No such courses!!</h2>
-            <img
-              className="d-block mx-auto mt-2 "
-              src={nodatafound}
-              alt="Third slide"
-            />
+          <div className="courses-list my-5">
+            <p className=" mb-0">No such published courses found</p>
+            <p
+              className=" go-back-to-your-courses"
+              onClick={() => navigate("/home/explore")}
+            >
+              Go back to explore courses.
+            </p>
+            <img src={nodatafound} className="search-course-not-found-image" />
           </div>
         )}
       </div>
