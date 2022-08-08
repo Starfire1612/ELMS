@@ -11,6 +11,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
@@ -39,7 +41,6 @@ class CourseServiceTest {
 		this.service = new CourseService();
 		service.courseRepo=mockCourseRepo;
 		service.feedbackRepo=mockFeedbackRepo;
-		
 	}
 
 	@Test
@@ -74,9 +75,14 @@ class CourseServiceTest {
 		c.setCoursePrice(1000);
 		c.setCourseName("html");
 		c.setCourseId(1);
-		when(mockCourseRepo.findAll()).thenReturn(Collections.singletonList(c));
-		ResponseEntity<Page<Course>> actual = service.getAllCourses(1, 1, 1);
-		ResponseEntity<Page<Course>> expected= new ResponseEntity<>(HttpStatus.OK);	
+//		when(mockCourseRepo.findAll()).thenReturn(Collections.singletonList(c));
+//		ResponseEntity<Page<Course>> actual = service.getAllCourses(1, 1, 1);
+//		ResponseEntity<Page<Course>> expected= new ResponseEntity<>(HttpStatus.OK);	
+		Page<Course> pc = new PageImpl<>(java.util.List.of(c));
+		when(mockCourseRepo.findallCoursesExceptEnrolled(PageRequest.of(0, 1), 1)).thenReturn(pc);
+		ResponseEntity<Page<Course>> actual = service.getAllCourses(0, 1, 1);
+		 ResponseEntity<Page<Course>> expected = new ResponseEntity<>(pc,HttpStatus.OK);
+		 assertEquals(expected,actual);
 	}
 	
 	@Test
