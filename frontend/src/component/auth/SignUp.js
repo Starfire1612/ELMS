@@ -90,7 +90,7 @@ function SignUp() {
         setProgress(1);
         setIsLoading(true);
         setTimeout(() => {
-          navigate("/");
+          navigate("/sign-in");
         }, 3000);
       } else if (status === 400) {
         setProgress(-1);

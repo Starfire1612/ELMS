@@ -14,7 +14,6 @@ function StudentExploreCourses({ userData }) {
   const [totalPages, setTotalPages] = useState(1);
   //fetch all the courses
   const fetchAllCourses = async () => {
-    console.log(localStorage.getItem("userToken"));
     setIsLoading(true);
 
     const responseData = await getAllPublishedCourse(
@@ -44,7 +43,7 @@ function StudentExploreCourses({ userData }) {
 
   return (
     <div className="student-dashboard-body">
-      {!isLoading&&userData ? (
+      {!isLoading && userData ? (
         <>
           <div className="carousel-container mb-5">
             <DashboardCarousel />
@@ -57,7 +56,11 @@ function StudentExploreCourses({ userData }) {
           <div className="course-list">
             {isLoading && !courses ? (
               <div className="loading-courses-list my-5">
-                <ClipLoader className="d-block mx-auto my-auto align-items-center justify-content-center" color={LOADING_COLOR} size="50px" />
+                <ClipLoader
+                  className="d-block mx-auto my-auto align-items-center justify-content-center"
+                  color={LOADING_COLOR}
+                  size="50px"
+                />
               </div>
             ) : (
               <Courses courses={courses} userData={userData} />
@@ -83,7 +86,11 @@ function StudentExploreCourses({ userData }) {
           </div>
         </>
       ) : (
-        <ClipLoader className="d-block mx-auto my-auto align-items-center justify-content-center" color={LOADING_COLOR} size="50px" />
+        <ClipLoader
+          className="d-block mx-auto my-auto align-items-center justify-content-center"
+          color={LOADING_COLOR}
+          size="50px"
+        />
       )}
     </div>
   );
