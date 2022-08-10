@@ -29,7 +29,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-//@IdClass(LessonCourseId.class)
+
 
 public class Lesson {
 	@Id
