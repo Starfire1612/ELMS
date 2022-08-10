@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { getEmailVerificationMail, postRegisteredUser } from "./auth-utils";
 import bcryptjs from "bcryptjs";
 import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 function SignUp() {
   const navigate = useNavigate();
@@ -15,10 +16,6 @@ function SignUp() {
   const [isLoading, setIsLoading] = useState(false);
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [isOtpVerified, setIsOtpVerified] = useState(false);
-  //to check the different status of of response from the server
-  //values={-2,-1,0,1}
-  //0-> default, 1-> successfully registerd, -1-> user already exists, -2-> something unexpected occured
-  const [progress, setProgress] = useState(0);
 
   const handleChange = (event) => {
     setUser((prevState) => ({
@@ -38,7 +35,7 @@ function SignUp() {
     if (!encryptedOtp || encryptedOtp === 400) {
       setIsLoading(false);
       setIsOtpSent(false);
-      setProgress(-1);
+      toast.error("User already exists!");
       return;
     }
     setUser((prevState) => ({
@@ -87,15 +84,15 @@ function SignUp() {
       const status = await postRegisteredUser(userType, userData);
       console.log(status);
       if (status === 201) {
-        setProgress(1);
+        toast.success("Registration successful", { duration: 2000 });
         setIsLoading(true);
         setTimeout(() => {
           navigate("/sign-in");
-        }, 3000);
+        }, 2000);
       } else if (status === 400) {
-        setProgress(-1);
+        toast.error("User already exists!");
       } else {
-        setProgress(-2);
+        toast.error("Something went wrong");
       }
     }
     //set isLoading to false
@@ -104,6 +101,7 @@ function SignUp() {
 
   return (
     <div className="contain">
+      <Toaster />
       <Form onSubmit={handleSubmit}>
         <div className="form p-3">
           <h3 className="mb-3 "> Sign-Up</h3>
@@ -112,21 +110,6 @@ function SignUp() {
               <div className="loading">
                 <ClipLoader color={LOADING_COLOR} />
               </div>
-            )}
-            {progress === -1 && (
-              <p className="mb-0 fs-6 fw-semibold text-danger">
-                User already exists!
-              </p>
-            )}
-            {progress === -2 && (
-              <p className="mb-0 fs-6 fw-semibold text-danger">
-                Something went wrong
-              </p>
-            )}
-            {progress === 1 && (
-              <p className="mb-0 fs-5 fw-semibold text-success">
-                Successfully registered
-              </p>
             )}
             <Form.Select
               name="type"

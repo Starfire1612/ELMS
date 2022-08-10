@@ -22,8 +22,8 @@ export const getEmailVerificationMail = async (userEmail, userType) => {
 export const postAuthenticatedUser = async (userData) => {
   return await axios
     .post(`${AUTHENTICATION_URL}/authenticate`, userData)
-    .then((response) => response.data.jwttoken)
-    .catch((error) => console.log(error)); //returns status code
+    .then((response) => response)
+    .catch((error) => error.response); //returns status code
 };
 
 export const sendForgotPasswordMail = async (userEmail, userType) => {
@@ -31,8 +31,8 @@ export const sendForgotPasswordMail = async (userEmail, userType) => {
     .get(
       `${AUTHENTICATION_URL}/forgot-password/email/${userEmail}/type/${userType}`
     )
-    .then((response) => response.headers.otp)
-    .catch((error) => console.log(error)); //returns response
+    .then((response) => response)
+    .catch((error) => error.response); //returns response
 };
 
 export const postNewPassword = async (userData) => {

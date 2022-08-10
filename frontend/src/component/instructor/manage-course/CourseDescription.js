@@ -9,8 +9,9 @@ import "../../../styles/manage-course/CourseDescription.css";
 import { ClipLoader } from "react-spinners";
 import { LOADING_COLOR } from "../../../utils/constants";
 import { getCourseDetails, postCoursePic } from "../instructor-utils.js";
-import { updateCourse, createCourse } from "./../instructor-utils";
+import { updateCourse } from "./../instructor-utils";
 import defaultCourseImage from "../../student/Images/download.jpg";
+
 export default function CourseDescription({ userData }) {
   const params = useParams();
   const courseId = params.courseId;
@@ -43,6 +44,7 @@ export default function CourseDescription({ userData }) {
       [event.target.name]: event.target.value,
     }));
   };
+
   const handleImageChange = (event) => {
     const _image = event.target.files[0];
     setImage(_image);
@@ -62,6 +64,7 @@ export default function CourseDescription({ userData }) {
     );
     console.log(updatedCourseImage);
   };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
@@ -98,7 +101,10 @@ export default function CourseDescription({ userData }) {
         <div className={isLoading ? "layer" : ""}>
           {isLoading && (
             <div className="abc">
-              <ClipLoader className="d-block mx-auto my-auto align-items-center justify-content-center" color={LOADING_COLOR} />
+              <ClipLoader
+                className="d-block mx-auto my-auto align-items-center justify-content-center"
+                color={LOADING_COLOR}
+              />
             </div>
           )}
         </div>
@@ -205,7 +211,11 @@ export default function CourseDescription({ userData }) {
                 Submit
                 {isLoading && (
                   <span className="ms-2">
-                    <ClipLoader className="d-block mx-auto my-auto align-items-center justify-content-center" color="white" size={15} />
+                    <ClipLoader
+                      className="d-block mx-auto my-auto align-items-center justify-content-center"
+                      color="white"
+                      size={15}
+                    />
                   </span>
                 )}
               </Button>

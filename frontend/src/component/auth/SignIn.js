@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { Button, FloatingLabel, Form } from "react-bootstrap";
+import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import "../../styles/Register.css";
 import { LOADING_COLOR } from "../../utils/constants";
 import { postAuthenticatedUser } from "./auth-utils";
-import { toast, ToastContainer } from "react-toastify";
-
-import "react-toastify/dist/ReactToastify.css";
 
 function SignIn({ handleLogin }) {
   const [user, setUser] = useState({});
@@ -23,31 +21,34 @@ function SignIn({ handleLogin }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
+    const loadingToast = toast.loading("Signing in");
     const data = {
       useremail: user.email,
       password: user.password,
       type: user.type,
     };
-    const _userToken = await postAuthenticatedUser(data);
-    console.log(_userToken);
-
+    const response = await postAuthenticatedUser(data);
+    toast.dismiss(loadingToast);
+    if (response && response.status !== 200)
+      toast.error("Something went wrong.");
+    console.log(response);
+    const _userToken = response.data.jwttoken;
     if (_userToken) {
       localStorage.setItem("userToken", _userToken);
       localStorage.setItem("userType", user.type);
-      toast.success("Loading Homepage", {
-        position: "top-right",
-        autoClose: 5000,
-        onClose: handleLogin,
-      });
 
+      toast.success("Login successful", { duration: 2000 });
+      setTimeout(() => {
+        handleLogin();
+      }, 2000);
       setIsLoading(false);
     }
   };
 
   return (
     <div className="contain">
-      <ToastContainer />
       <Form onSubmit={handleSubmit}>
+        <Toaster />
         <div className="form p-3">
           <h3 className="mb-3"> Sign-In</h3>
           {/* {<p className="not-found">Data not found😎</p>} */}

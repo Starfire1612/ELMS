@@ -1,9 +1,13 @@
 import { PAYMENT_KEY, PAYMENT_KEY_SECRET } from "../../utils/constants.js";
 import { enrollStudentInCourse } from "./../courses/courses-util";
 
-
-export const makePayment =async (userData, courseId, price,navigateToCoursePlayer) => {
-  let result=null;
+export const makePayment = async (
+  userData,
+  courseId,
+  price,
+  confirmationToast
+) => {
+  let result = null;
   let options = {
     key: PAYMENT_KEY,
     key_secret: PAYMENT_KEY_SECRET,
@@ -24,7 +28,7 @@ export const makePayment =async (userData, courseId, price,navigateToCoursePlaye
         courseId,
         paymentResponseBody
       );
-      navigateToCoursePlayer();
+      confirmationToast();
       return result;
     },
     prefill: {
