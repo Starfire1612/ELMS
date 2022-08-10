@@ -52,7 +52,13 @@ function App() {
         setUserData(data);
         setLoggedInStatus(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        const status = err.response.status;
+        if (status === 401) {
+          localStorage.clear();
+          navigate("/");
+        }
+      });
   };
 
   //check whether the person has loggedin within last 24hrs
@@ -75,7 +81,7 @@ function App() {
     localStorage.clear();
     setUserData({});
     setLoggedInStatus(false);
-    navigate("/");
+    navigate("/sign-in");
   };
 
   return (
@@ -137,17 +143,13 @@ function App() {
         />
 
         {/* Profile Routes */}
-        <Route
-          path="/profile"
-          exact
-          element={<Profile userData={userData} reFetchUser={reFetchUser} />}
-        >
+        <Route path="/profile" exact element={<Profile userData={userData} />}>
           <Route
             path="edit-profile"
             element={
               <EditProfile userData={userData} reFetchUser={reFetchUser} />
             }
-          ></Route>
+          />
           <Route
             path="edit-profile-pic"
             element={
@@ -156,21 +158,11 @@ function App() {
           />
           <Route
             path="edit-account-security"
-            element={
-              <EditAccountSecurity
-                userData={userData}
-                reFetchUser={reFetchUser}
-              />
-            }
+            element={<EditAccountSecurity userData={userData} />}
           />
           <Route
             path="edit-bank-account-details"
-            element={
-              <EditBankAccountDetails
-                userData={userData}
-                reFetchUser={reFetchUser}
-              />
-            }
+            element={<EditBankAccountDetails userData={userData} />}
           />
           <Route path="" element={<Navigate to="/profile/edit-profile" />} />
           <Route path="*" element={<Navigate to="/profile/edit-profile" />} />

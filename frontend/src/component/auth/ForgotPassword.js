@@ -91,13 +91,13 @@ function ForgotPassword() {
       password: user.password,
     };
     setIsLoading(true);
-    console.log("Inside handle change password",requestBody)
+    console.log("Inside handle change password", requestBody);
     const response = await postNewPassword(requestBody);
     if (response === 200) {
       setPasswordChanged(1);
       setIsLoading(true);
       setTimeout(() => {
-        navigate("/");
+        navigate("/sign-in");
       }, 3000);
     } else {
       setPasswordChanged(-1);

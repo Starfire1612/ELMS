@@ -1,8 +1,7 @@
 export const postProfileDetails = async (userType, userData) => {
-  console.log(userData);
   switch (userType) {
     case "student": {
-      await fetch(
+      return await fetch(
         `http://localhost:8765/student/${userData.studentId}/profile`,
         {
           method: "PATCH",
@@ -13,17 +12,14 @@ export const postProfileDetails = async (userType, userData) => {
           },
         }
       )
-        .then((response) => response.data)
-        .then((result) => {
-          console.log("Success:", result);
-        })
+        .then((response) => response.status)
         .catch((error) => {
           console.error("Error:", error);
         });
       break;
     }
     case "instructor": {
-      await fetch(
+      return await fetch(
         `http://localhost:8765/instructor/${userData.instructorId}/profile`,
         {
           method: "PATCH",
@@ -34,10 +30,7 @@ export const postProfileDetails = async (userType, userData) => {
           },
         }
       )
-        .then((response) => console.log(response))
-        .then((result) => {
-          // console.log('Success:', result);
-        })
+        .then((response) => response.status)
         .catch((error) => {
           console.error("Error:", error);
         });
@@ -66,12 +59,6 @@ export const postProfilePic = async (userType, userData, imageFile) => {
         }
       )
         .then((response) => response.json())
-        .then((result) => {
-          const imageUrl = "data:image/png;base64," + result.studentImage;
-          localStorage.setItem("userImage", imageUrl);
-          console.log("Your image url", imageUrl);
-          return result;
-        })
         .catch((error) => {
           console.error("Error:", error);
         });
@@ -89,12 +76,6 @@ export const postProfilePic = async (userType, userData, imageFile) => {
         }
       )
         .then((response) => response.json())
-        .then((result) => {
-          const imageUrl = "data:image/png;base64," + result.studentImage;
-          localStorage.setItem("userImage", imageUrl);
-          console.log("Your image url", imageUrl);
-          return result;
-        })
         .catch((error) => {
           console.error("Error:", error);
         });
