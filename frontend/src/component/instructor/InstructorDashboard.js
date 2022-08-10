@@ -76,7 +76,7 @@ function InstructorDashboard({ userData }) {
     <div className="instructor-dashboard">
       <div className="instructor-dashboard-heading">
         <p className="fs-1 fw-500">Courses</p>
-        <Link to="./add-course" className="text-white">
+        <Link to="../add-course" className="text-white">
           <Button className="type-1 fw-bolder d-none new-course-button-1">
             New course
           </Button>
@@ -134,7 +134,7 @@ function InstructorDashboard({ userData }) {
             </Dropdown.Menu>
           </Dropdown>
         </div>
-        <Link to="./add-course" className="text-white">
+        <Link to="../add-course" className="text-white">
           <Button className="type-1 fw-bolder new-course-button-2">
             New course
           </Button>

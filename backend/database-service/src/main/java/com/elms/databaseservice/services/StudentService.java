@@ -116,7 +116,7 @@ public class StudentService {
 			log.debug("Sending student certificate");
 			return new ResponseEntity<>("Course Completion Certificate Mail Sent Successfully!", HttpStatus.CREATED);
 			}
-			return new ResponseEntity<>("Course Not Completed Yet!",HttpStatus.NOT_IMPLEMENTED);
+			return new ResponseEntity<>("Course Not Completed Yet!",HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
 			log.error("Certificate mail cannot be sent");
 			return new ResponseEntity<>("Course Completion Certificate Mail Cannot Be sent due to some error",
@@ -133,7 +133,7 @@ public class StudentService {
 			return new ResponseEntity<>(studentCourseDetails, HttpStatus.OK);
 		} catch (Exception e) {
 			log.error("Cannot fetch course details");
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(null, HttpStatus.OK);
 
 		}
 	}

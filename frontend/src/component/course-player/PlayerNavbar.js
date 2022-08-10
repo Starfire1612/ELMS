@@ -39,7 +39,18 @@ function PlayerNavBar(props) {
       <OverlayTrigger
         placement="bottom"
         className="tool-tip-container"
-        overlay={<div className="tool-tip">{props.progress}% completed</div>}
+        overlay={
+          <div className="tool-tip">
+            <p>{props.progress}% completed</p>
+            {props.progress === 100 ? (
+              <p className="text-secondary">
+                Get certificate after completion of course.
+              </p>
+            ) : (
+              <p className="text-secondary"> Click to get certificate.</p>
+            )}
+          </div>
+        }
       >
         <div className="generate-certificate" onClick={generateCertificate}>
           <Progressbar className="progress-bar" progress={props.progress} />

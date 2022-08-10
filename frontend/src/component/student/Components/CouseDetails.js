@@ -16,6 +16,8 @@ import "../Styles/Course_details.css";
 import { calculateDiscountedPrice } from "../../../utils/util.js";
 import { makePayment } from "../../payment/payment-utils.js";
 import "../Styles/Course_details.css";
+import toast, { Toaster } from "react-hot-toast";
+import Button from "react-bootstrap/Button";
 
 export default function CouseDetails({ userData }) {
   const navigate = useNavigate();
@@ -23,6 +25,7 @@ export default function CouseDetails({ userData }) {
   const courseId = params.courseId;
   const [isLoading, setIsLoading] = useState(true);
   const [courseDetails, setCourseDetails] = useState({});
+
   const fetchCourseDetails = async () => {
     setIsLoading(true);
     console.log("Course id:", courseId, "Stu Id:", userData.studentId);
@@ -39,21 +42,35 @@ export default function CouseDetails({ userData }) {
       courseDetails.course.coursePrice,
       courseDetails.course.courseDiscount
     );
-    const response = makePayment(userData, courseId, discountAmount,navigateToCoursePlayer);
+    const response = makePayment(
+      userData,
+      courseId,
+      discountAmount,
+      confirmationToast
+    );
     console.log(response);
   };
 
-  const navigateToCoursePlayer=()=>{
-    navigate(`/student/${userData.studentId}/course/${courseId}/lesson`);
-  }
+  const confirmationToast = () => {
+    toast.success("Successfully Enrolled");
+    toast.loading("Navigating to coure lessons", { duration: "3000" });
+    setTimeout(() => {
+      navigate(`/student/${userData.studentId}/course/${courseId}/lesson`);
+    }, 3000);
+  };
   useEffect(() => {
     fetchCourseDetails();
   }, [userData]);
 
   return (
     <div className="course-view-container">
+      <Toaster />
       {isLoading || !courseDetails ? (
-        <ClipLoader className="d-block mx-auto my-auto align-items-center justify-content-center" color={LOADING_COLOR} size="50px" />
+        <ClipLoader
+          className="d-block mx-auto my-auto align-items-center justify-content-center"
+          color={LOADING_COLOR}
+          size="50px"
+        />
       ) : (
         <>
           <CourseNavBar

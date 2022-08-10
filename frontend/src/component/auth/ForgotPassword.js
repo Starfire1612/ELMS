@@ -6,15 +6,13 @@ import bcryptjs from "bcryptjs";
 import { ClipLoader } from "react-spinners";
 import { LOADING_COLOR } from "../../utils/constants";
 import { postNewPassword, sendForgotPasswordMail } from "./auth-utils.js";
+import toast, { Toaster } from "react-hot-toast";
 
 function ForgotPassword() {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [isOtpVerified, setIsOtpVerified] = useState(false);
-
-  // values={-1,0,1}, 1 for successful password change, -1 for something went wrong and 0 is by default
-  const [passwordChanged, setPasswordChanged] = useState(0);
   const [inputFields, setInputFields] = useState({
     type: true,
     email: true,
@@ -30,8 +28,6 @@ function ForgotPassword() {
       ...prevState,
       [eventName]: value,
     }));
-    //for validation of fields(not completed)
-    // validateFields(eventName, value, inputFields, setInputFields);
   };
 
   const verifyOtp = async () => {
@@ -61,13 +57,24 @@ function ForgotPassword() {
   };
 
   const handleOtp = async () => {
-    // if (!checkEmail || !typeMatch) {
-    //   return;
-    // }
     setIsLoading(true);
-    const encryptedOtp = await sendForgotPasswordMail(user.email, user.type);
-    console.log(encryptedOtp);
+    const response = await sendForgotPasswordMail(user.email, user.type);
+    if (response) {
+      const status = response.status;
+      if (status === 404) {
+        toast.error("No such user found!");
+      } else if (status === 200) {
+        toast.success("OTP sent to registered email");
+      } else {
+        toast.error("Something went wrong");
+        setIsLoading(false);
+        return;
+      }
+    }
+
+    const encryptedOtp = response.headers.otp;
     if (!encryptedOtp) {
+      toast.error("Something went wrong");
       setIsLoading(false);
       setIsOtpSent(false);
       return;
@@ -78,7 +85,6 @@ function ForgotPassword() {
     }));
     setIsOtpSent(true);
     setIsLoading(false);
-    //set isLoading to false
   };
 
   const handleChangePassword = async () => {
@@ -94,13 +100,12 @@ function ForgotPassword() {
     console.log("Inside handle change password", requestBody);
     const response = await postNewPassword(requestBody);
     if (response === 200) {
-      setPasswordChanged(1);
-      setIsLoading(true);
+      toast.success("password successfully changed", { duration: 2000 });
       setTimeout(() => {
         navigate("/sign-in");
-      }, 3000);
+      }, 2000);
     } else {
-      setPasswordChanged(-1);
+      toast.error("Something went wrong.");
     }
     setIsLoading(false);
   };
@@ -123,6 +128,7 @@ function ForgotPassword() {
 
   return (
     <div className="contain">
+      <Toaster />
       <Form onSubmit={handleSubmit}>
         <div className="form p-3">
           <h3 className="mb-3"> Forgot Password</h3>
@@ -182,13 +188,8 @@ function ForgotPassword() {
                 ? button(verifyOtp, "Verify")
                 : button(handleOtp, "Send OTP")}
             </>
-          ) : passwordChanged !== 1 ? (
+          ) : (
             <>
-              {passwordChanged === -1 && (
-                <p className="text-center text-danger">
-                  Something went wrong, Try again!
-                </p>
-              )}
               <div className="input-fields">
                 {isLoading && (
                   <div className="loading">
@@ -201,7 +202,7 @@ function ForgotPassword() {
                     name="password"
                     onChange={handleChange}
                     placeholder="Password"
-                    disabled={isLoading || passwordChanged}
+                    disabled={isLoading}
                     required
                   />
                 </FloatingLabel>
@@ -214,19 +215,13 @@ function ForgotPassword() {
                     name="confirmPassword"
                     onChange={handleChange}
                     placeholder="Confirm password"
-                    disabled={isLoading || passwordChanged}
+                    disabled={isLoading}
                     required
                   />
                 </FloatingLabel>
               </div>
               {button(handleChangePassword, "Confirm")}
             </>
-          ) : (
-            <div className="password-changed border border-secondary text-center mb-2 mx-auto">
-              <p className="font-monospace text-success mb-0">
-                Password Changed Successfully
-              </p>
-            </div>
           )}
 
           <div className="fs-6 mb-3 forgot-password text-center ">

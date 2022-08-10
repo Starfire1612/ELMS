@@ -13,9 +13,6 @@ export default function DashboardCarousel() {
           src={image1}
           alt="First slide"
         />
-        <Carousel.Caption>
-          <h5>First slide label</h5>
-        </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
         <img
@@ -23,9 +20,6 @@ export default function DashboardCarousel() {
           src={image2}
           alt="Second slide"
         />
-        <Carousel.Caption>
-          <h5>Second slide label</h5>
-        </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
         <img
@@ -33,9 +27,6 @@ export default function DashboardCarousel() {
           src={image3}
           alt="Third slide"
         />
-        <Carousel.Caption>
-          <h5>Third slide label</h5>
-        </Carousel.Caption>
       </Carousel.Item>
     </Carousel>
   );

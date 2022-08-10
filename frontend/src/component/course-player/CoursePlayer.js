@@ -5,8 +5,7 @@ import Player from "./Player";
 import TabsB from "./TabsB";
 import PlayerNavBar from "./PlayerNavbar";
 import { ClipLoader } from "react-spinners";
-
-import { useParams,useNavigate,useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   ArrowLeftCircleFill,
   ArrowRightCircleFill,
@@ -17,8 +16,8 @@ import {
   getEnrolledStudentCourseDetails,
   updateStudentCourseCurrentLesson,
 } from "./../courses/courses-util";
-
 import { getCourseDetails } from "../courses/courses-util.js";
+
 export default function CoursePlayer({ userData }) {
   const params = useParams();
   const courseId = params.courseId;
@@ -28,21 +27,6 @@ export default function CoursePlayer({ userData }) {
   const [courseLessonDetails, setCourseLessonDetails] = useState({});
   const [progressPercent, setProgressPercent] = useState(0);
   const [courseDetails, setCourseDetails] = useState({});
-  const navigate = useNavigate();
-  const location = useLocation();
-
-
-
-
-
-  useEffect(() => {
-    window.onpopstate = e => {
-      if(location.pathname==='/student/${userData.studentId}/course/${courseId}/lesson/')
-      {
-        navigate("/home/my-learning", { replace: true });
-      }
-  };
-  },[location]);
 
   const loadCourseLessons = async () => {
     setIsLoading(true);
@@ -55,13 +39,14 @@ export default function CoursePlayer({ userData }) {
     setCourseLessonDetails(response);
     setLessonList(response.courseId.lessons);
     setProgressPercent(response.courseCompletionPercent);
-    var pos = response.courseId.lessons.map((e) =>{
-      return e.lessonId;
-  }).indexOf(response.currentLessonId);
-  console.log(pos);
-  if(pos==-1)
-  pos=0;
-  setCurrentLessonIndex(pos);
+    var pos = response.courseId.lessons
+      .map((e) => {
+        return e.lessonId;
+      })
+      .indexOf(response.currentLessonId);
+    console.log(pos);
+    if (pos == -1) pos = 0;
+    setCurrentLessonIndex(pos);
     setIsLoading(false);
   };
 
@@ -160,7 +145,9 @@ export default function CoursePlayer({ userData }) {
             </div>
 
             <div className="course">
-              <p className="fs-3 fw-bolder text-center">Course Content</p>
+              <p className="fs-3 fw-bolder text-center course-content-heading">
+                Course Content
+              </p>
               <LessonList
                 className="lesson-list"
                 handleLessonChange={handleLessonChange}
@@ -189,7 +176,11 @@ export default function CoursePlayer({ userData }) {
           </div>
         </div>
       ) : (
-        <ClipLoader className="d-block mx-auto mt-5 align-items-center justify-content-center" color={LOADING_COLOR} size="50px" />
+        <ClipLoader
+          className="d-block mx-auto mt-5 align-items-center justify-content-center"
+          color={LOADING_COLOR}
+          size="50px"
+        />
       )}
     </>
   );
