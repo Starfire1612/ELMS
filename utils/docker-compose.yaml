@@ -1,0 +1,156 @@
+version: '3.7'
+
+services:
+
+  authentication-service:
+    image: starfire1612/mv2-authentication-service:0.0.1-SNAPSHOT
+    restart: always
+    mem_limit: 700m
+    ports:
+      - "8080:8080"
+    networks:
+      - elms-network
+    depends_on:
+      - naming-server
+      - rabbitmq
+      - testdb
+    environment:
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
+      SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411/
+      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_ZIPKIN_SENDER_TYPE: rabbit
+      MYSQL_HOST: testdb
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_PORT: 3306	
+      SPRING_DATASOURCE_URL: jdbc:mysql://testdb:3306/elms
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "root"
+
+  database-service:
+    image: starfire1612/mv2-database-service:0.0.1-SNAPSHOT
+    restart: always
+    mem_limit: 700m
+    ports:
+      - "8100:8100"
+    networks:
+      - elms-network
+    depends_on:
+      - naming-server
+      - rabbitmq
+      - testdb
+    environment:
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
+      SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411/
+      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_ZIPKIN_SENDER_TYPE: rabbit
+      MYSQL_HOST: testdb
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_PORT: 3306
+      SPRING_DATASOURCE_URL: jdbc:mysql://testdb:3306/elms
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "root"
+
+  registration-service:
+    image: starfire1612/mv2-registration-service:0.0.1-SNAPSHOT
+    restart: always
+    mem_limit: 700m
+    ports:
+      - "8000:8000"
+    networks:
+      - elms-network
+    depends_on:
+      - naming-server
+      - rabbitmq
+      - testdb
+    environment:
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
+      SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411/
+      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_ZIPKIN_SENDER_TYPE: rabbit
+      MYSQL_HOST: testdb
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_PORT: 3306
+      SPRING_DATASOURCE_URL: jdbc:mysql://testdb:3306/elms
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "root"
+
+  api-gateway:
+    image: starfire1612/mv2-api-gateway:0.0.1-SNAPSHOT
+    restart: always
+    mem_limit: 700m
+    ports:
+      - "8765:8765"
+    networks:
+      - elms-network
+    depends_on:
+      - naming-server
+      - rabbitmq
+      - testdb
+    environment:
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
+      SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411/
+      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_ZIPKIN_SENDER_TYPE: rabbit
+      MYSQL_HOST: testdb
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_PORT: 3306
+      SPRING_DATASOURCE_URL: jdbc:mysql://testdb:3306/elms
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "root"
+  naming-server:
+    image: starfire1612/mv2-naming-server:0.0.1-SNAPSHOT
+    mem_limit: 700m
+    ports:
+      - "8761:8761"
+    networks:
+      - elms-network
+
+#docker run -p 9411:9411 openzipkin/zipkin:2.23
+
+  zipkin-server:
+    image: openzipkin/zipkin:2.23
+    mem_limit: 300m
+    ports:
+      - "9411:9411"
+    networks:
+      - elms-network
+    environment:
+      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      - rabbitmq
+    restart: always #Restart if there is a problem starting up
+
+  rabbitmq:
+    image: rabbitmq:3.8.12-management
+    mem_limit: 300m
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - elms-network
+
+  testdb:
+    image: mysql:8
+    restart: always
+    container_name: testdb
+    volumes:
+      - C:/Users/RADHIKA/Desktop/db:/var/lib/mysql	
+    networks:
+      - elms-network
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: elms
+    ports:
+      - "3307:3306"	  
+networks:
+  elms-network:
