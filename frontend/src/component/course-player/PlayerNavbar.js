@@ -5,6 +5,7 @@ import Progressbar from "./Progressbar";
 import { CaretLeft } from "react-bootstrap-icons";
 import { sendCertificateCompletionMail } from "./../courses/courses-util";
 import "./PlayerNavbar.css";
+import toast,{ Toaster } from "react-hot-toast";
 
 function PlayerNavBar(props) {
   const params = useParams();
@@ -15,8 +16,16 @@ function PlayerNavBar(props) {
 
   const generateCertificate = async () => {
     console.log(shouldGenerateCertificate);
-    if (shouldGenerateCertificate)
-      await sendCertificateCompletionMail(stuId, courseId);
+    if (shouldGenerateCertificate){
+      const status=await sendCertificateCompletionMail(stuId, courseId);
+      if(status===201){
+        toast.success("Certificate sent via mail.");
+      }else if(status===404){
+        toast.error("Course not completed yet.");
+      }else{
+        toast.error("Something went wrong.");
+      }
+    }
   };
   useEffect(() => {
     if (props.progress === 100) {
@@ -29,6 +38,7 @@ function PlayerNavBar(props) {
   console.log("Progress in navbar:", props.progress);
   return (
     <div className="nav-bar nav-bar-dark ">
+      <Toaster />
       <div className="d-flex align-items-center flex-grow-1">
         <Link to="../../home/my-learning" className="return-home">
           <CaretLeft></CaretLeft>

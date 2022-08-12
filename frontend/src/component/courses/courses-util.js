@@ -116,8 +116,8 @@ export const addLessonInStudentCourse = async (id, cid, lid) => {
 export const sendCertificateCompletionMail = async (sid, cid) => {
   return await axios
     .get(`${BASE_URL}/student/${sid}/course/${cid}/certficate`, config())
-    .then((response) => console.log(response.data))
-    .catch((error) => console.log(error));
+    .then((response) => response.status)
+    .catch((error) => error.response.status);
 };
 
 export const postEditFeedback = async (sid, cid, feedback) => {
