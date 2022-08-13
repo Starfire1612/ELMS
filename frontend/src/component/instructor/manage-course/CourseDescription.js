@@ -21,6 +21,7 @@ export default function CourseDescription({ userData }) {
   const [courseImage, setCourseImage] = useState();
   const [courseUpdated, setCourseUpdated] = useState(false);
   const [image, setImage] = useState();
+  const [imageUploaded,setImageUploaded]=useState(false);
 
   const fetchCourse = async () => {
     setIsLoading(true);
@@ -36,7 +37,7 @@ export default function CourseDescription({ userData }) {
 
   useEffect(() => {
     fetchCourse();
-  }, [userData]);
+  }, [userData,imageUploaded]);
 
   const handleChange = (event) => {
     setCourse((prevCourse) => ({
@@ -63,6 +64,9 @@ export default function CourseDescription({ userData }) {
       image
     );
     console.log(updatedCourseImage);
+    // await fetchCourse()
+    setImageUploaded(!imageUploaded);
+
   };
 
   const handleSubmit = async (event) => {
