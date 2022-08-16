@@ -34,7 +34,7 @@ export const makePayment = async (
     prefill: {
       name: userData.studentName,
       email: userData.studentEmail,
-      contact: "9106285736",
+      contact: "1234567890",
     },
     notes: {
       address: "Razorpay Corporate office",

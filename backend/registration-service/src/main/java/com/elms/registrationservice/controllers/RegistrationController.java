@@ -59,13 +59,13 @@ public class RegistrationController {
 				Student s = new Student();
 				s.setName(user.getUsername());
 				s.setEmail(user.getUseremail());
-				s.setPassword(encoder.encode(user.getPassword()));
+				s.setPassword(user.getPassword());
 				return service.registerStudent(s);
 			} else {
 				Instructor i = new Instructor();
 				i.setName(user.getUsername());
 				i.setEmail(user.getUseremail());
-				i.setPassword(encoder.encode(user.getPassword()));
+				i.setPassword((user.getPassword()));
 				return service.registerInstructor(i);
 			}
 		} catch (Exception e) {
