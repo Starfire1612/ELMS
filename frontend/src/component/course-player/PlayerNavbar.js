@@ -52,7 +52,7 @@ function PlayerNavBar(props) {
         overlay={
           <div className="tool-tip">
             <p>{props.progress}% completed</p>
-            {props.progress === 100 ? (
+            {props.progress !== 100 ? (
               <p className="text-secondary">
                 Get certificate after completion of course.
               </p>
