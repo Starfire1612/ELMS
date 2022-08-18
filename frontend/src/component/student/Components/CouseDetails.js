@@ -17,7 +17,6 @@ import { calculateDiscountedPrice } from "../../../utils/util.js";
 import { makePayment } from "../../payment/payment-utils.js";
 import "../Styles/Course_details.css";
 import toast, { Toaster } from "react-hot-toast";
-import Button from "react-bootstrap/Button";
 
 export default function CouseDetails({ userData }) {
   const navigate = useNavigate();
@@ -53,7 +52,7 @@ export default function CouseDetails({ userData }) {
 
   const confirmationToast = () => {
     toast.success("Successfully Enrolled");
-    toast.loading("Navigating to coure lessons", { duration: "3000" });
+    toast.loading("Navigating to course lessons", { duration: "3000" });
     setTimeout(() => {
       navigate(`/student/${userData.studentId}/course/${courseId}/lesson`);
     }, 3000);
