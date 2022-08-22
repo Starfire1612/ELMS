@@ -6,12 +6,14 @@ import "../../../styles/Navigationbar.css";
 import ManageCourseNavbar from "./ManageCourseNavbar";
 import SideNavBar from "./SideNavBar";
 import DeleteCourse from "./DeleteCourse";
+import { deleteCourse, getCourseDetails} from "../instructor-utils.js";
 
-export default function ManageCourse() {
+export default function ManageCourse({ userData }) {
   const params = useParams();
   const navigate = useNavigate();
 
   const courseId = params.courseId;
+  const instructorId=userData.instructorId;
 
   const [course, setCourse] = useState({
     courseName: "Course name",
@@ -28,12 +30,14 @@ export default function ManageCourse() {
   }, [shouldStateChange]);
 
   const fetchCourseDuration = async () => {
-    //fetchcourse name and course duration, and set details in course state
+    await getCourseDetails()
   };
-  const handleDeleteCourse = () => {
-    console.log("deleted");
+  const handleDeleteCourse = async () => {
+    console.log("deleted",instructorId,courseId);
     //delete the course using courseId
-    // navigate("/instructor");
+    setShouldStateChange(true);
+    await deleteCourse(instructorId,courseId);
+    navigate("/instructor");
   };
   const manageDeleteCourse = () => {
     setShowDelete(true);
@@ -54,9 +58,9 @@ export default function ManageCourse() {
         </div>
         {showDelete && (
           <DeleteCourse
-            handleDeleteCourse={handleDeleteCourse}
             showDelete={showDelete}
             setShowDelete={setShowDelete}
+            handleDeleteCourse={handleDeleteCourse}
           />
         )}
         <div className="manage-course-content">

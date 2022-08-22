@@ -7,5 +7,4 @@ import com.elms.databaseservice.models.InstructorCourseId;
 
 public interface InstructorCourseRepo extends JpaRepository<InstructorCourse, InstructorCourseId>{
 
-	//void deleteByInstructorIdAndCourseId(int instructorId,int courseId);
 }

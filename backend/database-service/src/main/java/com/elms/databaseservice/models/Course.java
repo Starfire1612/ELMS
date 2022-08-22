@@ -73,7 +73,7 @@ public class Course {
 	@Column(name = "instructor_name", nullable = true)
 	private String instructorName;
 
-	@Column(name = "total_lessons	", nullable = true, columnDefinition = "default int 0")
+	@Column(name = "total_lessons", nullable = true, columnDefinition = "default int 0")
 	private int lessonsCount;
 
 	@JsonIgnore
@@ -102,4 +102,7 @@ public class Course {
 	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL,targetEntity = InstructorCourse.class)
 	private Set<InstructorCourse> instructorCourses = new HashSet<>();
+	
+	@Column(name="is_active", columnDefinition = "varchar(45) default 'true'")
+	private String is_Active;
 }

@@ -74,15 +74,13 @@ public class InstructorService {
 //	}
 	@Transactional
 	public ResponseEntity<Set<Course>> getCreatedCourses(int instructorId) {
-		Optional<Instructor> instructor = instructorRepo.findById(instructorId);
-		Set<Course> courses = new HashSet<Course>();
-		if (instructor.isEmpty()) {
+		Set<Course> course=courseRepo.getByInstructorId(instructorId);
+		if (course.isEmpty()) {
 
 			log.info("Cannot get created course");
-			return new ResponseEntity<>(courses, HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(course, HttpStatus.NO_CONTENT);
 		} else {
-			courses = instructor.get().getCourses();
-			return new ResponseEntity<>(courses, HttpStatus.OK);
+			return new ResponseEntity<>(course, HttpStatus.OK);
 		}
 	}
 
@@ -146,8 +144,10 @@ public class InstructorService {
 
 			log.info("Deleting from instructorcourse,course,lesson table");
 			instructorCourseRepo.deleteById(new InstructorCourseId(instructorId, courseId));
-			courseRepo.deleteById(courseId);
-			lessonService.deleteAllLessonsByCourseId(courseId);
+			Course c=courseRepo.getById(courseId);
+			log.info("Course "+c.getCourseName());
+			c.setIs_Active("false");
+			courseRepo.save(c);
 			return new ResponseEntity<>("Deleted Course Successfully", HttpStatus.ACCEPTED);
 		} catch (Exception e) {
 			log.error("Course not found");

@@ -184,7 +184,7 @@ public class InstructorController {
 	}
 
 	//deleting the course
-	@DeleteMapping(path = "/instructor/{id}/courses/{courseId}")
+	@DeleteMapping(path = "/instructor/{id}/course/{courseId}")
 	public ResponseEntity<String> deleteCourse(
 			@RequestHeader(value = "Authorization", required = true) String requestTokenHeader,
 			@PathVariable("id") int id, @PathVariable("courseId") int courseId) {

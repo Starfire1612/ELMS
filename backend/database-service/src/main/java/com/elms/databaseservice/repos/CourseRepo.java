@@ -1,6 +1,7 @@
 package com.elms.databaseservice.repos;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,20 +15,21 @@ public interface CourseRepo extends PagingAndSortingRepository<Course, Integer> 
 
 	List<Course> findByInstructorId(int instructorId);
 
-	void deleteByInstructorIdAndCourseId(int instructorId, int courseId);
 
 	@Query(nativeQuery = true,value = "select * from course where course_id=:courseId")
 	Course findById(int courseId);
 
 	@Query(nativeQuery=true,value="select * from course where "
 			+ "course_name LIKE CONCAT('%',:query, '%') and course_id not in (select course_id "
-			+ "from student_course where stu_id=:studentId)")
+			+ "from student_course where stu_id=:studentId) and is_active='true'")
     List<Course> searchCourse(int studentId,String query);
 	
 	//SELECT * FROM course c , student_course sc "
 	//+ " WHERE c.course_id != sc.course_id and sc.stu_id=:studentId)
-	@Query(nativeQuery=true,value="select * from course where course_id not in (select course_id from student_course where stu_id=:studentId)")
+	@Query(nativeQuery=true,value="select * from course where course_id not in (select course_id from student_course where stu_id=:studentId) and is_active='true'")
 	Page<Course> findallCoursesExceptEnrolled(PageRequest of,int studentId);
+	@Query(nativeQuery = true,value = "select * from course where instructor_id=:instructorId and is_active='true'")
+	Set<Course> getByInstructorId(int instructorId);
 
 	
 }
