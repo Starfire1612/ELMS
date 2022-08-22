@@ -38,6 +38,19 @@ export const createCourse = async (id, course) => {
     })
     .catch((error) => console.log(error));
 };
+//delete course
+export const deleteCourse = async (id, cid) => {
+  
+  if (!id || !cid) return;
+  console.log(cid,config);
+  return await axios
+    .delete(`${BASE_URL}${id}/course/${cid}`, config)
+    .then((response) => {
+      console.log("Course Id ", response);
+      return response;
+    })
+    .catch((error) => console.log(error));
+};
 
 //post course picture
 export const postCoursePic = async (id, cid, imageFile) => {

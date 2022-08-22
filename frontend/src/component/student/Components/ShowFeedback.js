@@ -8,7 +8,7 @@ export default function ShowFeedback(props) {
       <h2 style={{ fontWeight: "bold", color: "black" }}>Student Feedback</h2>
         <div>
         {
-        props.feedbacks?.map((feedback) => {
+        props.feedbacks==null?props.feedbacks.map((feedback) => {
           return (
             <div className="rating-content" key={feedback.feedbackId}>
               <div className="circular me-4 fw-bold fs-5">{feedback.studentName[0]}</div>
@@ -20,15 +20,16 @@ export default function ShowFeedback(props) {
                   <Rating
                     initialValue={feedback.ratings}
                     readonly={true}
-                    size={20} 
+                    size={20}
                   />  
                 </div>
                 <div>{feedback.content}</div>
               </div>
             </div>
           );
-        })
+        }):(<><div className="my-2 fs-5">No Feedback Present</div></>)
         }
+        
       </div>
       </div>
       
